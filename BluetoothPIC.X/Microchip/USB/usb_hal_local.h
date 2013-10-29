@@ -40,7 +40,7 @@ Change History:
 #ifndef _USB_HAL_LOCAL_H_
 #define _USB_HAL_LOCAL_H_
 
-#include "USB/usb.h"
+#include "../Include/USB/usb.h"
 
 #if defined (__18CXX)
     #include "USB PIC18.h"

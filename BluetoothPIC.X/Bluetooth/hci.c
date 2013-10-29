@@ -18,7 +18,7 @@
 #include "hci.h"
 #include "hci_usb.h"
 #include "bt_utils.h"
-#include "debug.h"
+#include "../debug.h"
 
 /*
  * HCI definitions

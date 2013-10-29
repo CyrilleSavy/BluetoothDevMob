@@ -22,3 +22,9 @@
 *.cache
 
 *.prefs
+
+#MPLABx
+*.d
+*.hex
+*.map
+*.elf

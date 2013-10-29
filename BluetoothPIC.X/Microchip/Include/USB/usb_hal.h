@@ -98,7 +98,7 @@ Description:
 	#elif defined(__PIC24E__)
 		#include "USB/usb_hal_pic24E.h"
 	#else
-    #include "USB/usb_hal_pic24.h"
+    #include "usb_hal_pic24.h"
 	#endif
 #elif defined(__PIC32MX__)
     #include "USB/usb_hal_pic32.h"

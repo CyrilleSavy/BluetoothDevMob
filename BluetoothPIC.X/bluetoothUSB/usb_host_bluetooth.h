@@ -1,8 +1,8 @@
 #ifndef __USBHostBluetooth_H__
 #define __USBHostBluetooth_H__
-#include "usb_config.h"
-#include "usb_common.h"
-#include "usb_host.h"
+#include "../mainApp/usb_config.h"
+#include "../Microchip/Include/USB/usb_common.h"
+#include "../Microchip/Include/USB/usb_host.h"
 
 // *****************************************************************************
 // *****************************************************************************

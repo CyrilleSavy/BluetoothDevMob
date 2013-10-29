@@ -16,7 +16,7 @@
 
 #include "GenericTypeDefs.h"
 #include "bt_utils.h"
-#include "debug.h"
+#include "../debug.h"
 #include "sdp.h"
 
 #if DEBUG_SDP

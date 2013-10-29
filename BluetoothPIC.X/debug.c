@@ -15,7 +15,7 @@
  */
 
 #include "debug.h"
-#include "HardwareProfile.h"
+#include "mainApp/HardwareProfile.h"
 #include <stdarg.h>
 
 inline void DBG_assert(BOOL bCondition, CHAR *pszFile, INT iLine)

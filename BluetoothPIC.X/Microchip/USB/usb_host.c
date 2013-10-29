@@ -70,10 +70,10 @@ Change History:
 #include <stdlib.h>
 #include <string.h>
 #include "GenericTypeDefs.h"
-#include "USB/usb.h"
+#include "../Include/USB/usb.h"
 #include "usb_host_local.h"
 #include "usb_hal_local.h"
-#include "HardwareProfile.h"
+#include "../../mainApp/HardwareProfile.h"
 //#include "USB/usb_hal.h"
 
 #ifndef USB_MALLOC
@@ -87,7 +87,7 @@ Change History:
 #define USB_FREE_AND_CLEAR(ptr) {USB_FREE(ptr); ptr = NULL;}
 
 #if defined( USB_ENABLE_TRANSFER_EVENT )
-    #include "struct_queue.h"
+    #include "../Include/struct_queue.h"
 #endif
 
 // *****************************************************************************

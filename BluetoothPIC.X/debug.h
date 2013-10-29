@@ -18,7 +18,7 @@
 #define __DEBUG_H__
 
 #include "GenericTypeDefs.h"
-#include "HardwareProfile.h"
+#include "mainApp/HardwareProfile.h"
 
 /* Debug values */
 

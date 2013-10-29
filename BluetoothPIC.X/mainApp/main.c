@@ -1,16 +1,20 @@
 #include <stdlib.h>
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
-#include "PIC32_USB/usb_host_bluetooth.h"
-#include "BTApp.h"
+#include "../bluetoothUSB/usb_host_bluetooth.h"
+#include "../BTApp.h"
 
 // *****************************************************************************
 // *****************************************************************************
 // Configuration Bits
 // *****************************************************************************
 // *****************************************************************************
-
-#if defined( __PIC32MX__ )
+#if defined __C30__ || defined __XC16__
+    #if defined(__PIC24FJ256GB110__)
+        _CONFIG2(FNOSC_PRIPLL & POSCMOD_HS & PLL_96MHZ_ON & PLLDIV_DIV2) // Primary HS OSC with PLL, USBPLL /2
+        _CONFIG1(JTAGEN_OFF & FWDTEN_OFF & ICS_PGx2)   // JTAG off, watchdog timer off
+#endif
+#elif defined( __PIC32MX__ )
 
     #pragma config UPLLEN   = ON            // USB PLL Enabled
     #pragma config FPLLMUL  = MUL_15        // PLL Multiplier
@@ -34,11 +38,12 @@
 
 #else
 
-    #error Cannot define configuration bits.
+  #error Cannot define configuration bits.
 
 #endif
 
-BT_DEVICE *gpsBTAPP = NULL;
+                
+static BT_DEVICE *gpsBTAPP = NULL;
 
 /*INITIALIZES THE SYSTEM*/
 void SysInit(){
@@ -56,17 +61,16 @@ void SysInit(){
             }
         }
     #endif //__PIC32MX__
-
+ 
     // Set LED Pins to Outputs
-    PORTSetPinsDigitalOut(IOPORT_D, BIT_0 | BIT_1 | BIT_2);
-
-    mInitAllSwitches();
+    InitAllLEDs();
+    InitAllSwitches();
 
     // Enable change notice, enable discrete pins and weak pullups
-    mCNOpen(CONFIG, PINS, PULLUPS);
-    mPORTDRead();
+    //mCNOpen(CONFIG, PINS, PULLUPS);
+    //mPORTDRead();
     // Turn All Led's Off
-    mSetAllLedsOFF();
+    //mSetAllLedsOFF();
     // Init UART
     SIOInit();
 }
@@ -213,7 +217,8 @@ int main ( void )
     {
         if(PORTDbits.RD6 == 0)					// 0 = switch is pressed
         {
-            PORTSetBits(IOPORT_D, BIT_0);			// RED LED = on (same as LATDSET = 0x0001)
+            //PORTSetBits(IOPORT_D, BIT_0);			// RED LED = on (same as LATDSET = 0x0001)
+           LED0_On();
             if(last_sw_state == 1)					// display a message only when switch changes state
             {
                 gpsBTAPP->SPPsendData("SW1 PRESSED ", 12);
@@ -222,7 +227,8 @@ int main ( void )
         }
         else										// 1 = switch is not pressed
         {
-            PORTClearBits(IOPORT_D, BIT_0);			// RED LED = off (same as LATDCLR = 0x0001)
+            //PORTClearBits(IOPORT_D, BIT_0);			// RED LED = off (same as LATDCLR = 0x0001)
+            LED0_Off()
             if(last_sw_state == 0)                 // display a message only when switch changes state
             {
                 gpsBTAPP->SPPsendData("SW1 RELEASED ", 13);
@@ -232,10 +238,12 @@ int main ( void )
 
         if(PORTDbits.RD7 == 0)					// 0 = switch is pressed
         {
-            PORTSetBits(IOPORT_D, BIT_1);			// RED LED = on (same as LATDSET = 0x0001)
+            //PORTSetBits(IOPORT_D, BIT_1);			// RED LED = on (same as LATDSET = 0x0001)
+            LED0_On();
             if(last_sw2_state == 1)					// display a message only when switch changes state
             {
-                DBPRINTF("Switch SW2 has been pressed. \n");
+              //  DBPRINTF("Switch SW2 has been pressed. \n");
+                DEBUG_PrintString("Switch SW2 has been pressed. \n");
                 gpsBTAPP->SPPdisconnect(RFCOMM_CH_DATA);
                 gpsBTAPP->SPPdisconnect(RFCOMM_CH_MUX);
                 gpsBTAPP->L2CAPdisconnect(L2CAP_RFCOMM_PSM);
@@ -244,10 +252,12 @@ int main ( void )
         }
         else										// 1 = switch is not pressed
         {
-            PORTClearBits(IOPORT_D, BIT_1);			// RED LED = off (same as LATDCLR = 0x0001)
+            //PORTClearBits(IOPORT_D, BIT_1);			// RED LED = off (same as LATDCLR = 0x0001)
+            LED0_Off()
             if(last_sw2_state == 0)                 // display a message only when switch changes state
             {
-                DBPRINTF("Switch SW2 has been released. \n");
+                //DBPRINTF("Switch SW2 has been released. \n");
+                DEBUG_PrintString("Switch SW2 has been released. \n");
                 last_sw2_state = 1;
             }
         }

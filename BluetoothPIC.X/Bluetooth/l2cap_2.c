@@ -17,7 +17,7 @@
 #include "GenericTypeDefs.h"
 #include "l2cap_2.h"
 #include "bt_utils.h"
-#include "debug.h"
+#include "../debug.h"
 
 /*
  * L2CAP definitions

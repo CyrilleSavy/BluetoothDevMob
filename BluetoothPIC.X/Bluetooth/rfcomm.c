@@ -16,12 +16,12 @@
 
 #include "GenericTypeDefs.h"
 #include "rfcomm.h"
-#include "debug.h"
+#include "../debug.h"
 #include "rfcomm_fcs.h"
 #include "bt_utils.h"
 
 /* Definition in order to print user data */
-#include "HardwareProfile.h"
+#include "../mainApp/HardwareProfile.h"
 
 /*
  * RFCOMM definitions

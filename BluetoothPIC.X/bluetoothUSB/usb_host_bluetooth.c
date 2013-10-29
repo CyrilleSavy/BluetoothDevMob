@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "GenericTypeDefs.h"
-#include "HardwareProfile.h"
-#include "USB/usb.h"
+#include "../mainApp/HardwareProfile.h"
+#include "../Microchip/Include/USB/usb.h"
 #include "usb_host_bluetooth.h"
 
 #define USBHOSTBT_DEBUG

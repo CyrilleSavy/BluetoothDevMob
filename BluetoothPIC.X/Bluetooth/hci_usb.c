@@ -16,11 +16,11 @@
 
 #include "bt_utils.h"
 #include "hci_usb.h"
-#include "debug.h"
-#include "usb_config.h"
-#include "USB/usb.h"
-#include "PIC32_USB/usb_host_bluetooth.h"
-#include "HardwareProfile.h"
+#include "../debug.h"
+#include "../mainApp/usb_config.h"
+#include "../Microchip/Include/USB/usb.h"
+#include "../bluetoothUSB/usb_host_bluetooth.h"
+#include "../mainApp/HardwareProfile.h"
 
 static HCIUSB_CONTROL_BLOCK *gpsHCIUSBCB = NULL;
 

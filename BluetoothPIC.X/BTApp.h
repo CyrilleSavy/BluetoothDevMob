@@ -18,7 +18,7 @@
 #define __BTApp_H__
 
 #include "GenericTypeDefs.h"
-#include "bt_common.h"
+#include "Bluetooth/bt_common.h"
 
 /*
  * Bluetooth application structure definitions

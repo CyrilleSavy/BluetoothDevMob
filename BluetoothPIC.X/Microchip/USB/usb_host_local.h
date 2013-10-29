@@ -42,7 +42,7 @@ Change History:
 #ifndef _USB_HOST_LOCAL_
 #define _USB_HOST_LOCAL_
 
-#include "usb_hal_local.h"
+#include "../USB/usb_hal_local.h"
 
 
 // *****************************************************************************

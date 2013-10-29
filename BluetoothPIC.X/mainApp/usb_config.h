@@ -35,7 +35,7 @@ DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
 
 // Created by the Microchip USBConfig Utility, Version 0.0.12.0, 3/28/2008, 8:58:18
 
-#include "Compiler.h"
+#include "../Microchip/Include/Compiler.h"
 
 #define _USB_CONFIG_VERSION_MAJOR 0
 #define _USB_CONFIG_VERSION_MINOR 0
