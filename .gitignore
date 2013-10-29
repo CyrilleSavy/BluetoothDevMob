@@ -16,3 +16,9 @@
 *.exe
 *.out
 *.app
+
+#JAVA
+*.class
+*.cache
+
+*.prefs
