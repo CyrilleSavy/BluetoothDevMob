@@ -17,6 +17,7 @@
 
 BLUETOOTH_DEVICE  gc_DevData;
 
+
 BOOL USBHostBluetoothInit ( BYTE address, DWORD flags, BYTE clientDriverID )
 {
     BYTE *pDesc;

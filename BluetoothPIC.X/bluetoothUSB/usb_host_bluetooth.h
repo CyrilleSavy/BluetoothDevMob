@@ -69,7 +69,7 @@ typedef struct _BLUETOOTH_DEVICE
 {
     BLUETOOTH_DEVICE_ID   ID;             // Identification information about the device
     DWORD               rxEvtLength;		// GVG: Number of bytes received in the last IN transfer
-    DWORD				rxAclLength;		// GVG: Number of bytes received in the last IN transfer
+    DWORD               rxAclLength;		// GVG: Number of bytes received in the last IN transfer
     BYTE                clientDriverID; // ID to send when issuing a Device Request
 
     union
@@ -85,7 +85,7 @@ typedef struct _BLUETOOTH_DEVICE
         };
     } flags;                            // Generic client driver status flags
 
-} BLUETOOTH_DEVICE;
+}BLUETOOTH_DEVICE;
 
 BOOL USBHostBluetoothInit ( BYTE address, DWORD flags, BYTE clientDriverID );
 BOOL USBHostBluetoothEventHandler ( BYTE address, USB_EVENT event, void *data, DWORD size );

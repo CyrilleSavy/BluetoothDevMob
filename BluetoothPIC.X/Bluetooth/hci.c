@@ -51,8 +51,8 @@ BOOL HCI_create()
 {
     HCI_CONFIGURATION_DATA *psConfData;
     HCI_CONNECTION_DATA *psConnData;
-    CHAR *pcDefaultName = "PIC32_BTv1";
-    CHAR *pcDefaultPIN = "0000";
+    CHAR *pcDefaultName = "CyrilleEstLeMeilleur";
+    CHAR *pcDefaultPIN = "1234";
     UINT i;
     UINT uDefNameLen = 10;
     UINT uDefPINLen = 4;

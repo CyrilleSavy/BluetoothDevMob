@@ -50,7 +50,13 @@ CLIENT_DRIVER_TABLE usbClientDrvTable[] =
         USBHostBluetoothInit,
         USBHostBluetoothEventHandler,
         0
-    }
+    },
+    //Nos points d'entrées. On utilise les mêmes pour l'instant
+    {
+        USBHostBluetoothInit,
+        USBHostBluetoothEventHandler,
+        0
+    },
 };
 
 // *****************************************************************************
@@ -59,6 +65,7 @@ CLIENT_DRIVER_TABLE usbClientDrvTable[] =
 
 USB_TPL usbTPL[] =
 {
-    { INIT_CL_SC_P( 0xE0ul, 1ul, 1ul ), 0, 0, {TPL_CLASS_DRV} } // BT Radio
+    { INIT_CL_SC_P( 0xE0ul, 1ul, 1ul ), 0, 0, {TPL_CLASS_DRV} }, // BT Radio
+    { INIT_CL_SC_P( 0xFFul, 1ul, 1ul ), 0, 1, {TPL_CLASS_DRV} } // Stick Trust USB-Bluetooth
 };
 
