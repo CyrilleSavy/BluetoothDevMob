@@ -3,11 +3,6 @@ package com.example.bluetoothpicapp;
 
 import java.util.Locale;
 
-import com.example.bluetoothpicapp.fragment.ConnectionBluetoothFragment;
-import com.example.bluetoothpicapp.fragment.LcdFragment;
-import com.example.bluetoothpicapp.fragment.LedsFragment;
-import com.example.bluetoothpicapp.fragment.PotBoutonsFragment;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -17,11 +12,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.example.bluetoothpicapp.fragment.ConnectionBluetoothFragment;
+import com.example.bluetoothpicapp.fragment.LcdFragment;
+import com.example.bluetoothpicapp.fragment.LedsFragment;
+import com.example.bluetoothpicapp.fragment.PotBoutonsFragment;
 
 public class ActivitePrinc extends FragmentActivity implements ActionBar.TabListener
 	{
@@ -160,7 +156,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		@Override
 		public int getCount()
 			{
-			// Show 3 total pages.
+			// Show 4 total pages.
 			return 4;
 			}
 		

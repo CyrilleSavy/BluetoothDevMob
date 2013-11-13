@@ -22,23 +22,33 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int led_blue_hi_48p=0x7f020001;
+        public static final int led_blue_lo_48p=0x7f020002;
+        public static final int led_button_off_res=0x7f020003;
+        public static final int led_button_on_res=0x7f020004;
     }
     public static final class id {
-        public static final int action_settings=0x7f080006;
+        public static final int action_settings=0x7f08000d;
+        public static final int led1=0x7f080004;
+        public static final int led2=0x7f080005;
+        public static final int led3=0x7f080006;
+        public static final int led4=0x7f080007;
+        public static final int led5=0x7f080008;
+        public static final int led6=0x7f080009;
+        public static final int led7=0x7f08000a;
+        public static final int led8=0x7f08000b;
         public static final int pager=0x7f080000;
-        public static final int section_label=0x7f080002;
         public static final int textView0=0x7f080001;
-        public static final int textView1=0x7f080004;
-        public static final int textView2=0x7f080005;
-        public static final int textView3=0x7f080003;
+        public static final int textView1=0x7f080003;
+        public static final int textView2=0x7f08000c;
+        public static final int textView3=0x7f080002;
     }
     public static final class layout {
         public static final int activity_activite_princ=0x7f030000;
         public static final int connection_bluetooth_layout=0x7f030001;
-        public static final int fragment_activite_princ_dummy=0x7f030002;
-        public static final int lcd_layout=0x7f030003;
-        public static final int leds_layout=0x7f030004;
-        public static final int pots_boutons_layout=0x7f030005;
+        public static final int lcd_layout=0x7f030002;
+        public static final int leds_layout=0x7f030003;
+        public static final int pots_boutons_layout=0x7f030004;
     }
     public static final class menu {
         public static final int activite_princ=0x7f070000;
@@ -46,6 +56,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
+        public static final int empty_text=0x7f050006;
         public static final int title_section0=0x7f050002;
         public static final int title_section1=0x7f050003;
         public static final int title_section2=0x7f050004;
