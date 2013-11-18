@@ -17,6 +17,7 @@
 #ifndef __DEBUG_H__
 #define __DEBUG_H__
 
+#include "Microchip/Include/Compiler.h"
 #include "GenericTypeDefs.h"
 #include "mainApp/HardwareProfile.h"
 
@@ -114,6 +115,193 @@ enum
     #define ASSERT(X)
 
 #endif
+
+
+/**************************************************************************
+    Function:
+        void DEBUG_Initialize( void );
+
+    Summary:
+        Initializes the debug module.  This can be I/O pins, memory, etc.
+        based on the debug implementation
+
+    Description:
+        Initializes the debug module.  This can be I/O pins, memory, etc.
+        based on the debug implementation
+
+    Precondition:
+        None
+
+    Parameters:
+        None
+
+    Return Values:
+        None
+
+    Remarks:
+        None
+
+  **************************************************************************/
+void DEBUG_Initialize();
+
+#if !defined(DEBUG_MODE)
+    #define DEBUG_Initialize(a)
+#endif
+
+/**************************************************************************
+    Function:
+        void DEBUG_PutChar(char c);
+
+    Summary:
+        Puts a character into the debug stream.
+
+    Description:
+        This function puts a single character into the debug stream.
+
+    Precondition:
+        None
+
+    Parameters:
+        None
+
+    Return Values:
+        None
+
+    Remarks:
+        None
+
+  **************************************************************************/
+void DEBUG_PutChar(char c);
+
+#if !defined(DEBUG_MODE)
+    #define DEBUG_PutChar(a)
+#endif
+
+/**************************************************************************
+    Function:
+        void DEBUG_PutString(char* data);
+
+    Summary:
+        Prints a string to the debug stream.
+
+    Description:
+        Prints a string to the debug stream.
+
+    Precondition:
+        None
+
+    Parameters:
+        None
+
+    Return Values:
+        None
+
+    Remarks:
+        None
+
+  **************************************************************************/
+void DEBUG_PutString(char* data);
+
+#if !defined(DEBUG_MODE)
+    #define DEBUG_PutString(a) UART2PrintString(a)
+#endif
+
+/**************************************************************************
+    Function:
+        void DEBUG_PutHexUINT8(UINT8 data);
+
+    Summary:
+        Puts a hexidecimal 8-bit number into the debug stream.
+
+    Description:
+        Puts a hexidecimal byte of data into the debug stream.  How this
+        is handled is implementation specific.  Some implementations may
+        convert this to ASCII.  Others may print the byte directly to save
+        memory/time.
+
+    Precondition:
+        None
+
+    Parameters:
+        None
+
+    Return Values:
+        None
+
+    Remarks:
+        None
+
+  **************************************************************************/
+void DEBUG_PutHexUINT8(UINT8 data);
+
+#if !defined(DEBUG_MODE)
+    #define DEBUG_PutHexUINT8(a)
+#endif
+
+/**************************************************************************
+    Function:
+        void DEBUG_PutHexUINT16(UINT16 data);
+
+    Summary:
+        Puts a hexidecimal 16-bit number into the debug stream.
+
+    Description:
+        Puts a hexidecimal byte of data into the debug stream.  How this
+        is handled is implementation specific.  Some implementations may
+        convert this to ASCII.  Others may print the byte directly to save
+        memory/time.
+
+    Precondition:
+        None
+
+    Parameters:
+        None
+
+    Return Values:
+        None
+
+    Remarks:
+        None
+
+  **************************************************************************/
+void DEBUG_PutHexUINT16(UINT16 data);
+
+#if !defined(DEBUG_MODE)
+    #define DEBUG_PutHexUINT16(a)
+#endif
+
+/**************************************************************************
+    Function:
+        void DEBUG_PutHexUINT32(UINT32 data);
+
+    Summary:
+        Puts a hexidecimal 32-bit number into the debug stream.
+
+    Description:
+        Puts a hexidecimal byte of data into the debug stream.  How this
+        is handled is implementation specific.  Some implementations may
+        convert this to ASCII.  Others may print the byte directly to save
+        memory/time.
+
+    Precondition:
+        None
+
+    Parameters:
+        None
+
+    Return Values:
+        None
+
+    Remarks:
+        None
+
+  **************************************************************************/
+void DEBUG_PutHexUINT32(UINT32 data);
+
+#if !defined(DEBUG_MODE)
+    #define DEBUG_PutHexUINT32(a)
+#endif
+
 
 #endif /*__DEBUG_H__*/
 

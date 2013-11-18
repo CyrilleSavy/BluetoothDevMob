@@ -1,6 +1,6 @@
 /******************************************************************************
 
-    USB Hardware Abstraction Layer (HAL)  (Header File)
+    USB Hardware Abstraction Layer (HAL)
 
 Summary:
     This file abstracts the hardware interface.  The USB stack firmware can be
@@ -55,23 +55,18 @@ Description:
 
  This file defines the interface to the USB hardware abstraction layer.
 
- Filename:        usb_hal.h
+ Filename:        usb_hal_pic24e.h
  Dependancies:    none
- Processor:       PIC18, PIC24, or PIC32 USB Microcontrollers
- Hardware:        The code is natively intended to be used on the following
-     				hardware platforms: PICDEM™ FS USB Demo Board, 
-     				PIC18F87J50 FS USB Plug-In Module, or
-     				Explorer 16 + PIC24 USB PIM.  The firmware may be
-     				modified for use on other USB platforms by editing the
-     				HardwareProfile.h file.
- Compiler:        Microchip C18 (for PIC18) or C30 (for PIC24)
+ Processor:       PIC24E USB Microcontrollers
+ Hardware:        PIC24E USB Microcontrollers
+ Compiler:        Microchip C30 (for PIC24)
  Company:         Microchip Technology, Inc.
 
  Software License Agreement:
 
  The software supplied herewith by Microchip Technology Incorporated
- (the “Company”) for its PICmicro® Microcontroller is intended and
- supplied to you, the Company’s customer, for use solely and
+ (the "Company") for its PICmicro(R) Microcontroller is intended and
+ supplied to you, the Company's customer, for use solely and
  exclusively on Microchip PICmicro Microcontroller products. The
  software is owned by the Company and/or its supplier, and is
  protected under applicable copyright laws. All rights are reserved.
@@ -80,7 +75,7 @@ Description:
  civil liability for the breach of the terms and conditions of this
  license.
 
- THIS SOFTWARE IS PROVIDED IN AN “AS IS” CONDITION. NO WARRANTIES,
+ THIS SOFTWARE IS PROVIDED IN AN "AS IS" CONDITION. NO WARRANTIES,
  WHETHER EXPRESS, IMPLIED OR STATUTORY, INCLUDING, BUT NOT LIMITED
  TO, IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
  PARTICULAR PURPOSE APPLY TO THIS SOFTWARE. THE COMPANY SHALL NOT,
@@ -90,48 +85,16 @@ Description:
  Change History:
   Rev    Description
   ----   -----------
-  2.6    Changed the inplementation of the interrupt clearing macro
-         to be more efficient.  
-
-  2.6a   Added DisableNonZeroEndpoints() function
-
-  2.7    Changed the definition of USB_PULLUP_ENABLE and USB_PULLUP_DISABLE
-         to be more useful.  
-
-         Added CovertToVirtualAddress() function for compatibility with PIC32.
-
-         Added USBDisableInterrupts() function that disables the USB
-         interrupts on the initialization function.  This is required if
-         running a dual role application where the host uses interrupts
-         and the device mode runs polling mode.  In this case the host
-         doesn't disable the interrupts so the first interrupt caused by
-         the USB device will incorrectly vector to the host interrupt
-         interrupt handler.
-
-         Modified the SetConfigurationOptions() function to explicitly 
-         reconfigure the pull-up/pull-down settings for the D+/D- pins
-         in case the host leaves the pull-downs enabled.
-         
-  2.7a   Fixed USBSetBDTAddress() macro, so that it correctly loads the entire
-         U1BDTPx register set, enabling the BDT to be anywhere in RAM.  Previous
-         implementation wouldn't work on a large RAM device if the linker 
-         decided to place the BDT[] array at an address > 64kB
-		 
-  2.8    Added USTAT_FIELDS typedef and associated macros.		 
-
  *************************************************************************/
 
-#if !defined(USB_HAL_PIC32_H)
-#define USB_HAL_PIC32_H
-
+#if !defined(USB_HAL_PIC24E_H)
+#if defined(USB_SUPPORT_DEVICE) | defined(USB_SUPPORT_OTG) | defined (USB_SUPPORT_HOST)
 #include "Compiler.h"
 #include "usb_config.h"
 
-#if (USB_PING_PONG_MODE != USB_PING_PONG__FULL_PING_PONG)
-    #error "PIC32 only supports full ping pong mode.  A different mode other than full ping pong is selected in the usb_config.h file."
-#endif
+#define USB_HAL_PIC24E_H
 
-#define USBSetBDTAddress(addr)         {U1BDTP3 = (((DWORD)KVA_TO_PA(addr)) >> 24); U1BDTP2 = (((DWORD)KVA_TO_PA(addr)) >> 16); U1BDTP1 = (((DWORD)KVA_TO_PA(addr)) >> 8);}
+#define USBSetBDTAddress(addr)         U1BDTP1 = (((unsigned int)addr)/256);
 #define USBPowerModule() U1PWRCbits.USBPWR = 1;
 #define USBPingPongBufferReset U1CONbits.PPBRST
 
@@ -189,6 +152,10 @@ Description:
 #define USB_OTG_DPLUS_ENABLE    0x80
 
 /* Buffer Descriptor Status Register Initialization Parameters */
+
+#define BDT_BASE_ADDR_TAG   __attribute__ ((aligned (512)))
+#define CTRL_TRF_SETUP_ADDR_TAG
+#define CTRL_TRF_DATA_ADDR_TAG
 
 //The _BSTALL definition is changed from 0x04 to 0x00 to
 // fix a difference in the PIC18 and PIC24 definitions of this
@@ -267,8 +234,40 @@ typedef union _POINTER
 #define USB_FULL_SPEED 0x04
 //USB_LOW_SPEED not currently supported in PIC24F USB products
 
-#define ConvertToPhysicalAddress(a) ((DWORD)KVA_TO_PA(a))
-#define ConvertToVirtualAddress(a)  PA_TO_KVA1(a)
+#if(USB_PING_PONG_MODE != USB_PING_PONG__FULL_PING_PONG)
+    #error "Unsupported ping pong mode for this device"
+#endif
+
+#define ConvertToPhysicalAddress(a) ((WORD)(a))   
+#define ConvertToVirtualAddress(a)  ((void *)(a))
+
+/********************************************************************
+Function:
+    BOOL USBSleepOnSuspend(void)
+    
+Summary:
+    Places the PIC24F core into sleep and sets up the USB module
+    to wake up the device on USB activity.
+    
+PreCondition:
+    IPL (in the SR register) must be non-zero.
+    
+Parameters:
+    None
+    
+Return Values:
+    TRUE  - if entered sleep successfully
+    FALSE - if there was an error entering sleep
+    
+Remarks:
+    Please note that before calling this function that it is the
+    responsibility of the application to place all of the other
+    peripherals or board features into a lower power state if
+    required.
+
+*******************************************************************/
+BOOL USBSleepOnSuspend(void);
+
 
 /****************************************************************
     Function:
@@ -317,6 +316,7 @@ typedef union _POINTER
  *******************************************************************/
 #define USBClearInterruptFlag(reg_name, if_flag_offset)	(reg_name = (1 << if_flag_offset))	
 
+
 /********************************************************************
     Function:
         void DisableNonZeroEndpoints(UINT8 last_ep_num)
@@ -338,18 +338,13 @@ typedef union _POINTER
         None
  
  *******************************************************************/
-#define DisableNonZeroEndpoints(last_ep_num)          {\
-            UINT8 i;\
-            UINT32 *p = (UINT32*)&U1EP1;\
-            for(i=0;i<last_ep_num;i++)\
-            {\
-                *p = 0;\
-                p += 4;\
-            }\
-        }
+#define DisableNonZeroEndpoints(last_ep_num) memset((void*)&U1EP1,0x00,(last_ep_num * 2));                                          
 
-#define USBClearUSBInterrupt() IFS1bits.USBIF = 0;
-#define USBInterruptFlag  IFS1bits.USBIF
+
+
+
+#define USBClearUSBInterrupt() IFS5bits.USB1IF = 0;
+#define USBInterruptFlag  IFS5bits.USB1IF
 #if defined(USB_DISABLE_SOF_HANDLER)
     #define USB_SOF_INTERRUPT 0x00
 #else
@@ -363,16 +358,16 @@ typedef union _POINTER
 
 //STALLIE, IDLEIE, TRNIE, and URSTIE are all enabled by default and are required
 #if defined(USB_INTERRUPT)
-    #define USBEnableInterrupts() {IEC1bits.USBIE = 1;IPC11CLR=0x0000FF00;IPC11SET=0x00001000; INTEnableSystemMultiVectoredInt(); INTEnableInterrupts();}
+    #define USBEnableInterrupts() {IEC5bits.USB1IE = 1;IPC21bits.USB1IP = 4;}
 #else
     #define USBEnableInterrupts()
 #endif
 
-#define USBDisableInterrupts() {IEC1bits.USBIE = 0;}
+#define USBDisableInterrupts() {IEC5bits.USB1IE = 0;}
 
 #if defined(USB_INTERRUPT)
-    #define USBMaskInterrupts() {IEC1bits.USBIE = 0;}
-    #define USBUnmaskInterrupts() {IEC1bits.USBIE = 1;}
+    #define USBMaskInterrupts() {IEC5bits.USB1IE = 0;}
+    #define USBUnmaskInterrupts() {IEC5bits.USB1IE = 1;}
 #else
     #define USBMaskInterrupts() 
     #define USBUnmaskInterrupts() 
@@ -399,9 +394,10 @@ typedef union _POINTER
 
     #define USB_STALL_ENDPOINT      0x02
 
-    #define SetConfigurationOptions()   {U1CNFG1 = 0;U1EIE = 0x9F;U1IE = 0x99 | USB_SOF_INTERRUPT | USB_ERROR_INTERRUPT; U1OTGCON &= 0x000F;  U1OTGCON |= USB_PULLUP_OPTION;}
+    #define SetConfigurationOptions()   {U1CNFG1 = 0;U1EIE = 0x9F;U1IE = 0x99 | USB_SOF_INTERRUPT | USB_ERROR_INTERRUPT;}
 
     #define USBClearInterruptRegister(reg) reg = 0xFF;
+#endif  //Device or OTG
 
 // Buffer Descriptor Status Register layout.
 typedef union __attribute__ ((packed)) _BD_STAT 
@@ -436,7 +432,8 @@ typedef union __attribute__ ((packed))__BDT
     {
         BD_STAT     STAT;
         WORD        CNT:10;
-        DWORD       ADR;                      //Buffer Address
+        WORD        ADR;                      
+        WORD        ADRH;                   
     };
     struct __attribute__ ((packed))
     {
@@ -447,6 +444,8 @@ typedef union __attribute__ ((packed))__BDT
     WORD            v[4];
     QWORD           Val;
 } BDT_ENTRY;
+
+extern volatile BDT_ENTRY *pBDTEntryOut[];
 
 // USTAT Register Layout
 typedef union __USTAT
@@ -466,7 +465,6 @@ typedef union __USTAT
 #define USBHALGetLastDirection(stat)    stat.direction
 #define USBHALGetLastPingPong(stat)     stat.ping_pong
 
-
 #if defined(USB_SUPPORT_DEVICE) | defined(USB_SUPPORT_OTG)
 	#if !defined(USBDEVICE_C)
 	    //extern USB_VOLATILE USB_DEVICE_STATE USBDeviceState;
@@ -478,4 +476,4 @@ typedef union __USTAT
 	extern volatile BDT_ENTRY* pBDTEntryIn[USB_MAX_EP_NUMBER+1];	
 #endif
 
-#endif  //USB_HAL_PIC32_H
+#endif  //USB_HAL_PIC24E_H

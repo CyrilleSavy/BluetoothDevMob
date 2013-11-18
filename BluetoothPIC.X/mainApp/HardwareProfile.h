@@ -60,6 +60,9 @@
     //  final application design.
     #define DEMO_BOARD PIC24F_ADK_FOR_ANDROID
     #define CLOCK_FREQ 32000000
+    #define BAUDRATE2 115200UL
+    #define BRG_DIV2 4
+    #define BRGH2 1
 
     #define GetSystemClock()            CLOCK_FREQ
     #define GetPeripheralClock()        CLOCK_FREQ
@@ -113,24 +116,27 @@
     #define OUTPUT_PIN 0
 
     /** Debug print interface ******************************************/
-    #define DEBUG_Init(a)
+    #define DEBUG_Init(a) 
     #define DEBUG_Error(a)          
-    #define DEBUG_PrintString(a)    
+    #define DEBUG_PrintString(a) 
     #define DEBUG_PrintHex(a)
+
+    //Hack de test
+
 
 /** Serial IO ******************************************************/
 #ifdef __DEBUG
-    #define SIOInit()           DBINIT()
-    #define SIOPrintString      DBPRINTF
-    #define SIOPutDec(d)	DBPRINTF("%d", (d))
-    #define SIOPutHex(h)	DBPRINTF("%02X", (h))
-    #define SIOPutChar(c)       DBPRINTF("%c", (c))
+    #define SIOInit()               UART2Init()
+    #define SIOPrintString(s, ...)  UART2PrintString(s)
+    #define SIOPutDec(d)            UART2PutDec(d)
+    #define SIOPutHex(h)            UART2PutHex(h)
+    #define SIOPutChar(c)           UART2PutChar(c)
 #else
-    #define SIOInit()
-    #define SIOPrintString(s, ...)   DelayMs(5)
-    #define SIOPutDec(d)
-    #define SIOPutHex(h)
-    #define SIOPutChar(c)
+    #define SIOInit()               UART2Init()
+    #define SIOPrintString(s, ...)  UART2PrintString(s)
+    #define SIOPutDec(d)            UART2PutDec(d)
+    #define SIOPutHex(h)            UART2PutHex(h)
+    #define SIOPutChar(c)           UART2PutChar(c)
 #endif
 
 #endif  //HARDWARE_PROFILE_PIC24F_ADK_FOR_ANDROID_H

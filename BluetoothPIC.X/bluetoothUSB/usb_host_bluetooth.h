@@ -89,6 +89,8 @@ typedef struct _BLUETOOTH_DEVICE
 
 BOOL USBHostBluetoothInit ( BYTE address, DWORD flags, BYTE clientDriverID );
 BOOL USBHostBluetoothEventHandler ( BYTE address, USB_EVENT event, void *data, DWORD size );
+BOOL USBHostBluetoothDataEventHandler( BYTE address, USB_EVENT event, void *data, DWORD size );
+
 
 //BOOL USB_ApplicationEventHandler ( BYTE address, USB_EVENT event, void *data, DWORD size );
 

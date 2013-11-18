@@ -24,6 +24,8 @@
 #define DBG_CLASS DBG_CLASS_SDP
 #endif
 
+// SPP UUID : 00001101-0000-1000-8000-00805F9B34FB
+
 #ifdef SDP_SERVICE_RFCOMM_ENABLE
 const BYTE aRFCOMMAttr0_Val[] = {
     /*UUID 32 bit*/
@@ -150,8 +152,9 @@ const SDP_SERVICE_ATTRIBUTE aRFCOMMAttrs[] = {
 #endif /*SDP_SERVICE_RFCOMM_ENABLE*/
 
 #ifdef SDP_SERVICE_RFCOMM_ENABLE
+char pcNameRfComm[10] = {'R','F','C','O','M','M'};
 const SDP_SERVICE sServiceRFCOMM = {
-    .pcName = "RFCOMM",
+    .pcName = pcNameRfComm,
     .uNumAttrs = 6,
     .pAttrs = (SDP_SERVICE_ATTRIBUTE *)aRFCOMMAttrs
 };
@@ -619,7 +622,7 @@ INT16 _SDP_getServiceRecordList(const UINT32 *pUUID, UINT uLen,
 INT16 _SDP_getAttrList(const SDP_SERVICE *pService, const BYTE *pAttrIDList,
         BYTE *pAttrList)
 {
-    UINT i, j, k, uAttrListByteCount, uInOffset, uOutOffset, uLen;
+    UINT i= 0,j= 0, k= 0, uAttrListByteCount= 0, uInOffset= 0, uOutOffset= 0, uLen = 0;
     UINT16 uID, uIDRangeHigh, uIDRangeLow;
     BYTE bDataDescriptor;
     BOOL bFound = FALSE;

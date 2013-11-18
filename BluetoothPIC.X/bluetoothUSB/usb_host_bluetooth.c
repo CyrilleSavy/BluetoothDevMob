@@ -66,6 +66,7 @@ BOOL USBHostBluetoothInit ( BYTE address, DWORD flags, BYTE clientDriverID )
 BOOL USBHostBluetoothEventHandler ( BYTE address, USB_EVENT event, void *data, DWORD size )
 {
     // Make sure it was for our device
+   
     if ( address != gc_DevData.ID.deviceAddress)
     {
         return FALSE;
@@ -91,21 +92,26 @@ BOOL USBHostBluetoothEventHandler ( BYTE address, USB_EVENT event, void *data, D
 
                 if ( ((HOST_TRANSFER_DATA *)data)->bEndpointAddress == (USB_IN_EP|USB_EP1) )	//GVG
                 {
-                    //SIOPrintString( "E\n" );
                     gc_DevData.flags.rxEvtBusy = 0;
                     gc_DevData.rxEvtLength = dataCount;
-                    if(!dataCount) return FALSE;
+                    if(!dataCount)
+                    {
+                        return FALSE;
+                    }
+                    SIOPrintString( "USB HCI Event\r\n" );
                     USB_HOST_APP_EVENT_HANDLER(gc_DevData.ID.deviceAddress, EVENT_BLUETOOTH_RX1_DONE, &dataCount, sizeof(DWORD) );
                 }
                 else if ( ((HOST_TRANSFER_DATA *)data)->bEndpointAddress == (USB_IN_EP|USB_EP2) )	//GVG
                 {
                     //if(!dataCount) return FALSE;
+                    SIOPrintString("USB ACL RX\r\n");
                     gc_DevData.flags.rxAclBusy = 0;
                     gc_DevData.rxAclLength = dataCount;
                     USB_HOST_APP_EVENT_HANDLER(gc_DevData.ID.deviceAddress, EVENT_BLUETOOTH_RX2_DONE, &dataCount, sizeof(DWORD) );
                 }
                 else if ( ((HOST_TRANSFER_DATA *)data)->bEndpointAddress == (USB_OUT_EP|USB_EP2) )	//GVG
                 {
+                    SIOPrintString("USB ACL TX\r\n");
                     gc_DevData.flags.txAclBusy = 0;
                     USB_HOST_APP_EVENT_HANDLER(gc_DevData.ID.deviceAddress, EVENT_BLUETOOTH_TX2_DONE, &dataCount, sizeof(DWORD) );
                 }
@@ -122,12 +128,15 @@ BOOL USBHostBluetoothEventHandler ( BYTE address, USB_EVENT event, void *data, D
         case EVENT_SUSPEND:
         case EVENT_RESUME:
         case EVENT_BUS_ERROR:
+            return TRUE;
         default:
             break;
     }
 
     return FALSE;
 } // USBHostBluetoothEventHandler
+
+
 
 // *****************************************************************************
 // *****************************************************************************
@@ -154,8 +163,14 @@ BYTE USBHostBluetoothRead_EP1( BYTE deviceAddress, void *buffer, DWORD length )
     BYTE bRetVal;
 
     // Validate the call
-    if (!API_VALID( deviceAddress)) return USB_INVALID_STATE;
-    if ( gc_DevData.flags.rxEvtBusy)   return USB_BUSY;
+    if (!API_VALID( deviceAddress)) 
+    {
+        return USB_INVALID_STATE;
+    }
+    if ( gc_DevData.flags.rxEvtBusy)
+    {
+        return USB_BUSY;
+    }
 
     // Set the busy flag, clear the count and start a new IN transfer.
     gc_DevData.flags.rxEvtBusy = 1;
@@ -174,8 +189,16 @@ BYTE USBHostBluetoothRead_EP2( BYTE deviceAddress, void *buffer, DWORD length )
     BYTE RetVal;
 
     // Validate the call
-    if (!API_VALID(deviceAddress)) return USB_INVALID_STATE;
-    if ( gc_DevData.flags.rxAclBusy)   return USB_BUSY;
+    if (!API_VALID(deviceAddress)) 
+    {
+        //SIOPrintString("[ACL Read] API error\r\n");
+        return USB_INVALID_STATE;
+    }
+    if (gc_DevData.flags.rxAclBusy)
+    {
+       // SIOPrintString("[ACL Read] ACL Busy\r\n");
+        return USB_BUSY;
+    }
 
     // Set the busy flag, clear the count and start a new IN transfer.
     gc_DevData.flags.rxAclBusy = 1;
@@ -193,16 +216,30 @@ BYTE USBHostBluetoothRead_EP2( BYTE deviceAddress, void *buffer, DWORD length )
 
 BOOL USBHostBluetoothRx1IsBusy( BYTE deviceAddress )
 {
-    if (!API_VALID( deviceAddress)) return FALSE;
-    if (gc_DevData.flags.rxEvtBusy) return TRUE;
+    if (!API_VALID( deviceAddress)) 
+    {
+        return FALSE;
+    }
+    if (gc_DevData.flags.rxEvtBusy) 
+    {
+        return TRUE;
+    }
     return FALSE;
 }
 
-BOOL USBHostBluetoothRx2IsBusy( BYTE deviceAddress )
+BOOL USBHostBluetoothRx2IsBusy(BYTE deviceAddress )
 {
-    if (!API_VALID( deviceAddress)) return FALSE;
-    if (gc_DevData.flags.rxAclBusy) return TRUE;
+    if (API_VALID( deviceAddress) == FALSE)
+    {
+        return FALSE;
+    }
+
+    if (gc_DevData.flags.rxAclBusy) 
+    {
+        return TRUE;
+    }
     return FALSE;
+
 }
   
 BYTE USBHostBluetoothWrite_EP0( BYTE deviceAddress, void *buffer, DWORD length )

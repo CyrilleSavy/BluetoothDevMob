@@ -51,8 +51,8 @@ BOOL HCI_create()
 {
     HCI_CONFIGURATION_DATA *psConfData;
     HCI_CONNECTION_DATA *psConnData;
-    CHAR *pcDefaultName = "CyrilleEstLeMeilleur";
-    CHAR *pcDefaultPIN = "1234";
+    CHAR *pcDefaultName = "PIC32_BTv1";
+    CHAR *pcDefaultPIN = "0000";
     UINT i;
     UINT uDefNameLen = 10;
     UINT uDefPINLen = 4;
@@ -428,16 +428,19 @@ void _HCI_eventHandler(const BYTE *pEventData)
                 return;
             }
 
-            /*Respond with a PIN Code Request Reply command*/
+         
+           /*Respond with a PIN Code Request Reply command*/
+          
 
-            /*Get the remote device BD ADDRESS*/
-            for(i=0; i<6; ++i)
-            {
-                aBDAddr[i] = pEventData[2+i];
-            }
-            /*Issue the command using the external HCI API*/
-            _HCI_cmdPinCodeRequestReply(aBDAddr, psConfData->sPinCode,
-                    psConfData->uPinCodeLen);
+         /*Get the remote device BD ADDRESS*/
+                for(i=0; i<6; ++i)
+                {
+                    aBDAddr[i] = pEventData[2+i];
+                }
+                /*Issue the command using the external HCI API*/
+                _HCI_cmdPinCodeRequestReply(aBDAddr, psConfData->sPinCode,
+                        psConfData->uPinCodeLen);
+      
             break;
 
         /*CONNECTION_REQUEST event*/
