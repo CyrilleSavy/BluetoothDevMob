@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+    <com.example.bluetoothpicapp.fragment.components.Led
+        android:id="@+id/led8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:minHeight="10dip"
+        android:minWidth="10dp"
+        android:text="Led" />
+
+</LinearLayout>

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BluetoothPicApp</string>
+    <string name="app_name">Bluetooth Pic</string>
     <string name="action_settings">Settings</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section0">Connexion Bluetooth</string>
+    <string name="title_section1">Leds</string>
+    <string name="title_section2">Potentiomètre et Boutons</string>
+    <string name="title_section3">Écran LCD</string>
+    <string name="empty_text"></string>
 
 </resources>
