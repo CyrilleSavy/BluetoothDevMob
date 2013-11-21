@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
+import com.example.bluetooth_test.MainActivity;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -572,7 +574,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 					bytes = mmInStream.read(buffer);
 					
 					// Envois des bytes récupérés
-					
+					mHandler.obtainMessage(BluetoothConnexion.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 					}
 				catch (IOException e)
 					{

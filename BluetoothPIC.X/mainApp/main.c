@@ -2,16 +2,9 @@
 #include <stdint.h>
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
-#include "../bluetoothUSB/usb_host_bluetooth.h"
-#include "../MPLABX_prj/ADK.h"
-#include "../MPLABX_prj/BT.h"
-
-
-/*
- *
- * FONCTIONS STATIQUE POUR BT
- *
- */
+#include "../PHY/usb_host_bluetooth.h"
+#include "../Bt_stack/ADK.h"
+#include "../Bt_stack/BT.h"
 
 
 // *****************************************************************************
@@ -52,7 +45,7 @@
 
 #endif
 
-// Bluetoot SPP normalized UUID
+// Bluetooth SPP normalized UUID
 #define BT_SPP_UUID	0x00, 0x00, 0x11, 0x01, 0x00, 0x00, 0x10, 0x00, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB
 #define SW_NUM   4
 #define LED_NUM  8
@@ -300,26 +293,6 @@ int main ( void )
 #define LED_CMD                             1
 #define SW_CMD                              2
 
-
-/**
- * Communcation protocol implementation
- * @param cmd
- * @param dataIn
- * @param sz
- * @param fromBT
- * @param reply
- * @param maxReplySz
- * @return
- */
-static uint16_t commandAnalyzer(char* reply,char* cmdBuf){  //returns num bytes to reply with (or 0 for no reply)
-
-    return 0 ;
-}
-
-
-
-
-
 // Reception buffer
 static uint8_t cmdBuf[MAX_PACKET_SZ];
 static uint32_t bufPos = 0;
@@ -331,7 +304,6 @@ static uint32_t bufPos = 0;
  * @param dlci
  */
 static void btAdkPortOpen(void* port, uint8_t dlci){
-
     bufPos = 0;
     SIOPrintString("RFCOMM Port Opened");
 }
@@ -342,7 +314,6 @@ static void btAdkPortOpen(void* port, uint8_t dlci){
  * @param dlci
  */
 static void btAdkPortClose(void* port, uint8_t dlci){
-
     //nothing here [yet?]
     SIOPrintString("RFCOMM Port Closed");
 }

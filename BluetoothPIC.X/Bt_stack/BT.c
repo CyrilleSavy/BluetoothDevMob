@@ -19,9 +19,9 @@
 #include "HCI.h"
 #include "sgBuf.h"
 #include "GenericTypeDefs.h"
-#include "../bluetoothUSB/usb_host_bluetooth.h"
+#include "../PHY/usb_host_bluetooth.h"
 #include "../debug.h"
-#include "../Bluetooth/bt_common.h"
+#include "../Bt_stack/bt_common.h"
 #include "../Microchip/Include/USB/usb.h"
 
 #define BT_VERBOSE		0
@@ -79,8 +79,6 @@ BtEnqueuedNode* enqueuedPackets = 0;
 
 // Static function prototypes
 static char btDiscoverableConnectable(void);
-
-
 
 /**
  * Send commands to Enpoint 0 (Command endpoint)
@@ -238,6 +236,7 @@ static void btTxCmdPacket(void){
 }
 
 /**
+ * NOT USED IN THE PROJECT
  * Transmit an ACL data to the correst endpoint (EP2)
  * @param conn : Connection handle
  * @param first ? (Maybe the first byte to be sent)
@@ -246,7 +245,7 @@ static void btTxCmdPacket(void){
  * @param sz : size of the ACL data packets
  */
 static void btAclDataTxBuf(uint16_t conn, char first, uint8_t bcastType, const uint8_t* data, uint16_t sz){
-
+/*
     // Data buffer preparation
     WORD i = 0;
     //Calculate header + packet length
@@ -268,7 +267,7 @@ static void btAclDataTxBuf(uint16_t conn, char first, uint8_t bcastType, const u
 
     //Send ACL buffer
     btUSBSendACL((uint8_t*)acl,aTotalLength);
-    
+  */
 }
 
 /**
@@ -382,6 +381,7 @@ void btAclDataTx(uint16_t conn, char first, uint8_t bcastType, sg_buf* buf){
  * Enqueue non-handled packets. We don't use it. Only here for code compatibility
  * @param typ : Type of received packet
  */
+/*
 static void btEnqueuePacket(uint8_t typ){	//we got a packet but it's not for us - enqueue it for someone else to use
 
     uint8_t* copy;
@@ -423,6 +423,8 @@ static void btEnqueuePacket(uint8_t typ){	//we got a packet but it's not for us 
     }
     backlog[i] = copy;
 }
+*/
+
 
 
 /**
@@ -512,9 +514,6 @@ BOOL USB_GoogleADKEventHandler( BYTE address, USB_EVENT event, void *data, DWORD
             if(NULL != data)
             {
             //SEE HCI CORE v4.0 SPECIFICATIONS
-        //    SIOPrintString("HCI Event code : ");
-        //    SIOPutHex(e->eventCode);
-        //    SIOPrintString("\r\n");
 
             //Connection request
             if(e->eventCode == HCI_EVT_Connection_Request_Event){
@@ -632,8 +631,11 @@ BOOL USB_GoogleADKEventHandler( BYTE address, USB_EVENT event, void *data, DWORD
                 SIOPrintString("HCI Num complete ACL \r\n");
                 uint8_t numHandles = e->params[0];
 
-                for(i = 0; i < numHandles; i++) gAclPacketsCanSend += (((uint16_t)e->params[1 + i * 4 + 3]) << 8) | e->params[1 + i * 4 + 2];
-
+                for(i = 0; i < numHandles; i++)
+                {
+                    gAclPacketsCanSend += (((uint16_t)e->params[1 + i * 4 + 3]) << 8) | e->params[1 + i * 4 + 2];
+                }
+                
                 while(gAclPacketsCanSend && enqueuedPackets){
 
                     BtEnqueuedNode* n = enqueuedPackets;
@@ -647,7 +649,11 @@ BOOL USB_GoogleADKEventHandler( BYTE address, USB_EVENT event, void *data, DWORD
             // Link key request event
             else if(e->eventCode == HCI_EVT_Link_Key_Request_Event){
                 SIOPrintString("HCI Link key req \r\n");
-                for(i = 0; i < sizeof(mac); i++) mac[i] = e->params[i];
+                for(i = 0; i < sizeof(mac); i++) 
+                {
+                    mac[i] = e->params[i];
+                }
+                
                 i = cbks.BtLinkKeyRequestF(cbks.userData, mac, buf);
                 SIOPrintString("BT Link key res : ");
                 SIOPutDec(i);
@@ -703,6 +709,7 @@ BOOL USB_GoogleADKEventHandler( BYTE address, USB_EVENT event, void *data, DWORD
                 packetState = hciCmdPacketAddU8(packetState, mac[4]);
                 packetState = hciCmdPacketAddU8(packetState, mac[5]);
 
+                //TODO Review the capabilities parameters
                 packetState = hciCmdPacketAddU8(packetState, 0x01); //we claim to be display-only - it works for us
                 packetState = hciCmdPacketAddU8(packetState, 0x00); //we do not support OOB
                 packetState = hciCmdPacketAddU8(packetState, 0x02); //we don't care about MITM and like Dedicated Bonding
@@ -836,7 +843,7 @@ BOOL USB_GoogleADKEventHandler( BYTE address, USB_EVENT event, void *data, DWORD
 
 
 static char btTryRxEventPacket(uint8_t wantedType){
-
+/*
     uint8_t i, j;
 
     for(i = 0; i < PACKET_RX_BACKLOG_SZ; i++){
@@ -846,11 +853,12 @@ static char btTryRxEventPacket(uint8_t wantedType){
         }
     }
     return 0;
+ */
 }
 
 static void btRxEventPacket(uint8_t wantedType){
 
-    while(!btTryRxEventPacket(wantedType)); //coopYield();
+    //while(!btTryRxEventPacket(wantedType)); //coopYield();
 }
 
 char btReset_hci()
@@ -1252,13 +1260,15 @@ char btSetLocalName(const char* name){
     return 1;
 }
 
+
+/*Function not used*/
 void btScan(void){
 
 }
-
+/*Function not used*/
 char btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf){
 
-    HCI_Event* evt = (HCI_Event*)packetEVT;
+/*    HCI_Event* evt = (HCI_Event*)packetEVT;
     uint8_t* packetState;
     int i = 0;
 
@@ -1287,6 +1297,7 @@ char btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co,
         return 1;
     }
     else return 0;
+ */
 }
 
 static char btDiscoverableConnectable(void){
