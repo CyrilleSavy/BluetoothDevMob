@@ -34,7 +34,7 @@
 BtDevice gBtDevice;
 
 // Dummy buffer for unusable USB packets
-static uint8_t* backlog[PACKET_RX_BACKLOG_SZ] = {0, };
+//static uint8_t* backlog[PACKET_RX_BACKLOG_SZ] = {0, };
 
 //Function pointers for bluetooth event handle
 static BtFuncs cbks;
@@ -78,7 +78,7 @@ typedef struct BtEnqueuedNode{
 BtEnqueuedNode* enqueuedPackets = 0;
 
 // Static function prototypes
-static char btDiscoverableConnectable(void);
+static void btDiscoverableConnectable(void);
 
 /**
  * Send commands to Enpoint 0 (Command endpoint)
@@ -861,12 +861,11 @@ static void btRxEventPacket(uint8_t wantedType){
     //while(!btTryRxEventPacket(wantedType)); //coopYield();
 }
 
-char btReset_hci()
+void btReset_hci()
 {
     uint8_t* packetState;
 
     SIOPrintString("Bt Reset\n");
-
     //Command RESET
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Reset);
     hciCmdPacketFinish(packetState);
@@ -887,9 +886,9 @@ void btGetBufferSize()
 void setSimplePassCode(uint8_t aEnable)
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Write_Simple_Pairing_Mode);
     packetState = hciCmdPacketAddU8(packetState, aEnable); //enable it
-   // packetState = hciCmdPacketAddU8(packetState, 0); //disable it
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
 }
@@ -897,6 +896,7 @@ void setSimplePassCode(uint8_t aEnable)
 void btReadLocalSupportedFeature()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Informational, HCI_CMD_Read_Local_Supported_Features);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
@@ -905,6 +905,7 @@ void btReadLocalSupportedFeature()
 void btReadLocalVersionInfo()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Informational, HCI_CMD_Read_Local_Version_Information);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
@@ -913,6 +914,7 @@ void btReadLocalVersionInfo()
 void btReadDeviceClass()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Read_Class_Of_Device);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
@@ -921,6 +923,7 @@ void btReadDeviceClass()
 void btReadLocalName()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Read_Local_Name);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
@@ -929,16 +932,17 @@ void btReadLocalName()
 void btDeleteStoredKeys()
 {
     uint8_t* packetState;
+
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Delete_Stored_Link_Key);
     //On balance une adresse mac nulle
-     packetState = hciCmdPacketAddU8(packetState,0) ;
-     packetState = hciCmdPacketAddU8(packetState,0 );
-     packetState = hciCmdPacketAddU8(packetState,0 );
-     packetState = hciCmdPacketAddU8(packetState,0 );
-     packetState = hciCmdPacketAddU8(packetState,0 );
-     packetState = hciCmdPacketAddU8(packetState,0 );
-     // TOut supprimer
-     packetState = hciCmdPacketAddU8(packetState,0x01);
+    packetState = hciCmdPacketAddU8(packetState,0) ;
+    packetState = hciCmdPacketAddU8(packetState,0 );
+    packetState = hciCmdPacketAddU8(packetState,0 );
+    packetState = hciCmdPacketAddU8(packetState,0 );
+    packetState = hciCmdPacketAddU8(packetState,0 );
+    packetState = hciCmdPacketAddU8(packetState,0 );
+    // Tout supprimer
+    packetState = hciCmdPacketAddU8(packetState,0x01);
 
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
@@ -946,9 +950,10 @@ void btDeleteStoredKeys()
 
 void btWriteInquiryMode()
 {
- uint8_t* packetState;
+    uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Write_Inquiry_Mode);
-     packetState = hciCmdPacketAddU8(packetState,2) ;
+    packetState = hciCmdPacketAddU8(packetState,2) ;
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
 }
@@ -956,6 +961,7 @@ void btWriteInquiryMode()
 void btWriteDefaultLinkPolicySettings()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Policy, HCI_CMD_Write_Def_Link_Policy_Settings);
     packetState = hciCmdPacketAddU8(packetState,0x00) ;
     packetState = hciCmdPacketAddU8(packetState,0x05) ;
@@ -966,6 +972,7 @@ void btWriteDefaultLinkPolicySettings()
 void btSetEventMask()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Set_Event_Mask);
     packetState = hciCmdPacketAddU8(packetState,0xff) ;
     packetState = hciCmdPacketAddU8(packetState,0xff) ;
@@ -982,6 +989,7 @@ void btSetEventMask()
 void btWritePageTimeout(uint16_t aTimeout)
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Write_Page_Timeout);
     packetState = hciCmdPacketAddU16(packetState,aTimeout) ;
     hciCmdPacketFinish(packetState);
@@ -991,6 +999,7 @@ void btWritePageTimeout(uint16_t aTimeout)
 void btWriteHostSize()
 {
     uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Host_Buffer_Size);
     packetState = hciCmdPacketAddU16(packetState,DATA_PACKET_LENGTH-4) ;
     packetState = hciCmdPacketAddU8(packetState,0) ;
@@ -1002,28 +1011,26 @@ void btWriteHostSize()
 
 void btWriteConnAcceptTimeout()
 {
-   uint8_t* packetState;
+    uint8_t* packetState;
+    
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Write_Connection_Accept_Timeout);
     packetState = hciCmdPacketAddU16(packetState,32000) ;
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
 }
 
-char btInit(const BtFuncs* btf){
-
+void btInit(const BtFuncs* btf){
+    
     gBtDevice.isInitialized = FALSE;
     gBtDevice.isVisible = FALSE;
     sprintf(gBtDevice.localName,BT_DEVICE_NAME);
      SIOPrintString("***** HCI BT Init *****  \r\n");
     cbks = *btf;
-
-    return 1;
 }
 
 void btGetStatus(HCI_Event* e)
 {
     WORD aCmd = 0x0000 ;
-
 
     //On récupère la commande
     aCmd = ((e->params[1] & 0xFF)| e->params[2] << 8);
@@ -1229,17 +1236,15 @@ void btDeinit(void){
     //for(i = 0; i < PACKET_RX_BACKLOG_SZ; i++) if(backlog[i]) free(backlog[i]);
 }
 
-char btLocalMac(uint8_t* buf){
-
+void btLocalMac(uint8_t* buf){
     uint8_t* packetState;
 
     packetState = hciCmdPacketStart(HCI_OGF_Informational, HCI_CMD_Read_BD_ADDR);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
-    return 1;
 }
 
-char btSetLocalName(const char* name){
+void btSetLocalName(const char* name){
 
     HCI_Cmd* cmd = (HCI_Cmd*)packetStoreCMD;
     uint8_t* packetState;
@@ -1257,7 +1262,6 @@ char btSetLocalName(const char* name){
     }
     cmd->totalParamLen = 248;
     btTxCmdPacket();
-    return 1;
 }
 
 
@@ -1266,7 +1270,7 @@ void btScan(void){
 
 }
 /*Function not used*/
-char btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf){
+void btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf){
 
 /*    HCI_Event* evt = (HCI_Event*)packetEVT;
     uint8_t* packetState;
@@ -1300,7 +1304,7 @@ char btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co,
  */
 }
 
-static char btDiscoverableConnectable(void){
+static void btDiscoverableConnectable(void){
 
     HCI_Event* evt = (HCI_Event*)packetEVT;
     uint8_t* packetState;
@@ -1309,40 +1313,31 @@ static char btDiscoverableConnectable(void){
     packetState = hciCmdPacketAddU8(packetState, pageState);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
- 
-    return 1;
 }
 
-char btDiscoverable(char on){
+void btDiscoverable(char on){
 
     uint8_t nv = (pageState &~ PAGE_STATE_INQUIRY) | (on ? PAGE_STATE_INQUIRY : 0);
-    if(nv == pageState) return 1;
     pageState = nv;
 
-    return btDiscoverableConnectable();
+    btDiscoverableConnectable();
 }
 
-char btConnectable(char on){
+void btConnectable(char on){
 
     uint8_t nv = (pageState &~ PAGE_STATE_PAGE) | (on ? PAGE_STATE_PAGE : 0);
-    if(nv == pageState) return 1;
     pageState = nv;
 
-    return btDiscoverableConnectable();
+    btDiscoverableConnectable();
 }
 
-//0x6e0100
-char btSetDeviceClass(uint32_t cls){
-
-    HCI_Event* evt = (HCI_Event*)packetEVT;
+void btSetDeviceClass(uint32_t cls){
     uint8_t* packetState;
 
     packetState = hciCmdPacketStart(HCI_OGF_Controller_and_Baseband, HCI_CMD_Write_Class_Of_Device);
     packetState = hciCmdPacketAddU24(packetState, cls);
     hciCmdPacketFinish(packetState);
     btTxCmdPacket();
-  
-    return 1;
 }
 
 

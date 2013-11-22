@@ -82,12 +82,12 @@ void adkInit(void);
 
 //BT
 void btEnable(adkBtConnectionRequestF crF, adkBtLinkKeyRequestF krF, adkBtLinkKeyCreatedF kcF, adkBtPinRequestF prF, adkBtDiscoveryResultF drF);
-char btSetLocalName(const char* name);
-char btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf);
+void btSetLocalName_ADK(const char* name);
+void btGetRemoteName_ADK(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf);
 void btScan_ADK(void);
-char btDiscoverable_ADK(char on);
-char btConnectable_ADK(char on);
-char btSetDeviceClass_ADK(uint32_t cls);
+void btDiscoverable_ADK(char on);
+void btConnectable_ADK(char on);
+void btSetDeviceClass_ADK(uint32_t cls);
 
 //advanced BT
 //ACL
