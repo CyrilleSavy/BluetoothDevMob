@@ -21,7 +21,7 @@ public class ConnectionBluetoothFragment extends Fragment
 	 * The fragment argument representing the section number for this
 	 * fragment.
 	 */
-	public static final String ARG_SECTION_NUMBER = "section_LedPot";
+	public static final String ARG_SECTION_NUMBER = "section_Bluetooth";
 	
 	public ConnectionBluetoothFragment()
 		{

@@ -22,13 +22,25 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int led_blue_hi_48p=0x7f020001;
-        public static final int led_blue_lo_48p=0x7f020002;
-        public static final int led_button_off_res=0x7f020003;
-        public static final int led_button_on_res=0x7f020004;
+        public static final int led_button_off_res=0x7f020001;
+        public static final int led_button_on_res=0x7f020002;
+        public static final int led_green_hi_48p=0x7f020003;
+        public static final int led_green_lo_48p=0x7f020004;
+        public static final int pot_ext=0x7f020005;
+        public static final int pot_ext_res=0x7f020006;
+        public static final int pot_int=0x7f020007;
+        public static final int pot_int_res=0x7f020008;
+        public static final int switch_hi_64p=0x7f020009;
+        public static final int switch_lo_64p=0x7f02000a;
+        public static final int switch_off_res=0x7f02000b;
+        public static final int switch_on_res=0x7f02000c;
     }
     public static final class id {
-        public static final int action_settings=0x7f08000d;
+        public static final int action_settings=0x7f080011;
+        public static final int bouton1=0x7f08000c;
+        public static final int bouton2=0x7f08000d;
+        public static final int bouton3=0x7f08000e;
+        public static final int bouton4=0x7f08000f;
         public static final int led1=0x7f080004;
         public static final int led2=0x7f080005;
         public static final int led3=0x7f080006;
@@ -38,9 +50,9 @@ public final class R {
         public static final int led7=0x7f08000a;
         public static final int led8=0x7f08000b;
         public static final int pager=0x7f080000;
+        public static final int potentiometre1=0x7f080010;
+        public static final int scrollView1=0x7f080003;
         public static final int textView0=0x7f080001;
-        public static final int textView1=0x7f080003;
-        public static final int textView2=0x7f08000c;
         public static final int textView3=0x7f080002;
     }
     public static final class layout {
