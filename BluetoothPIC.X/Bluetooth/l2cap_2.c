@@ -79,7 +79,7 @@ BOOL L2CAP_destroy()
         {
             if(NULL != gpsL2CAPCB->pasChannel[i])
             {
-                BT_free(gpsL2CAPCB);
+                BT_free(gpsL2CAPCB->pasChannel[i]);
             }
         }
         BT_free(gpsL2CAPCB);
@@ -682,7 +682,7 @@ BOOL _L2CAP_configResponse(UINT8 bId, UINT uMTU, L2CAP_CHANNEL *pChannel)
     }
 
     /*Free the data*/
-    free(pRspData);
+    BT_free(pRspData);
     return bRetVal;
 }
 

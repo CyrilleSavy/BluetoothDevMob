@@ -2,11 +2,11 @@
 
 File Name:       TimeDelay.c
 Dependencies:    None
-Processor:       PIC18/PIC24/dsPIC30/dsPIC33/PIC32
-Compiler:        C30 v3.12
+Processor:       PIC10/PIC12/PIC16/PIC18/PIC24/dsPIC30/dsPIC33/PIC32
+Compiler:        PICC, C18, C30, C32
 Company:         Microchip Technology, Inc.
 
-Copyright (C) 2010 Microchip Technology Inc.  All rights reserved.
+Copyright (C) 2011 Microchip Technology Inc.  All rights reserved.
 
 Microchip licenses to you the right to use, modify, copy and distribute 
 Software only when embedded on a Microchip microcontroller or digital signal 
@@ -27,16 +27,17 @@ CONSEQUENTIAL DAMAGES, LOST PROFITS OR LOST DATA, COST OF PROCUREMENT OF
 SUBSTITUTE GOODS, TECHNOLOGY, SERVICES, OR ANY CLAIMS BY THIRD PARTIES 
 (INCLUDING BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
 
-Author          Date    Comments
+Date        Comments
 --------------------------------------------------------------------------------
-AKN	2009.10.14	FILE CREATED
-AKN	2009.10.15	CHANGED C18 DELAY ROUTINE TO DECREMENT ENTIRE NUMBER OF CYCLES
-AKN	2009.10.19	CHANGED C30 DELAY ROUTINE TO MATCH C18 IMPLEMENTATION
-AKN	2009.10.26	ADDED C32 DELAY ROUTINE TO MATCH C18 IMPLEMENTATION
-AKN	2009.10.27	CONSOLIDATED C30 AND C32 IMPLEMENTATIONS, ADDED PADDING TO
-                MAKE C30 DELAYS MORE ACCURATE
-PAT	2010.01.26	CONVERTED LOCALS TO VOLATILE 
-PAT	2010.03.07	ADDED include "Compiler.h"
+2009.10.14	File created
+2009.10.15	CHANGED C18 DELAY ROUTINE TO DECREMENT ENTIRE NUMBER OF CYCLES
+2009.10.19	CHANGED C30 DELAY ROUTINE TO MATCH C18 IMPLEMENTATION
+2009.10.26	ADDED C32 DELAY ROUTINE TO MATCH C18 IMPLEMENTATION
+2009.10.27	CONSOLIDATED C30 AND C32 IMPLEMENTATIONS, ADDED PADDING TO
+            MAKE C30 DELAYS MORE ACCURATE
+2010.01.26	Converted locals to volatile 
+2010.03.07	Added include "Compiler.h"
+2010.10.13  Added PICC support
 *******************************************************************************/
 #if defined(__PIC32MX__)
 	#include <plib.h>
@@ -69,7 +70,7 @@ void Delay10us( UINT32 tenMicroSecondCounter )
 {
     volatile INT32 cyclesRequiredForEntireDelay;    
         
-    #if defined(__18CXX)
+    #if defined(__18CXX) || defined (COMPILER_HITECH_PICC)
     
         if (GetInstructionClock() <= 2500000) //for all FCY speeds under 2MHz (FOSC <= 10MHz)
         {
@@ -173,7 +174,7 @@ void Delay10us( UINT32 tenMicroSecondCounter )
   ***************************************************************************/
 void DelayMs( UINT16 ms )
 {
-    #if defined(__18CXX)
+    #if defined(__18CXX) || defined (COMPILER_HITECH_PICC)
         
         INT32 cyclesRequiredForEntireDelay;
         

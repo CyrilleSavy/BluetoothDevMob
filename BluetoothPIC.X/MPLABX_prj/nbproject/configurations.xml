@@ -5,14 +5,19 @@
                    displayName="Header Files"
                    projectFiles="true">
       <logicalFolder name="Bluetooth" displayName="Bluetooth" projectFiles="true">
+        <logicalFolder name="f1" displayName="GoogleADK" projectFiles="true">
+          <itemPath>HCI.h</itemPath>
+          <itemPath>BT.h</itemPath>
+          <itemPath>btL2CAP.h</itemPath>
+          <itemPath>btRFCOMM.h</itemPath>
+          <itemPath>btSDP.h</itemPath>
+          <itemPath>fwk.h</itemPath>
+          <itemPath>sgBuf.h</itemPath>
+          <itemPath>D:/Module_DevMobile/ADK2/dbg.h</itemPath>
+          <itemPath>D:/Module_DevMobile/ADK2/coop.h</itemPath>
+          <itemPath>ADK.h</itemPath>
+        </logicalFolder>
         <itemPath>../Bluetooth/bt_common.h</itemPath>
-        <itemPath>../Bluetooth/bt_utils.h</itemPath>
-        <itemPath>../Bluetooth/hci.h</itemPath>
-        <itemPath>../Bluetooth/hci_usb.h</itemPath>
-        <itemPath>../Bluetooth/l2cap_2.h</itemPath>
-        <itemPath>../Bluetooth/rfcomm.h</itemPath>
-        <itemPath>../Bluetooth/rfcomm_fcs.h</itemPath>
-        <itemPath>../Bluetooth/sdp.h</itemPath>
       </logicalFolder>
       <logicalFolder name="bluetoothUSB"
                      displayName="bluetoothUSB"
@@ -20,11 +25,12 @@
         <itemPath>../bluetoothUSB/usb_host_bluetooth.h</itemPath>
       </logicalFolder>
       <logicalFolder name="mainApp" displayName="mainApp" projectFiles="true">
-        <itemPath>../mainApp/HardwareProfile.h</itemPath>
         <itemPath>../mainApp/usb_config.h</itemPath>
+        <itemPath>../mainApp/HardwareProfile.h</itemPath>
       </logicalFolder>
       <logicalFolder name="Microchip" displayName="Microchip" projectFiles="true">
         <logicalFolder name="Common" displayName="Common" projectFiles="true">
+          <itemPath>uart2.h</itemPath>
         </logicalFolder>
         <logicalFolder name="Include" displayName="Include" projectFiles="true">
           <logicalFolder name="USB" displayName="USB" projectFiles="true">
@@ -32,13 +38,14 @@
             <itemPath>../Microchip/Include/USB/usb_ch9.h</itemPath>
             <itemPath>../Microchip/Include/USB/usb_common.h</itemPath>
             <itemPath>../Microchip/Include/USB/usb_hal.h</itemPath>
-            <itemPath>../Microchip/Include/USB/usb_hal_pic32.h</itemPath>
-            <itemPath>../Microchip/Include/USB/usb_host.h</itemPath>
             <itemPath>../Microchip/Include/USB/usb_hal_pic24.h</itemPath>
+            <itemPath>../Microchip/Include/USB/usb_hal_pic24E.h</itemPath>
+            <itemPath>../Microchip/Include/USB/usb_hal_pic24f.h</itemPath>
+            <itemPath>../Microchip/Include/USB/usb_host.h</itemPath>
           </logicalFolder>
           <itemPath>../Microchip/Include/Compiler.h</itemPath>
-          <itemPath>../Microchip/Include/struct_queue.h</itemPath>
           <itemPath>../Microchip/Include/TimeDelay.h</itemPath>
+          <itemPath>../Microchip/Include/struct_queue.h</itemPath>
         </logicalFolder>
         <logicalFolder name="USB" displayName="USB" projectFiles="true">
           <itemPath>../Microchip/USB/usb_hal_local.h</itemPath>
@@ -46,7 +53,6 @@
           <itemPath>../Microchip/USB/usb_pic32.h</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <itemPath>../BTApp.h</itemPath>
       <itemPath>../debug.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
@@ -57,13 +63,17 @@
                    displayName="Source Files"
                    projectFiles="true">
       <logicalFolder name="Bluetooth" displayName="Bluetooth" projectFiles="true">
-        <itemPath>../Bluetooth/bt_utils.c</itemPath>
-        <itemPath>../Bluetooth/hci.c</itemPath>
-        <itemPath>../Bluetooth/hci_usb.c</itemPath>
-        <itemPath>../Bluetooth/l2cap_2.c</itemPath>
-        <itemPath>../Bluetooth/rfcomm.c</itemPath>
-        <itemPath>../Bluetooth/rfcomm_fcs.c</itemPath>
-        <itemPath>../Bluetooth/sdp.c</itemPath>
+        <logicalFolder name="f1" displayName="GoogleADK" projectFiles="true">
+          <itemPath>BT.c</itemPath>
+          <itemPath>btL2CAP.c</itemPath>
+          <itemPath>btRFCOMM.c</itemPath>
+          <itemPath>btSDP.c</itemPath>
+          <itemPath>D:/Module_DevMobile/ADK2/fwk.c</itemPath>
+          <itemPath>D:/Module_DevMobile/ADK2/sgBuf.c</itemPath>
+          <itemPath>D:/Module_DevMobile/ADK2/dbg.c</itemPath>
+          <itemPath>D:/Module_DevMobile/ADK2/coop.c</itemPath>
+          <itemPath>ADK.c</itemPath>
+        </logicalFolder>
       </logicalFolder>
       <logicalFolder name="bluetoothUSB"
                      displayName="bluetoothUSB"
@@ -77,6 +87,7 @@
       <logicalFolder name="Microchip" displayName="Microchip" projectFiles="true">
         <logicalFolder name="Common" displayName="Common" projectFiles="true">
           <itemPath>../Microchip/Common/TimeDelay.c</itemPath>
+          <itemPath>uart2.c</itemPath>
         </logicalFolder>
         <logicalFolder name="Include" displayName="Include" projectFiles="true">
           <logicalFolder name="USB" displayName="USB" projectFiles="true">
@@ -86,7 +97,6 @@
           <itemPath>../Microchip/USB/usb_host.c</itemPath>
         </logicalFolder>
       </logicalFolder>
-      <itemPath>../BTApp.c</itemPath>
       <itemPath>../debug.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -96,7 +106,9 @@
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
-    <Elem>..</Elem>
+    <Elem>D:/Module_DevMobile/Repo_Projet/BluetoothDevMob/BluetoothPIC.X</Elem>
+    <Elem>C:/microchip_solutions_v2013-06-15/Microchip</Elem>
+    <Elem>D:/Module_DevMobile/ADK2</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -161,7 +173,7 @@
         <property key="oXC16gcc-sfr-warn" value="false"/>
         <property key="oXC16gcc-smar-io-lvl" value="1"/>
         <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="0"/>
+        <property key="optimization-level" value="2"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>
@@ -203,7 +215,7 @@
         <property key="general-code-protect" value="no_code_protect"/>
         <property key="general-write-protect" value="no_write_protect"/>
         <property key="generate-cross-reference-file" value="false"/>
-        <property key="heap-size" value="16"/>
+        <property key="heap-size" value="5500"/>
         <property key="input-libraries" value=""/>
         <property key="linker-symbols" value=""/>
         <property key="map-file" value="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map"/>
@@ -220,7 +232,7 @@
         <property key="secure-flash" value="no_flash"/>
         <property key="secure-ram" value="no_ram"/>
         <property key="secure-write-protect" value="no_write_protect"/>
-        <property key="stack-size" value="16"/>
+        <property key="stack-size" value=""/>
         <property key="symbol-stripping" value=""/>
         <property key="trace-symbols" value=""/>
         <property key="warn-section-align" value="false"/>
@@ -233,6 +245,26 @@
         <property key="output-file-format" value="elf"/>
         <property key="save-temps" value="false"/>
       </C30Global>
+      <item path="D:/Module_DevMobile/ADK2/coop.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
+      <item path="D:/Module_DevMobile/ADK2/fwk.c" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
       <PICkit3PlatformTool>
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
@@ -279,6 +311,7 @@
         <property key="UART 3" value="true"/>
         <property key="UART 4" value="true"/>
         <property key="UCNFG1" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
@@ -303,6 +336,16 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
       </PICkit3PlatformTool>
+      <item path="fwk.h" ex="true" overriding="false">
+        <C30>
+        </C30>
+        <C30-AS>
+        </C30-AS>
+        <C30-LD>
+        </C30-LD>
+        <C30Global>
+        </C30Global>
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>

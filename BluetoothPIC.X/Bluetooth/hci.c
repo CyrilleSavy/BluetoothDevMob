@@ -428,16 +428,19 @@ void _HCI_eventHandler(const BYTE *pEventData)
                 return;
             }
 
-            /*Respond with a PIN Code Request Reply command*/
+         
+           /*Respond with a PIN Code Request Reply command*/
+          
 
-            /*Get the remote device BD ADDRESS*/
-            for(i=0; i<6; ++i)
-            {
-                aBDAddr[i] = pEventData[2+i];
-            }
-            /*Issue the command using the external HCI API*/
-            _HCI_cmdPinCodeRequestReply(aBDAddr, psConfData->sPinCode,
-                    psConfData->uPinCodeLen);
+         /*Get the remote device BD ADDRESS*/
+                for(i=0; i<6; ++i)
+                {
+                    aBDAddr[i] = pEventData[2+i];
+                }
+                /*Issue the command using the external HCI API*/
+                _HCI_cmdPinCodeRequestReply(aBDAddr, psConfData->sPinCode,
+                        psConfData->uPinCodeLen);
+      
             break;
 
         /*CONNECTION_REQUEST event*/

@@ -44,21 +44,36 @@ DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
 // Client Driver Function Pointer Table for the USB Embedded Host foundation
 // *****************************************************************************
 
-CLIENT_DRIVER_TABLE usbClientDrvTable[] =
+CLIENT_DRIVER_TABLE usbClientDrvTable[NUM_CLIENT_DRIVER_ENTRIES] =
 {                                        
     {
         USBHostBluetoothInit,
         USBHostBluetoothEventHandler,
         0
-    }
+    },
+    //Nos points d'entrées. On utilise les mêmes pour l'instant
+    {
+        USBHostBluetoothInit,
+        USBHostBluetoothEventHandler,
+        0
+    },
+
 };
 
 // *****************************************************************************
 // USB Embedded Host Targeted Peripheral List (TPL)
 // *****************************************************************************
-
-USB_TPL usbTPL[] =
+   /*[1] Device identification information
+        [2] Initial USB configuration to use
+        [3] Client driver table entry
+        [4] Flags (HNP supported, client driver entry, SetConfiguration() commands allowed)
+    ---------------------------------------------------------------------
+                [1]                      [2][3] [4]
+    ---------------------------------------------------------------------*/
+USB_TPL usbTPL[NUM_TPL_ENTRIES] =
 {
-    { INIT_CL_SC_P( 0xE0ul, 1ul, 1ul ), 0, 0, {TPL_CLASS_DRV} } // BT Radio
+    { INIT_CL_SC_P( 0xE0ul, 1ul, 1ul ), 0x00, 0, {TPL_CLASS_DRV} }, // BT Radio
+    { INIT_CL_SC_P( 0xFFul, 1ul, 1ul ), 0x00, 0, {TPL_CLASS_DRV}  }, // Stick Trust USB-Bluetooth
+    { INIT_VID_PID( 0x0A12ul, 0x0001ul), 0x00, 0, 0},
 };
 

@@ -97,8 +97,8 @@ BOOL BTAPP_Start(BT_DEVICE *psBTDevice)
     HCI_installDevCB(&sAPI);
 
     /* Issue the RESET command (which will trigger the HCI configuration) */
-    //sHCI.setLocalName("PIC_BT", 6);
-    sHCI.setPINCode("1234", 4);
+    sHCI.setLocalName("PIC_BT", 6);
+    sHCI.setPINCode("0000", 4);
     sHCI.cmdReset();
 
     return TRUE;
