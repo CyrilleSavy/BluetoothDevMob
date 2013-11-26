@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/lcdLine1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="premiere ligne"
+        android:lines="1"
+        android:maxLength="16"
+        android:selectAllOnFocus="false" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/lcdLine2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="deuxieme ligne"
+        android:lines="1"
+        android:maxLength="16"
+        android:selectAllOnFocus="false" />
 
 </LinearLayout>

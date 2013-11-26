@@ -24,13 +24,13 @@ public class LedsFragment extends Fragment
 	 */
 	public static final String ARG_SECTION_NUMBER = "section_Leds";
 	
-	private static boolean ledsState[];
-	private static Led ledsView[];
+	private static boolean ledsState[] = new boolean[8];
+	private static Led ledsView[] = new Led[8];
 	
 	public LedsFragment()
 		{
-		ledsState = new boolean[8];
-		ledsView = new Led[8];
+		//		ledsState = new boolean[8];
+		//		ledsView = new Led[8];
 		
 		for(int i = 0; i < 8; i++)
 			{
@@ -41,7 +41,6 @@ public class LedsFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
-		
 		View rootView = inflater.inflate(R.layout.leds_layout, container, false);
 		
 		ledsView[0] = (Led)rootView.findViewById(R.id.led1);

@@ -31,8 +31,8 @@ public class ConnectionBluetoothFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		View rootView = inflater.inflate(R.layout.connection_bluetooth_layout, container, false);
-		TextView dummyTextView = (TextView)rootView.findViewById(R.id.textView0);
-		dummyTextView.setText("ici la connection bluetooth");
+		//		TextView dummyTextView = (TextView)rootView.findViewById(R.id.textView0);
+		//		dummyTextView.setText("ici la connection bluetooth");
 		return rootView;
 		}
 	}

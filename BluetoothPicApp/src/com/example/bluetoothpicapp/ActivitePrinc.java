@@ -82,10 +82,19 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		}
 	
 	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+		{
+		super.onConfigurationChanged(newConfig);
+		}
+	
+	@Override
 	protected void onSaveInstanceState(Bundle SavedInstanceState)
 		{
 		super.onSaveInstanceState(SavedInstanceState);
 		SavedInstanceState.putBooleanArray("LedStates", LedsFragment.getLedValues());
+		SavedInstanceState.putFloat("potValue", PotBoutonsFragment.getPotValue());
+		SavedInstanceState.putString("lcdTextFirstLine", LcdFragment.getLcdTextFirstLine());
+		SavedInstanceState.putString("lcdTextSecondLine", LcdFragment.getLcdTextSecondLine());
 		}
 	
 	@Override
@@ -93,6 +102,9 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		{
 		super.onRestoreInstanceState(SavedInstanceState);
 		LedsFragment.setLedValues(SavedInstanceState.getBooleanArray("LedStates"));
+		PotBoutonsFragment.setPotValue(SavedInstanceState.getFloat("potValue"));
+		LcdFragment.setLcdTextFirstLine(SavedInstanceState.getString("lcdTextFirstLine"));
+		LcdFragment.setLcdTextSecondLine(SavedInstanceState.getString("lcdTextSecondLine"));
 		}
 	
 	@Override
