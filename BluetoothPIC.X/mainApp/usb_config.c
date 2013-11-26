@@ -38,7 +38,7 @@ DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
 #include "../Microchip/Include/USB/usb.h"
-#include "../bluetoothUSB/usb_host_bluetooth.h"
+#include "../PHY/usb_host_bluetooth.h"
 
 // *****************************************************************************
 // Client Driver Function Pointer Table for the USB Embedded Host foundation

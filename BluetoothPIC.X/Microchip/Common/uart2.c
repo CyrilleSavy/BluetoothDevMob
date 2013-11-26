@@ -46,8 +46,8 @@ BUT NOT LIMITED TO ANY DEFENSE THEREOF), OR OTHER SIMILAR COSTS.
 ********************************************************************************
 */
 
-#include "../Microchip/Include/Compiler.h"
-#include "../mainApp/HardwareProfile.h"
+#include "../Include/Compiler.h"
+#include "../../mainApp/HardwareProfile.h"
 #include "uart2.h"
 
 //******************************************************************************

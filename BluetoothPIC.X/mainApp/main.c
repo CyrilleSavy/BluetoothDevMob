@@ -2,16 +2,9 @@
 #include <stdint.h>
 #include "GenericTypeDefs.h"
 #include "HardwareProfile.h"
-#include "../bluetoothUSB/usb_host_bluetooth.h"
-#include "../MPLABX_prj/ADK.h"
-#include "../MPLABX_prj/BT.h"
-
-
-/*
- *
- * FONCTIONS STATIQUE POUR BT
- *
- */
+#include "../PHY/usb_host_bluetooth.h"
+#include "../Bt_stack/ADK.h"
+#include "../Bt_stack/BT.h"
 
 
 // *****************************************************************************
@@ -52,7 +45,7 @@
 
 #endif
 
-// Bluetoot SPP normalized UUID
+// Bluetooth SPP normalized UUID
 #define BT_SPP_UUID	0x00, 0x00, 0x11, 0x01, 0x00, 0x00, 0x10, 0x00, 0x80, 0x00, 0x00, 0x80, 0x5F, 0x9B, 0x34, 0xFB
 #define SW_NUM   4
 #define LED_NUM  8
@@ -87,10 +80,6 @@ volatile static uint32_t btSSP = ADK_BT_SSP_DONE_VAL;
 extern BtDevice gBtDevice;
 
 
-
-
-
-
 // Apply defaults settings
 void readSettings(){
    //apply defaults
@@ -106,12 +95,8 @@ void SysInit(){
     mInitPOT();
 
     // Init UART
-    //DEBUG_Init(0);
     SIOInit();
 }
-
-
-
 
 //SSP callback function
 void adkBtSspF(const uint8_t* mac, uint32_t val){
@@ -161,7 +146,6 @@ static BYTE ReadPOT(void)
             temp = temp * 100;
             temp = temp/1023;
 
-
     return (BYTE)temp;
 }
 
@@ -171,6 +155,7 @@ int main ( void )
     unsigned int last_sw_state = 1;
     unsigned int last_sw2_state = 1;
     unsigned int i = 0 ;
+    
     //Initialise the system
     SysInit();
 
@@ -230,7 +215,6 @@ int main ( void )
     //Main loop
     while (1)
     {
-
         // Get the switchs
         hardDevices.gSwTab[0]=Switch1Pressed();
         hardDevices.gSwTab[1]=Switch2Pressed();
@@ -300,26 +284,6 @@ int main ( void )
 #define LED_CMD                             1
 #define SW_CMD                              2
 
-
-/**
- * Communcation protocol implementation
- * @param cmd
- * @param dataIn
- * @param sz
- * @param fromBT
- * @param reply
- * @param maxReplySz
- * @return
- */
-static uint16_t commandAnalyzer(char* reply,char* cmdBuf){  //returns num bytes to reply with (or 0 for no reply)
-
-    return 0 ;
-}
-
-
-
-
-
 // Reception buffer
 static uint8_t cmdBuf[MAX_PACKET_SZ];
 static uint32_t bufPos = 0;
@@ -331,7 +295,6 @@ static uint32_t bufPos = 0;
  * @param dlci
  */
 static void btAdkPortOpen(void* port, uint8_t dlci){
-
     bufPos = 0;
     SIOPrintString("RFCOMM Port Opened");
 }
@@ -342,11 +305,9 @@ static void btAdkPortOpen(void* port, uint8_t dlci){
  * @param dlci
  */
 static void btAdkPortClose(void* port, uint8_t dlci){
-
     //nothing here [yet?]
     SIOPrintString("RFCOMM Port Closed");
 }
-
 
 /**
  * RFCOMM when we receive a packet
@@ -404,11 +365,7 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
               break;
           default :
               return ;
-      }
-
-      
-
-   
+      }  
 }
 
 
@@ -444,9 +401,9 @@ static char adkBtLinkKeyRequest(const uint8_t* mac, uint8_t* buf){ //link key cr
         }
         SIOPrintString("\r\n");
 
-        return 1;
+        //return 1;
         //UGLY CODE : Do like we didn't connect early
-        //return 0;
+        return 0;
     }
   }
   return 0;

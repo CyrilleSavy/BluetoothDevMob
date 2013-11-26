@@ -121,8 +121,6 @@
     #define DEBUG_PrintString(a) 
     #define DEBUG_PrintHex(a)
 
-    //Hack de test
-
 
 /** Serial IO ******************************************************/
 #ifdef __DEBUG
@@ -132,11 +130,11 @@
     #define SIOPutHex(h)            UART2PutHex(h)
     #define SIOPutChar(c)           UART2PutChar(c)
 #else
-    #define SIOInit()               UART2Init()
-    #define SIOPrintString(s, ...)  UART2PrintString(s)
-    #define SIOPutDec(d)            UART2PutDec(d)
-    #define SIOPutHex(h)            UART2PutHex(h)
-    #define SIOPutChar(c)           UART2PutChar(c)
+    #define SIOInit()               
+    #define SIOPrintString(s, ...)  
+    #define SIOPutDec(d)            
+    #define SIOPutHex(h)            
+    #define SIOPutChar(c)           
 #endif
 
 #endif  //HARDWARE_PROFILE_PIC24F_ADK_FOR_ANDROID_H

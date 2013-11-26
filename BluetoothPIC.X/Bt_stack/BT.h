@@ -85,16 +85,16 @@ typedef struct{
 }BtDevice;
 
 
-char btReset_hci();
-char btInit(const BtFuncs* btf);
+void btReset_hci();
+void btInit(const BtFuncs* btf);
 
-char btLocalMac(uint8_t* buf);
-char btSetLocalName(const char* name);
-char btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf);
+void btLocalMac(uint8_t* buf);
+void btSetLocalName(const char* name);
+void btGetRemoteName(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf);
 void btScan(void);
-char btDiscoverable(char on);
-char btConnectable(char on);
-char btSetDeviceClass(uint32_t cls);
+void btDiscoverable(char on);
+void btConnectable(char on);
+void btSetDeviceClass(uint32_t cls);
 void btDeinit(void);
 
 void btAclDataTx(uint16_t conn, char first, uint8_t bcastType, sg_buf* buf);

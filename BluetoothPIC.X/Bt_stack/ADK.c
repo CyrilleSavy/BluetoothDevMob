@@ -132,14 +132,14 @@ void btSetSspCallback(adkBtSspDisplayF pdF){
     bt_pdF = pdF;
 }
 
-char btSetLocalName_ADK(const char* name){
+void btSetLocalName_ADK(const char* name){
 
-    return btSetLocalName(name);
+    btSetLocalName(name);
 }
 
-char btGetRemoteName_ADK(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf){
+void btGetRemoteName_ADK(const uint8_t* mac, uint8_t PSRM, uint8_t PSM, uint16_t co, char* nameBuf){
 
-    return btGetRemoteName(mac, PSRM, PSM, co, nameBuf);
+    btGetRemoteName(mac, PSRM, PSM, co, nameBuf);
 }
 
 void btScan_ADK(void){
@@ -147,19 +147,19 @@ void btScan_ADK(void){
     btScan();
 }
 
-char btDiscoverable_ADK(char on){
+void btDiscoverable_ADK(char on){
 
-    return btDiscoverable(on);
+    btDiscoverable(on);
 }
 
-char btConnectable_ADK(char on){
+void btConnectable_ADK(char on){
 
-    return btConnectable(on);
+    btConnectable(on);
 }
 
-char btSetDeviceClass_ADK(uint32_t cls){
+void btSetDeviceClass_ADK(uint32_t cls){
 
-    return btSetDeviceClass(cls);
+    btSetDeviceClass(cls);
 }
 
 void l2capServiceTx_ADK(uint16_t conn, uint16_t remChan, const uint8_t* data, uint32_t size){ //send data over L2CAP

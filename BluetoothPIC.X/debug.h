@@ -203,7 +203,7 @@ void DEBUG_PutChar(char c);
 void DEBUG_PutString(char* data);
 
 #if !defined(DEBUG_MODE)
-    #define DEBUG_PutString(a) UART2PrintString(a)
+    #define DEBUG_PutString(a) SIOPrintString(a)
 #endif
 
 /**************************************************************************
