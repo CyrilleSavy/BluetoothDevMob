@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import com.example.bluetooth_test.MainActivity;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
