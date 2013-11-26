@@ -10,7 +10,7 @@
 // *****************************************************************************
 // *****************************************************************************
 // Configuration Bits
-// *****************************************************************************
+ *****************************************************************************
 // *****************************************************************************
 #if defined __C30__ || defined __XC16__
     #if defined(__PIC24FJ256GB110__)
@@ -80,10 +80,6 @@ volatile static uint32_t btSSP = ADK_BT_SSP_DONE_VAL;
 extern BtDevice gBtDevice;
 
 
-
-
-
-
 // Apply defaults settings
 void readSettings(){
    //apply defaults
@@ -99,12 +95,8 @@ void SysInit(){
     mInitPOT();
 
     // Init UART
-    //DEBUG_Init(0);
     SIOInit();
 }
-
-
-
 
 //SSP callback function
 void adkBtSspF(const uint8_t* mac, uint32_t val){
@@ -154,7 +146,6 @@ static BYTE ReadPOT(void)
             temp = temp * 100;
             temp = temp/1023;
 
-
     return (BYTE)temp;
 }
 
@@ -164,6 +155,7 @@ int main ( void )
     unsigned int last_sw_state = 1;
     unsigned int last_sw2_state = 1;
     unsigned int i = 0 ;
+    
     //Initialise the system
     SysInit();
 
@@ -223,7 +215,6 @@ int main ( void )
     //Main loop
     while (1)
     {
-
         // Get the switchs
         hardDevices.gSwTab[0]=Switch1Pressed();
         hardDevices.gSwTab[1]=Switch2Pressed();
@@ -318,7 +309,6 @@ static void btAdkPortClose(void* port, uint8_t dlci){
     SIOPrintString("RFCOMM Port Closed");
 }
 
-
 /**
  * RFCOMM when we receive a packet
  * @param port
@@ -375,11 +365,7 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
               break;
           default :
               return ;
-      }
-
-      
-
-   
+      }  
 }
 
 
@@ -415,9 +401,9 @@ static char adkBtLinkKeyRequest(const uint8_t* mac, uint8_t* buf){ //link key cr
         }
         SIOPrintString("\r\n");
 
-        return 1;
+        //return 1;
         //UGLY CODE : Do like we didn't connect early
-        //return 0;
+        return 0;
     }
   }
   return 0;

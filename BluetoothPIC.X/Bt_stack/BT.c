@@ -710,7 +710,7 @@ BOOL USB_GoogleADKEventHandler( BYTE address, USB_EVENT event, void *data, DWORD
                 packetState = hciCmdPacketAddU8(packetState, mac[5]);
 
                 //TODO Review the capabilities parameters
-                packetState = hciCmdPacketAddU8(packetState, 0x01); //we claim to be display-only - it works for us
+                packetState = hciCmdPacketAddU8(packetState, 0x00); //we claim to be display-only - it works for us
                 packetState = hciCmdPacketAddU8(packetState, 0x00); //we do not support OOB
                 packetState = hciCmdPacketAddU8(packetState, 0x02); //we don't care about MITM and like Dedicated Bonding
                 hciCmdPacketFinish(packetState);
@@ -1155,7 +1155,7 @@ void cmd_event_state(HCI_Event* e)
         case HCI_OPCODE(HCI_OGF_Controller_and_Baseband, HCI_CMD_Set_Event_Mask):
                // On autorise le mot de passe simple
             if(SUPORT_SSP){
-                setSimplePassCode(0);
+                setSimplePassCode(1);
             }
             break;
 
