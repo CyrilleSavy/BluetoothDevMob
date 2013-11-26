@@ -8,25 +8,26 @@ import android.widget.Button;
 
 import com.example.bluetoothpicapp.R;
 
-public class Led extends Button
+public class Bouton extends Button
 	{
 	
-	private boolean ledState = false;
-	private static final int size = 48;
+	private boolean buttonState = false;
+	private static final int sizeHeight = 64;
+	private static final int sizeWidth = 45;
 	
-	public Led(Context context, AttributeSet attrs, int defStyle)
+	public Bouton(Context context, AttributeSet attrs, int defStyle)
 		{
 		super(context, attrs, defStyle);
 		init();
 		}
 	
-	public Led(Context context, AttributeSet attrs)
+	public Bouton(Context context, AttributeSet attrs)
 		{
 		super(context, attrs);
 		init();
 		}
 	
-	public Led(Context context)
+	public Bouton(Context context)
 		{
 		super(context);
 		init();
@@ -34,13 +35,14 @@ public class Led extends Button
 	
 	private void init()
 		{
-		this.setHeight(Led.size);
-		this.setWidth(Led.size);
+		this.setHeight(Bouton.sizeHeight);
+		this.setWidth(Bouton.sizeWidth);
+		this.setClickable(false);
 		}
 	
 	public void setState(boolean state)
 		{
-		ledState = state;
+		buttonState = state;
 		
 		// Redessine la vue
 		invalidate();
@@ -51,13 +53,13 @@ public class Led extends Button
 	protected void onDraw(Canvas canvas)
 		{
 		// Dessine l'image
-		if (ledState == true)
+		if (buttonState == true)
 			{
-			this.setBackgroundDrawable(getResources().getDrawable(R.drawable.led_green_hi_48p));
+			this.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_lo_64p));
 			}
 		else
 			{
-			this.setBackgroundDrawable(getResources().getDrawable(R.drawable.led_green_lo_48p));
+			this.setBackgroundDrawable(getResources().getDrawable(R.drawable.switch_hi_64p));
 			}
 		}
 	}

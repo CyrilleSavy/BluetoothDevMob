@@ -21,7 +21,7 @@ public class LcdFragment extends Fragment
 	 * The fragment argument representing the section number for this
 	 * fragment.
 	 */
-	public static final String ARG_SECTION_NUMBER = "section_LedPot";
+	public static final String ARG_SECTION_NUMBER = "section_Lcd";
 	
 	public LcdFragment()
 		{

@@ -4,7 +4,9 @@ package com.example.bluetoothpicapp;
 import java.util.Locale;
 
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -80,6 +82,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		}
 	
 	@Override
+	protected void onSaveInstanceState(Bundle SavedInstanceState)
+		{
+		super.onSaveInstanceState(SavedInstanceState);
+		SavedInstanceState.putBooleanArray("LedStates", LedsFragment.getLedValues());
+		}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle SavedInstanceState)
+		{
+		super.onRestoreInstanceState(SavedInstanceState);
+		LedsFragment.setLedValues(SavedInstanceState.getBooleanArray("LedStates"));
+		}
+	
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 		{
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -96,12 +112,12 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		}
 	
 	@Override
-	public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction)
+	public void onTabReselected(Tab tab, FragmentTransaction ft)
 		{
 		}
 	
 	@Override
-	public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction)
+	public void onTabUnselected(Tab tab, FragmentTransaction ft)
 		{
 		}
 	
