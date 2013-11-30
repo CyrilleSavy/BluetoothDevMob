@@ -1,6 +1,7 @@
 
 package com.example.bluetoothpicapp.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.bluetooth.BluetoothDevice;
@@ -9,16 +10,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bluetoothpicapp.R;
+import com.example.bluetoothpicapp.bluetooth.BTDeviceListAdapter;
 import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
 
 /**
  * A fragment representing a section of the app, that displays the text
  * of the Lcd and could edit this text field.
  */
-public class ConnectionBluetoothFragment extends Fragment
+public class ConnectionBluetoothFragment extends Fragment implements View.OnClickListener ,OnItemClickListener
 	{
 	
 	/**
@@ -28,31 +35,70 @@ public class ConnectionBluetoothFragment extends Fragment
 	public static final String ARG_SECTION_NUMBER = "section_Bluetooth";
 	
 	private List<BluetoothDevice> mDiscoveredDevice;
-	private BluetoothConnexion mBluetoothConnexion;
+	private static BluetoothConnexion mBluetoothConnexion = null;
+	
+	private Button btScan;
+	private ListView btDeviceLstView;
+	
+	private BTDeviceListAdapter mBTDeviceListAdapter;
 	
 	public ConnectionBluetoothFragment()
 		{
-		this.mBluetoothConnexion = null;
+		//this.mBluetoothConnexion = null;
+		this.btScan = null;
+		this.mDiscoveredDevice = new ArrayList<BluetoothDevice>();
 		}
 	
-	@Override
-	public void setArguments(Bundle args)
+	public void setBluetoothConn(BluetoothConnexion mBluetoothConnexionSrc)
 		{
-		super.setArguments(args);
+		mBluetoothConnexion = mBluetoothConnexionSrc;
 		}
-
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		View rootView = inflater.inflate(R.layout.connection_bluetooth_layout, container, false);
-		//		TextView dummyTextView = (TextView)rootView.findViewById(R.id.textView0);
-		//		dummyTextView.setText("ici la connection bluetooth");
+		btScan = (Button)rootView.findViewById(R.id.buttonScan);
+		btScan.setOnClickListener(this);
+		
+		btDeviceLstView = (ListView)rootView.findViewById(R.id.listViewDevices);
+		btDeviceLstView.setOnItemClickListener(this);
+		mBTDeviceListAdapter = new BTDeviceListAdapter(mDiscoveredDevice, getActivity().getApplicationContext(), inflater);
+		btDeviceLstView.setAdapter(mBTDeviceListAdapter);
+		
 		return rootView;
 		}
 	
-	public void setListBluetoothDevice()
+	@Override
+	public void onResume()
 		{
-		this.mDiscoveredDevice = mDiscoveredDevice;
+		super.onResume();
+		}
+	
+	public void setBtDeviceDetected()
+		{
+		//On récupère la liste
+		this.mDiscoveredDevice = mBluetoothConnexion.getDiscoveredDevices();
+		btDeviceLstView.setAdapter(mBTDeviceListAdapter);
+		this.mBTDeviceListAdapter.setList(this.mDiscoveredDevice);
+		this.mBTDeviceListAdapter.notifyDataSetChanged();
+		}
+	
+	//Si l'on a clické sur le bouton on lance le scan
+	@Override
+	public void onClick(View v)
+		{
+		//On démmare le scan
+		if (mBluetoothConnexion != null) //Evite une source de bugs
+			{
+			mBluetoothConnexion.startDiscovery();
+			}
+		}
+	
+	//Si on veut se connecter sur un périphérique
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
+		{
+		this.mBluetoothConnexion.connect(this.mDiscoveredDevice.get(position));
 		}
 	}

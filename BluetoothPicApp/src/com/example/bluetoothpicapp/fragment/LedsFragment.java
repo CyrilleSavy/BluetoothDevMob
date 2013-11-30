@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import com.example.bluetoothpicapp.ActivitePrinc;
 import com.example.bluetoothpicapp.R;
+import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
 import com.example.bluetoothpicapp.fragment.components.Led;
 
 /**
@@ -27,11 +29,11 @@ public class LedsFragment extends Fragment
 	private static boolean ledsState[] = new boolean[8];
 	private static Led ledsView[] = new Led[8];
 	
+	private static BluetoothConnexion mBluetoothConnexion = null;
+	
 	public LedsFragment()
 		{
-		//		ledsState = new boolean[8];
-		//		ledsView = new Led[8];
-		
+		//mBluetoothConnexion = null ;
 		for(int i = 0; i < 8; i++)
 			{
 			ledsState[i] = false;
@@ -59,6 +61,11 @@ public class LedsFragment extends Fragment
 			}
 		
 		return rootView;
+		}
+	
+	public void setBluetoothConn(BluetoothConnexion mBluetoothConnexionSrc)
+		{
+		mBluetoothConnexion = mBluetoothConnexionSrc;
 		}
 	
 	public static boolean[] getLedValues()
@@ -100,10 +107,20 @@ public class LedsFragment extends Fragment
 			if (LedsFragment.ledsState[LedNumber] == true)
 				{
 				LedsFragment.ledsState[LedNumber] = false;
+				//Source de bug
+				if(mBluetoothConnexion != null)
+					{
+					mBluetoothConnexion.writeLed((char)LedNumber, (char)0);
+					}
 				}
 			else
 				{
 				LedsFragment.ledsState[LedNumber] = true;
+				//Source de bug
+				if(mBluetoothConnexion != null)
+					{
+					mBluetoothConnexion.writeLed((char)LedNumber, (char)1);
+					}
 				}
 			
 			LedsFragment.ledsView[LedNumber].setState(ledsState[LedNumber]);
