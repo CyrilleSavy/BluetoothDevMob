@@ -3,6 +3,8 @@ package com.example.bluetoothpicapp.bluetooth;
 
 import java.util.List;
 
+import com.example.bluetoothpicapp.ActivitePrinc;
+
 import android.app.IntentService;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -40,6 +42,7 @@ public class BluetoothConnexion
 		this.mHandlerMain = handler;
 		startBt();
 		}
+	
 	
 	/**
 	 * Démmarre le serveur bluetooth
@@ -118,7 +121,7 @@ public class BluetoothConnexion
 					case MESSAGE_DEVICE_NAME:
 						// On récupère la liste 
 						mDiscoveredDevice = mSerialComm.getDiscoveredDevices();
-						Message msgSend = mHandlerMain.obtainMessage(MESSAGE_DEVICE_NAME);
+						Message msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_DEVICE_DISCOVERED);
 						mHandlerMain.sendMessage(msgSend);
 						break;
 					case MESSAGE_TOAST:

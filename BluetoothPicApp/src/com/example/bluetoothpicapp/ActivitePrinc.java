@@ -8,6 +8,8 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 
+import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
 import com.example.bluetoothpicapp.fragment.ConnectionBluetoothFragment;
 import com.example.bluetoothpicapp.fragment.LcdFragment;
 import com.example.bluetoothpicapp.fragment.LedsFragment;
@@ -39,6 +42,12 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	 */
 	ViewPager mViewPager;
 	
+	private BluetoothConnexion mBluetoothConnexion;
+	
+	private static boolean firstInit = true;
+	
+	public static final int MESSAGE_DEVICE_DISCOVERED = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 		{
@@ -48,6 +57,13 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		
+		//Enclenchement du bluetooth
+		if (firstInit)
+			{
+			this.mBluetoothConnexion = new BluetoothConnexion(getApplicationContext(), this.mHandler);
+			firstInit = false;
+			}
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -150,6 +166,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 				default:
 					fragment = new ConnectionBluetoothFragment();
 					args.putInt(ConnectionBluetoothFragment.ARG_SECTION_NUMBER, position + 1);
+					
 					break;
 				case 1:
 					fragment = new LedsFragment();
@@ -194,5 +211,24 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			return null;
 			}
 		}
+	
+	//Recupération des événements envoyé par le Bluetooth
+	private final Handler mHandler = new Handler()
+		{
+			
+			@Override
+			public void handleMessage(Message msg)
+				{
+				switch(msg.what)
+					{
+					
+					//On a découvert un device
+					case MESSAGE_DEVICE_DISCOVERED:
+						
+					default:
+						;
+					}
+				}
+		};
 	
 	}
