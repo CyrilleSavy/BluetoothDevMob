@@ -5,7 +5,7 @@
     android:orientation="vertical" >
 
     <ScrollView
-        android:id="@+id/scrollView1"
+        android:id="@+id/scrollViewLeds"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0" >
@@ -103,9 +103,7 @@
                 android:minHeight="10dip"
                 android:minWidth="10dp"
                 android:text="Led" />
-
         </LinearLayout>
-
     </ScrollView>
 
 </LinearLayout>

@@ -24,20 +24,18 @@ public class PotBoutonsFragment extends Fragment
 	 */
 	public static final String ARG_SECTION_NUMBER = "section_BoutonsPot";
 	
-	private static boolean boutonsState[];
-	private static Bouton boutonsView[];
+	private static boolean boutonsState[] = new boolean[4];
+	private static Bouton boutonsView[] = new Bouton[4];
 	private static float potLevel;
-	private static Potentiometre pot;
+	private static Potentiometre potView;
 	
 	public PotBoutonsFragment()
 		{
-		boutonsState = new boolean[4];
-		boutonsView = new Bouton[4];
-		
 		for(int i = 0; i < 4; i++)
 			{
 			boutonsState[i] = false;
 			}
+		
 		potLevel = (float)0.0;
 		}
 	
@@ -51,8 +49,8 @@ public class PotBoutonsFragment extends Fragment
 		boutonsView[2] = (Bouton)rootView.findViewById(R.id.bouton3);
 		boutonsView[3] = (Bouton)rootView.findViewById(R.id.bouton4);
 		
-		pot = (Potentiometre)rootView.findViewById(R.id.potentiometre1);
-		pot.setPotLevel(potLevel);
+		potView = (Potentiometre)rootView.findViewById(R.id.potentiometre1);
+		potView.setPotLevel(potLevel);
 		return rootView;
 		}
 	
@@ -87,7 +85,7 @@ public class PotBoutonsFragment extends Fragment
 	public static void setPotValue(float theValue)
 		{
 		potLevel = theValue;
-		pot.setPotLevel(potLevel);
+		potView.setPotLevel(potLevel);
 		
 		return;
 		}

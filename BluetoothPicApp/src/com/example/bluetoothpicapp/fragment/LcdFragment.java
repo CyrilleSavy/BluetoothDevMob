@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bluetoothpicapp.R;
@@ -23,6 +24,11 @@ public class LcdFragment extends Fragment
 	 */
 	public static final String ARG_SECTION_NUMBER = "section_Lcd";
 	
+	private static TextView lcdFirstLineView;
+	private static TextView lcdSecondLineView;
+	private static String lcdFirstLineText = "";
+	private static String lcdSecondLineText = "";
+	
 	public LcdFragment()
 		{
 		}
@@ -31,8 +37,37 @@ public class LcdFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 		{
 		View rootView = inflater.inflate(R.layout.lcd_layout, container, false);
-		TextView dummyTextView = (TextView)rootView.findViewById(R.id.textView3);
-		dummyTextView.setText("ici l'écran Lcd");
+		
+		lcdFirstLineView = (EditText)rootView.findViewById(R.id.lcdLine1);
+		lcdFirstLineView.setText(lcdFirstLineText);
+		
+		lcdSecondLineView = (EditText)rootView.findViewById(R.id.lcdLine2);
+		lcdSecondLineView.setText(lcdSecondLineText);
+		
 		return rootView;
+		}
+	
+	public static String getLcdTextFirstLine()
+		{
+		return lcdFirstLineText;
+		}
+	
+	public static void setLcdTextFirstLine(String theText)
+		{
+		lcdFirstLineText = theText;
+		
+		return;
+		}
+	
+	public static String getLcdTextSecondLine()
+		{
+		return lcdSecondLineText;
+		}
+	
+	public static void setLcdTextSecondLine(String theText)
+		{
+		lcdSecondLineText = theText;
+		
+		return;
 		}
 	}
