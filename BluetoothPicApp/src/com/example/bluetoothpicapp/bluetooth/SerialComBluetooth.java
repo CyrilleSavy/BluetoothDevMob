@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
 
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -379,6 +378,11 @@ public class SerialComBluetooth extends BroadcastReceiver
 		if (D) Log.d(TAG, "setState() " + mState + " -> " + state);
 		mState = state;
 		
+		// Permet d'envoyer un message asynchrone à l'activité qui possède le
+		// Handler
+		mHandler.obtainMessage(BluetoothConnexion.MESSAGE_STATE_CHANGE, state, -1)
+			.sendToTarget();
+		
 		}
 	
 	/**
@@ -419,8 +423,14 @@ public class SerialComBluetooth extends BroadcastReceiver
 			// On les ajoute à la liste
 			SerialComBluetooth.this.addBTDevice(device);
 			
-			// Quand le scan est terminé
+			//On averti que l'on a trouvé un periph.
+			Message msg = mHandler.obtainMessage(BluetoothConnexion.MESSAGE_DEVICE_NAME);
+			//			Bundle bundle = new Bundle();
+			//			bundle.putString(BluetoothConnexion.DEVICE_NAME, device.getName());
+			//			msg.setData(bundle);
+			mHandler.sendMessage(msg);
 			}
+		// Quand le scan est terminé
 		else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
 			{
 			

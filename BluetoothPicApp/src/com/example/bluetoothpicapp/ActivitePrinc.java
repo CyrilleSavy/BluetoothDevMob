@@ -8,6 +8,8 @@ import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,7 +17,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
+import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
+import com.example.bluetoothpicapp.bluetooth.SerialComBluetooth;
 import com.example.bluetoothpicapp.fragment.ConnectionBluetoothFragment;
 import com.example.bluetoothpicapp.fragment.LcdFragment;
 import com.example.bluetoothpicapp.fragment.LedsFragment;
@@ -39,6 +44,18 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	 */
 	ViewPager mViewPager;
 	
+	private static BluetoothConnexion mBluetoothConnexion;
+	
+	private static boolean firstInit = true;
+	//private static mBluetoothConnexionMem = null;
+	
+	public static final int MESSAGE_DEVICE_DISCOVERED = 0;
+	public static final int MESSAGE_STATE_CHANGE = 1;
+	
+	//On doit avoir un attribut pour passer les données au fragment
+	private static ConnectionBluetoothFragment mConnFrag;
+	private static LedsFragment mLedsFrag;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 		{
@@ -49,6 +66,16 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
+		//Enclenchement du bluetooth
+		if (firstInit)
+			{
+			mBluetoothConnexion = new BluetoothConnexion(getApplicationContext(), this.mHandler);
+			firstInit = false;
+			}
+		else
+			{
+			mBluetoothConnexion.setHandlerMain(mHandler);
+			}
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -91,6 +118,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	protected void onSaveInstanceState(Bundle SavedInstanceState)
 		{
 		super.onSaveInstanceState(SavedInstanceState);
+		
 		SavedInstanceState.putBooleanArray("LedStates", LedsFragment.getLedValues());
 		SavedInstanceState.putFloat("potValue", PotBoutonsFragment.getPotValue());
 		SavedInstanceState.putString("lcdTextFirstLine", LcdFragment.getLcdTextFirstLine());
@@ -105,6 +133,11 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		PotBoutonsFragment.setPotValue(SavedInstanceState.getFloat("potValue"));
 		LcdFragment.setLcdTextFirstLine(SavedInstanceState.getString("lcdTextFirstLine"));
 		LcdFragment.setLcdTextSecondLine(SavedInstanceState.getString("lcdTextSecondLine"));
+		
+		//On repasse l'objet bluetoothcom
+		mLedsFrag.setBluetoothConn(mBluetoothConnexion);
+		mConnFrag.setBluetoothConn(mBluetoothConnexion);
+		
 		}
 	
 	@Override
@@ -184,10 +217,17 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 				{
 				default:
 					fragment = new ConnectionBluetoothFragment();
+					//On passe la classe de connexion BT
+					mConnFrag = (ConnectionBluetoothFragment)fragment;
+					mConnFrag.setBluetoothConn(mBluetoothConnexion);
 					args.putInt(ConnectionBluetoothFragment.ARG_SECTION_NUMBER, position + 1);
+					
 					break;
 				case 1:
 					fragment = new LedsFragment();
+					//On passe la classe de connexion BT
+					mLedsFrag = (LedsFragment)fragment;
+					mLedsFrag.setBluetoothConn(mBluetoothConnexion);
 					args.putInt(LedsFragment.ARG_SECTION_NUMBER, position + 1);
 					break;
 				case 2:
@@ -229,5 +269,44 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			return null;
 			}
 		}
+	
+	//Recupération des événements envoyé par le Bluetooth
+	private final Handler mHandler = new Handler()
+		{
+			
+			@Override
+			public void handleMessage(Message msg)
+				{
+				switch(msg.what)
+					{
+					case MESSAGE_STATE_CHANGE:
+						switch(msg.arg1)
+							{
+							case SerialComBluetooth.STATE_CONNECTED:
+								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+								break;
+							case SerialComBluetooth.STATE_CONNECTING:
+								Toast.makeText(getApplicationContext(), "Connecting", Toast.LENGTH_SHORT).show();
+								break;
+							case SerialComBluetooth.STATE_LISTEN:
+								Toast.makeText(getApplicationContext(), "Listen", Toast.LENGTH_SHORT).show();
+								break;
+							case SerialComBluetooth.STATE_NONE:
+								Toast.makeText(getApplicationContext(), "None", Toast.LENGTH_SHORT).show();
+								break;
+							}
+						break;
+					//On a découvert un device
+					case MESSAGE_DEVICE_DISCOVERED:
+						//Il faut avertir le fragment
+						if (mConnFrag != null)
+							{
+							mConnFrag.setBtDeviceDetected();
+							}
+					default:
+						;
+					}
+				}
+		};
 	
 	}

@@ -1,7 +1,10 @@
 
 package com.example.bluetoothpicapp.bluetooth;
 
+import java.io.Serializable;
 import java.util.List;
+
+import com.example.bluetoothpicapp.ActivitePrinc;
 
 import android.app.IntentService;
 import android.bluetooth.BluetoothDevice;
@@ -11,6 +14,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.Toast;
 
 /**
@@ -32,13 +37,18 @@ public class BluetoothConnexion
 	private SerialComBluetooth mSerialComm;
 	private List<BluetoothDevice> mDiscoveredDevice;
 	
-	private final Handler mHandlerMain;
+	private static Handler mHandlerMain = null;
 	
 	public BluetoothConnexion(Context context, Handler handler)
 		{
 		this.mSerialComm = new SerialComBluetooth(context, this.mHandler);
 		this.mHandlerMain = handler;
 		startBt();
+		}
+	
+	public void setHandlerMain(Handler mHandlerMainSrc)
+		{
+		mHandlerMain = mHandlerMainSrc;
 		}
 	
 	/**
@@ -72,21 +82,21 @@ public class BluetoothConnexion
 	 * @param aLedNum : Num. de la led [0-7]
 	 * @param aState : 0 ou 1
 	 */
-	public void writeLed(char aLedNum, char aState)
+	public void writeLed(int aLedNum, int aState)
 		{
-		String msg = "$0_" + aLedNum + "_" + aState + "_\r\n";
+		String msg = "$1_" + String.valueOf(aLedNum) + "_" + String.valueOf(aState) + "_\r\n";
 		this.writeSerial(msg.getBytes());
 		}
 	
 	public void startReadSw()
 		{
-		String msg = "$1\r\n";
+		String msg = "$2\r\n";
 		this.writeSerial(msg.getBytes());
 		}
 	
 	public void startReadPot()
 		{
-		String msg = "$2\r\n";
+		String msg = "$3\r\n";
 		this.writeSerial(msg.getBytes());
 		}
 	
@@ -105,12 +115,31 @@ public class BluetoothConnexion
 				switch(msg.what)
 					{
 					case MESSAGE_STATE_CHANGE:
+						switch(msg.arg1)
+							{
+							case SerialComBluetooth.STATE_CONNECTED:
+								mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_STATE_CHANGE, SerialComBluetooth.STATE_CONNECTED, -1).sendToTarget();
+								break;
+							case SerialComBluetooth.STATE_CONNECTING:
+								mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_STATE_CHANGE, SerialComBluetooth.STATE_CONNECTING, -1).sendToTarget();
+								break;
+							case SerialComBluetooth.STATE_LISTEN:
+								mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_STATE_CHANGE, SerialComBluetooth.STATE_LISTEN, -1).sendToTarget();
+								break;
+							case SerialComBluetooth.STATE_NO_ADAPTER:
+								mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_STATE_CHANGE, SerialComBluetooth.STATE_NO_ADAPTER, -1).sendToTarget();
+								break;
+							case SerialComBluetooth.STATE_NONE:
+								mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_STATE_CHANGE, SerialComBluetooth.STATE_NONE, -1).sendToTarget();
+								break;
+							default:
+								;
+							}
 						break;
 					case MESSAGE_READ:
 						byte[] readBuf = (byte[])msg.obj;
 						// construct a string from the valid bytes in the buffer
 						String readMessage = new String(readBuf, 0, msg.arg1);
-						
 						break;
 					case MESSAGE_WRITE:
 						break;
@@ -118,7 +147,7 @@ public class BluetoothConnexion
 					case MESSAGE_DEVICE_NAME:
 						// On récupère la liste 
 						mDiscoveredDevice = mSerialComm.getDiscoveredDevices();
-						Message msgSend = mHandlerMain.obtainMessage(MESSAGE_DEVICE_NAME);
+						Message msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_DEVICE_DISCOVERED);
 						mHandlerMain.sendMessage(msgSend);
 						break;
 					case MESSAGE_TOAST:
@@ -128,5 +157,4 @@ public class BluetoothConnexion
 					}
 				}
 		};
-	
 	}

@@ -84,9 +84,7 @@ public class PotBoutonsFragment extends Fragment
 	
 	public static void setPotValue(float theValue)
 		{
-		potLevel = theValue;
-		potView.setPotLevel(potLevel);
-		
+		potLevel = theValue;		
 		return;
 		}
 	
