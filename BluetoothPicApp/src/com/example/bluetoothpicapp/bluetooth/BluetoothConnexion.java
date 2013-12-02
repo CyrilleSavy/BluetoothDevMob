@@ -64,7 +64,14 @@ public class BluetoothConnexion
 	 */
 	public void startDiscovery()
 		{
-		this.mSerialComm.discoverDevices();
+		if (this.mSerialComm.isAdapterEnabled())
+			{
+			this.mSerialComm.discoverDevices();
+			}
+		else
+			{
+			this.mSerialComm.setAdapterEnable();
+			}
 		}
 	
 	public void connect(BluetoothDevice device)

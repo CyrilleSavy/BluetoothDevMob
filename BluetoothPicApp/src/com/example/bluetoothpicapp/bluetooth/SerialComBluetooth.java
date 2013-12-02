@@ -49,7 +49,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 	// TODO DEFINIR UN UUID POUR LE PIC
 	private static final UUID UUID_SPP = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 	
-	// Hanlder de l'activité qui contrôle le BT
+	// Hanlder de l'activite qui contrele le BT
 	private final Handler mHandler;
 	// Etat de la connexion comme tout est asynchrone
 	private int mState;
@@ -85,10 +85,10 @@ public class SerialComBluetooth extends BroadcastReceiver
 		this.mContext = context;
 		this.mDiscoveredDevice = new ArrayList<BluetoothDevice>();
 		
-		// Vérification si le bluetooth du smartphone est disponible
+		// Verification si le bluetooth du smartphone est disponible
 		this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		
-		// L'adapteur n'est pas présent
+		// L'adapteur n'est pas prï¿½sent
 		if (mBluetoothAdapter == null)
 			{
 			setState(STATE_NO_ADAPTER);
@@ -97,7 +97,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 			return;
 			}
 		
-		// Il faut que le bluetooth soit enclenché
+		// Il faut que le bluetooth soit enclenchï¿½
 		if (!mBluetoothAdapter.isEnabled())
 			{
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -105,7 +105,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 			this.mContext.startActivity(enableBtIntent);
 			}
 		
-		// On s'enregistre auprès des différent message de broadcast
+		// On s'enregistre auprï¿½s des diffï¿½rent message de broadcast
 		IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 		this.mContext.registerReceiver(this, filter);
 		
@@ -118,8 +118,20 @@ public class SerialComBluetooth extends BroadcastReceiver
 	|*			Methodes publiques				*|
 	\*------------------------------------------------------------------*/
 	
+	public boolean isAdapterEnabled()
+		{
+		return this.mBluetoothAdapter.isEnabled();
+		}
+	
+	public void setAdapterEnable()
+		{
+		Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+		enableBtIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		this.mContext.startActivity(enableBtIntent);
+		}
+	
 	/**
-	 * Fonction qui retourne les périphériques attachés au mobile
+	 * Fonction qui retourne les pï¿½riphï¿½riques attachï¿½s au mobile
 	 * 
 	 * @return Un Set de "BluetoothDevice" si il y en a au moins 1 sinon "null"
 	 */
@@ -138,14 +150,14 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/**
-	 * Permet de découvrir des périphériques Fonction asyncrone
+	 * Permet de dï¿½couvrir des pï¿½riphï¿½riques Fonction asyncrone
 	 */
 	public void discoverDevices()
 		{
 		// On vide la liste
 		this.mDiscoveredDevice.clear();
 		
-		// Si on scanne déja on arrête
+		// Si on scanne dï¿½ja on arrï¿½te
 		if (this.mBluetoothAdapter.isDiscovering())
 			{
 			this.mBluetoothAdapter.cancelDiscovery();
@@ -156,11 +168,11 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/**
-	 * Fonction qui retourne les périphériques découvert au mobile
+	 * Fonction qui retourne les pï¿½riphï¿½riques dï¿½couvert au mobile
 	 * 
 	 * @return Une liste de "BluetoothDevice"
 	 * 
-	 *         On ne peut pas utiliser un Set car "BluetoothDevice" n'implémente
+	 *         On ne peut pas utiliser un Set car "BluetoothDevice" n'implï¿½mente
 	 *         pas comparable
 	 */
 	public List<BluetoothDevice> getDiscoveredDevices()
@@ -169,16 +181,16 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/**
-	 * Démmare le thread "ConnectedThread" pour se connecter à un périphérique
+	 * Dï¿½mmare le thread "ConnectedThread" pour se connecter ï¿½ un pï¿½riphï¿½rique
 	 * 
 	 * @param device
-	 *            Périphérique
+	 *            Pï¿½riphï¿½rique
 	 */
 	public synchronized void connect(BluetoothDevice device)
 		{
 		if (D) Log.d(TAG, "connect to: " + device);
 		
-		// Si on est déja entrain de tester une connexion on l'annule
+		// Si on est dï¿½ja entrain de tester une connexion on l'annule
 		if (mState == STATE_CONNECTING)
 			{
 			if (this.connectThread != null)
@@ -188,7 +200,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 				}
 			}
 		
-		// Si on est connecté, on annule le thread de connexion
+		// Si on est connectï¿½, on annule le thread de connexion
 		if (this.connectedThread != null)
 			{
 			this.connectedThread.cancel();
@@ -202,7 +214,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 			mSecureAcceptThread = null;
 			}
 		
-		// Start du thread qui va tenter de se connecter au périph.
+		// Start du thread qui va tenter de se connecter au pï¿½riph.
 		this.connectThread = new ConnectThread(device);
 		this.connectThread.start();
 		
@@ -238,22 +250,26 @@ public class SerialComBluetooth extends BroadcastReceiver
 			mSecureAcceptThread = null;
 			}
 		
-		// TODO enlever ce bout de code pourri
-		while(!mBluetoothAdapter.isEnabled());
-		
-		// Ici pour eviter la concurrence
-		setState(STATE_LISTEN);
-		
-		// Start the thread to listen on a BluetoothServerSocket
-		if (mSecureAcceptThread == null)
+		if (!mBluetoothAdapter.isEnabled())
 			{
-			mSecureAcceptThread = new AcceptThread();
-			mSecureAcceptThread.start();
+			setState(STATE_NONE);
+			}
+		else
+			{
+			// Ici pour eviter la concurrence
+			setState(STATE_LISTEN);
+			
+			// Start the thread to listen on a BluetoothServerSocket
+			if (mSecureAcceptThread == null)
+				{
+				mSecureAcceptThread = new AcceptThread();
+				mSecureAcceptThread.start();
+				}
 			}
 		}
 	
 	/**
-	 * Retourne l'état de la communication courant
+	 * Retourne l'ï¿½tat de la communication courant
 	 */
 	public synchronized int getState()
 		{
@@ -292,17 +308,17 @@ public class SerialComBluetooth extends BroadcastReceiver
 	 * Ecrit dans le thread de connexion de facon asynchcrone
 	 * 
 	 * @param out
-	 *            Le tableau de bytes à écrire
+	 *            Le tableau de bytes ï¿½ ï¿½crire
 	 * @see ConnectedThread#write(byte[])
 	 */
 	public void write(byte[] out)
 		{
 		// Creation d'un objet temporaire
 		ConnectedThread r;
-		// On veut éviter que deux thread écrive dans le même flux en même temps
-		// Programmation concurrente équivalent à
+		// On veut ï¿½viter que deux thread ï¿½crive dans le mï¿½me flux en mï¿½me temps
+		// Programmation concurrente ï¿½quivalent ï¿½
 		// synchronized void write(byte[] out) {
-		// //section critique : ici on veut accèder au thread de connexion
+		// //section critique : ici on veut accï¿½der au thread de connexion
 		// }
 		synchronized (this)
 			{
@@ -314,13 +330,13 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/**
-	 * Démmare le thread qui permet de transmettre les données entre
-	 * périphériques
+	 * Dï¿½mmare le thread qui permet de transmettre les donnï¿½es entre
+	 * pï¿½riphï¿½riques
 	 * 
 	 * @param socket
-	 *            Le "BluetoothSocket" sur lequel est basé la connexion
+	 *            Le "BluetoothSocket" sur lequel est basï¿½ la connexion
 	 * @param device
-	 *            Le "BluetoothDevice" sur lequel nous sommes connectés
+	 *            Le "BluetoothDevice" sur lequel nous sommes connectï¿½s
 	 */
 	public synchronized void connected(BluetoothSocket socket, BluetoothDevice device, final String socketType)
 		{
@@ -347,7 +363,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 			mSecureAcceptThread = null;
 			}
 		
-		// On démarre le thread qui va gérer la communication
+		// On dï¿½marre le thread qui va gï¿½rer la communication
 		this.connectedThread = new ConnectedThread(socket, socketType);
 		this.connectedThread.start();
 		
@@ -359,7 +375,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 	\*------------------------------------------------------------------*/
 	
 	/*------------------------------------------------------------------*\
-	|*			Methodes privée					*|
+	|*			Methodes privï¿½e					*|
 	\*------------------------------------------------------------------*/
 	
 	private void addBTDevice(BluetoothDevice mBTDevice)
@@ -368,36 +384,35 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/**
-	 * Permet de changer l'état de la connexion
+	 * Permet de changer l'ï¿½tat de la connexion
 	 * 
 	 * @param state
-	 *            Entier qui représente les états
+	 *            Entier qui reprï¿½sente les ï¿½tats
 	 */
 	private synchronized void setState(int state)
 		{
 		if (D) Log.d(TAG, "setState() " + mState + " -> " + state);
 		mState = state;
 		
-		// Permet d'envoyer un message asynchrone à l'activité qui possède le
+		// Permet d'envoyer un message asynchrone ï¿½ l'activitï¿½ qui possï¿½de le
 		// Handler
-		mHandler.obtainMessage(BluetoothConnexion.MESSAGE_STATE_CHANGE, state, -1)
-			.sendToTarget();
+		mHandler.obtainMessage(BluetoothConnexion.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
 		
 		}
 	
 	/**
-	 * Fonction qui permet de gérer si une connexion à échouée
+	 * Fonction qui permet de gï¿½rer si une connexion ï¿½ ï¿½chouï¿½e
 	 */
 	private void connectionFailed()
 		{
-		// Action a faire si la connexion à échouée
+		// Action a faire si la connexion ï¿½ ï¿½chouï¿½e
 		
 		// Start the service over to restart listening mode
 		SerialComBluetooth.this.start();
 		}
 	
 	/**
-	 * Fonction qui permet de gérer si la connexion c'est perdue
+	 * Fonction qui permet de gï¿½rer si la connexion c'est perdue
 	 */
 	private void connectionLost()
 		{
@@ -415,22 +430,22 @@ public class SerialComBluetooth extends BroadcastReceiver
 		
 		String action = intent.getAction();
 		
-		// Un nouveau périph est découvert
+		// Un nouveau pï¿½riph est dï¿½couvert
 		if (BluetoothDevice.ACTION_FOUND.equals(action))
 			{
-			// On récupère les données du périph.
+			// On rï¿½cupï¿½re les donnï¿½es du pï¿½riph.
 			BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-			// On les ajoute à la liste
+			// On les ajoute ï¿½ la liste
 			SerialComBluetooth.this.addBTDevice(device);
 			
-			//On averti que l'on a trouvé un periph.
+			//On averti que l'on a trouvï¿½ un periph.
 			Message msg = mHandler.obtainMessage(BluetoothConnexion.MESSAGE_DEVICE_NAME);
 			//			Bundle bundle = new Bundle();
 			//			bundle.putString(BluetoothConnexion.DEVICE_NAME, device.getName());
 			//			msg.setData(bundle);
 			mHandler.sendMessage(msg);
 			}
-		// Quand le scan est terminé
+		// Quand le scan est terminï¿½
 		else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
 			{
 			
@@ -439,11 +454,11 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/*------------------------------------------------------------------*\
-	|*			classe interne privée				*|
+	|*			classe interne privï¿½e				*|
 	\*------------------------------------------------------------------*/
 	
 	/**
-	 * Ce thread permet d'établir la connexion avec un périphérique BT
+	 * Ce thread permet d'ï¿½tablir la connexion avec un pï¿½riphï¿½rique BT
 	 */
 	private class ConnectThread extends Thread
 		{
@@ -458,8 +473,8 @@ public class SerialComBluetooth extends BroadcastReceiver
 			BluetoothSocket tmp = null;
 			mSocketType = "secure";
 			
-			// On récupère un socket de connexion
-			// ATTENTION !! UUID doit être le même sur la partie serveur
+			// On rï¿½cupï¿½re un socket de connexion
+			// ATTENTION !! UUID doit ï¿½tre le mï¿½me sur la partie serveur
 			try
 				{
 				if (device.getBondState() == BluetoothDevice.BOND_BONDED)
@@ -496,7 +511,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 				}
 			catch (IOException e)
 				{
-				// Fermeture du socket si on à pas pu
+				// Fermeture du socket si on ï¿½ pas pu
 				try
 					{
 					mmSocket.close();
@@ -511,13 +526,13 @@ public class SerialComBluetooth extends BroadcastReceiver
 			
 			while(mmSocket.getRemoteDevice().getBondState() == BluetoothDevice.BOND_BONDING);
 			
-			// On termine le thread étant donné que nous sommes connectés
+			// On termine le thread ï¿½tant donnï¿½ que nous sommes connectï¿½s
 			synchronized (SerialComBluetooth.this)
 				{
 				connectThread = null;
 				}
 			
-			// On démmare le thread qui va gérer notre connexion
+			// On dï¿½mmare le thread qui va gï¿½rer notre connexion
 			connected(mmSocket, mmDevice, mSocketType);
 			}
 		
@@ -536,7 +551,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 		}
 	
 	/**
-	 * Ce thread gère toute la connexion avec le bluetooth
+	 * Ce thread gï¿½re toute la connexion avec le bluetooth
 	 */
 	private class ConnectedThread extends Thread
 		{
@@ -552,7 +567,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 			InputStream tmpIn = null;
 			OutputStream tmpOut = null;
 			
-			// On récupère les flux d'entrées et de sortie
+			// On rï¿½cupï¿½re les flux d'entrï¿½es et de sortie
 			try
 				{
 				tmpIn = socket.getInputStream();
@@ -573,16 +588,16 @@ public class SerialComBluetooth extends BroadcastReceiver
 			byte[] buffer = new byte[1024];
 			int bytes;
 			
-			// On écoute se qui se passe sur le flux d'entrée tant que nous
-			// sommes connectés
+			// On ï¿½coute se qui se passe sur le flux d'entrï¿½e tant que nous
+			// sommes connectï¿½s
 			while(true)
 				{
 				try
 					{
-					// Lecture du flux d'entrée
+					// Lecture du flux d'entrï¿½e
 					bytes = mmInStream.read(buffer);
 					
-					// Envois des bytes récupérés
+					// Envois des bytes rï¿½cupï¿½rï¿½s
 					mHandler.obtainMessage(BluetoothConnexion.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 					}
 				catch (IOException e)
