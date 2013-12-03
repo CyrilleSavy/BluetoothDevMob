@@ -13,7 +13,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File001]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\BT.o
 Folder=Intermediary
@@ -26,7 +26,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File002]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\btL2CAP.o
 Folder=Intermediary
@@ -39,7 +39,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File003]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\btRFCOMM.o
 Folder=Intermediary
@@ -52,7 +52,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File004]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\btSDP.o
 Folder=Intermediary
@@ -65,7 +65,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File005]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\sgBuf.o
 Folder=Intermediary
@@ -78,7 +78,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File006]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\debug.o
 Folder=Intermediary
@@ -91,7 +91,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File007]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\main.o
 Folder=Intermediary
@@ -104,7 +104,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File008]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\usb_config.o
 Folder=Intermediary
@@ -117,7 +117,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File009]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\TimeDelay.o
 Folder=Intermediary
@@ -130,7 +130,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File010]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\uart2.o
 Folder=Intermediary
@@ -143,7 +143,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File011]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\usb_host.o
 Folder=Intermediary
@@ -156,7 +156,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File012]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\usb_host_bluetooth.o
 Folder=Intermediary
@@ -169,7 +169,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=-g -Wall
 TraceCmdString=
-DebugOptions=
+DebugOptions=-D__DEBUG -D__MPLAB_DEBUGGER_PK3=1
 [File013]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\BluetoothPIC.cof
 Folder=Output
@@ -182,7 +182,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=--heap=3000 -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1 --defsym=__ICD2RAM=1
 [File014]
 Location=D:\Module_DevMobile\Repo_Projet\BluetoothDevMob\BluetoothPIC.X\BluetoothPIC.hex
 Folder=Output
@@ -195,7 +195,7 @@ SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|B
 SuiteArgsString=
 ToolArgsString=--heap=3000 -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
-DebugOptions=
+DebugOptions=--defsym=__MPLAB_DEBUG=1 --defsym=__MPLAB_DEBUGGER_PK3=1 --defsym=__ICD2RAM=1
 [TOOL_LOC_STAMPS]
 tool_loc{B1442D91-FF1F-4E60-9714-C39C1BA9DB62}=C:\Program Files\Microchip\xc16\v1.20\bin\xc16-gcc.exe
 tool_loc{6836D8CA-42BB-48FB-9E77-3F0AA8005073}=C:\Program Files\Microchip\xc16\v1.20\bin\xc16-ld.exe

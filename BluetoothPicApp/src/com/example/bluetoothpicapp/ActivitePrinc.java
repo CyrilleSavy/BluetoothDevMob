@@ -52,10 +52,13 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	public static final int MESSAGE_DEVICE_DISCOVERED = 0;
 	public static final int MESSAGE_STATE_CHANGE = 1;
 	public static final int MESSAGE_DISC_FINISHED = 2;
+	public static final int MESSAGE_SW_RECEIVED = 3;
+	public static final int MESSAGE_POT_VAL = 4;
 	
 	//On doit avoir un attribut pour passer les donnees au fragment
 	private static ConnectionBluetoothFragment mConnFrag;
 	private static LedsFragment mLedsFrag;
+	private static PotBoutonsFragment mBoutonsFragment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -234,6 +237,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 					break;
 				case 2:
 					fragment = new PotBoutonsFragment();
+					mBoutonsFragment = (PotBoutonsFragment)fragment;
 					args.putInt(PotBoutonsFragment.ARG_SECTION_NUMBER, position + 1);
 					break;
 				case 3:
@@ -310,6 +314,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 						if (mConnFrag != null)
 							{
 							mConnFrag.endOfDiscover();
+							}
+						break;
+					
+					case MESSAGE_SW_RECEIVED:
+						if (mBoutonsFragment != null)
+							{
+							mBoutonsFragment.setBoutonsValues(mBluetoothConnexion.getSwTab());
+							}
+						break;
+					
+					case MESSAGE_POT_VAL:
+						if (mBoutonsFragment != null)
+							{
+							mBoutonsFragment.setPotLevelValue(mBluetoothConnexion.getPotVal());
 							}
 						break;
 					

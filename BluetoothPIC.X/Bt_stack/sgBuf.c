@@ -45,7 +45,10 @@ void sg_free(sg_buf* buf){
 
     while(n){
 
-        if(n->info & INFO_MASK_NEEDS_FREE) free(n->data);
+        if(n->info & INFO_MASK_NEEDS_FREE)
+		{
+ 			free(n->data);
+		}
 
         t = n->next;
         free(n);

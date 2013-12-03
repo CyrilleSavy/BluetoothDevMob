@@ -30,12 +30,16 @@ public class BluetoothConnexion
 	private SerialComBluetooth mSerialComm;
 	private LinkedHashSet<BluetoothDevice> mDiscoveredDevice;
 	
+	private boolean[] mSwTab;
+	private int mPotVal;
 	private static Handler mHandlerMain = null;
 	
 	public BluetoothConnexion(Context context, Handler handler)
 		{
 		this.mSerialComm = new SerialComBluetooth(context, this.mHandler);
 		mHandlerMain = handler;
+		this.mSwTab = new boolean[4];
+		mPotVal = 0;
 		startBt();
 		}
 	
@@ -88,21 +92,19 @@ public class BluetoothConnexion
 		this.writeSerial(msg.getBytes());
 		}
 	
-	public void startReadSw()
-		{
-		String msg = "$2\r\n";
-		this.writeSerial(msg.getBytes());
-		}
-	
-	public void startReadPot()
-		{
-		String msg = "$3\r\n";
-		this.writeSerial(msg.getBytes());
-		}
-	
 	private void writeSerial(byte[] aBuf)
 		{
 		this.mSerialComm.write(aBuf);
+		}
+	
+	public boolean[] getSwTab()
+		{
+		return this.mSwTab;
+		}
+	
+	public int getPotVal()
+		{
+		return mPotVal;
 		}
 	
 	//Recupération des événements envoyé par le Bluetooth
@@ -140,8 +142,59 @@ public class BluetoothConnexion
 						break;
 					case MESSAGE_READ:
 						byte[] readBuf = (byte[])msg.obj;
+						String[] strTabVal;
 						// construct a string from the valid bytes in the buffer
-						String readMessage = new String(readBuf, 0, msg.arg1);
+						String readMessage = new String(readBuf, 3, (msg.arg1 - 2)); // $0_ | string | \r\n
+						
+						//Get the command
+						switch(readBuf[1])
+							{
+							// We get Leds
+							case '1':
+								
+								break;
+							//We get Switchs
+							case '2':
+								strTabVal = readMessage.split("_");
+								// 4 Switchs states
+								for(int i = 0; i < 4; i++)
+									{
+									Integer integ = Integer.valueOf(strTabVal[i]);
+									if (integ.intValue() == 1)
+										{
+										mSwTab[i] = true;
+										}
+									else
+										{
+										mSwTab[i] = false;
+										}
+									}
+								
+								//Misc reply
+								String miscReply = "0";
+								mSerialComm.write(miscReply.getBytes());
+								
+								msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_SW_RECEIVED);
+								mHandlerMain.sendMessage(msgSend);
+								break;
+							//We get Pot
+							case '3':
+								strTabVal = readMessage.split("_");
+								// 1 Switchs states
+								Integer integ = Integer.valueOf(strTabVal[0]);
+								mPotVal = integ.intValue();
+								
+								//Misc reply
+								String miscReply2 = "0";
+								mSerialComm.write(miscReply2.getBytes());
+								
+								msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_POT_VAL);
+								mHandlerMain.sendMessage(msgSend);
+								break;
+							default:
+								;
+							}
+						
 						break;
 					case MESSAGE_WRITE:
 						break;
