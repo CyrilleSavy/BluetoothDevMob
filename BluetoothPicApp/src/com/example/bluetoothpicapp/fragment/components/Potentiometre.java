@@ -23,8 +23,8 @@ public class Potentiometre extends View
 	//infos pour la rotation :
 	private static final int middleOfHeight = 136;
 	private static final int middleOfWidth = 127;
-	private static final int offsetAngle = 136;//mesuré sur l'image
-	private static final int excursionAngle = 271;//mesuré sur l'image
+	private static final int offsetAngle = 136;//mesure sur l'image
+	private static final int excursionAngle = 271;//mesure sur l'image
 	private Bitmap imageRotation;
 	
 	public Potentiometre(Context context, AttributeSet attrs, int defStyle)

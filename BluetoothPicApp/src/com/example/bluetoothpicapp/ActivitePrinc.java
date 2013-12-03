@@ -51,8 +51,9 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	
 	public static final int MESSAGE_DEVICE_DISCOVERED = 0;
 	public static final int MESSAGE_STATE_CHANGE = 1;
+	public static final int MESSAGE_DISC_FINISHED = 2;
 	
-	//On doit avoir un attribut pour passer les données au fragment
+	//On doit avoir un attribut pour passer les donnees au fragment
 	private static ConnectionBluetoothFragment mConnFrag;
 	private static LedsFragment mLedsFrag;
 	
@@ -271,7 +272,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			}
 		}
 	
-	//Recupération des événements envoyé par le Bluetooth
+	//Recuperation des evenements envoye par le Bluetooth
 	private final Handler mHandler = new Handler()
 		{
 			
@@ -297,13 +298,21 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 								break;
 							}
 						break;
-					//On a découvert un device
+					//On a decouvert un device
 					case MESSAGE_DEVICE_DISCOVERED:
 						//Il faut avertir le fragment
 						if (mConnFrag != null)
 							{
 							mConnFrag.setBtDeviceDetected();
 							}
+						break;
+					case MESSAGE_DISC_FINISHED:
+						if (mConnFrag != null)
+							{
+							mConnFrag.endOfDiscover();
+							}
+						break;
+					
 					default:
 						;
 					}

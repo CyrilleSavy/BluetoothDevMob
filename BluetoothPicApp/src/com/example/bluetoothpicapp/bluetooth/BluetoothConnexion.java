@@ -24,6 +24,7 @@ public class BluetoothConnexion
 	public static final int MESSAGE_WRITE = 3;
 	public static final int MESSAGE_DEVICE_NAME = 4;
 	public static final int MESSAGE_TOAST = 5;
+	public static final int MESSAGE_DISCOVERY_FINISHED = 6;
 	
 	//Classe bt
 	private SerialComBluetooth mSerialComm;
@@ -56,7 +57,14 @@ public class BluetoothConnexion
 	 */
 	public void startDiscovery()
 		{
-		this.mSerialComm.discoverDevices();
+		if (this.mSerialComm.isAdapterEnabled())
+			{
+			this.mSerialComm.discoverDevices();
+			}
+		else
+			{
+			this.mSerialComm.setAdapterEnable();
+			}
 		}
 	
 	public void connect(BluetoothDevice device)
@@ -101,6 +109,8 @@ public class BluetoothConnexion
 	private final Handler mHandler = new Handler()
 		{
 			
+			Message msgSend;
+			
 			@Override
 			public void handleMessage(Message msg)
 				{
@@ -139,10 +149,14 @@ public class BluetoothConnexion
 					case MESSAGE_DEVICE_NAME:
 						// On récupère la liste 
 						mDiscoveredDevice = mSerialComm.getDiscoveredDevices();
-						Message msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_DEVICE_DISCOVERED);
+						msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_DEVICE_DISCOVERED);
 						mHandlerMain.sendMessage(msgSend);
 						break;
 					case MESSAGE_TOAST:
+						break;
+					case MESSAGE_DISCOVERY_FINISHED:
+						msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_DISC_FINISHED);
+						mHandlerMain.sendMessage(msgSend);
 						break;
 					default:
 						;
