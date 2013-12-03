@@ -1,22 +1,14 @@
 
 package com.example.bluetoothpicapp.bluetooth;
 
-import java.io.Serializable;
 import java.util.List;
 
-import com.example.bluetoothpicapp.ActivitePrinc;
-
-import android.app.IntentService;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.widget.Toast;
+
+import com.example.bluetoothpicapp.ActivitePrinc;
 
 /**
  * Met a disposition des méthodes statiques pour accéder au bluetooth
@@ -42,7 +34,7 @@ public class BluetoothConnexion
 	public BluetoothConnexion(Context context, Handler handler)
 		{
 		this.mSerialComm = new SerialComBluetooth(context, this.mHandler);
-		this.mHandlerMain = handler;
+		mHandlerMain = handler;
 		startBt();
 		}
 	

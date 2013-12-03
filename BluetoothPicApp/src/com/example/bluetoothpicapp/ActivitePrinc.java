@@ -170,7 +170,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		switch(tab.getPosition())
 			{
 			case 3:
-				LcdFragment.setLcdTextAllowFocus(false);
+				LcdFragment.setLcdTextAllowFocus(true);
 				break;
 			default:
 				break;
@@ -183,6 +183,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		switch(tab.getPosition())
 			{
 			case 3:
+				LcdFragment.setLcdTextAllowFocus(false);
 				break;
 			default:
 				break;

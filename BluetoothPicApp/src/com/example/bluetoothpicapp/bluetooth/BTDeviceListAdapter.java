@@ -3,22 +3,16 @@ package com.example.bluetoothpicapp.bluetooth;
 
 import java.util.List;
 
-import com.example.bluetoothpicapp.R;
-
-import android.content.Context;
 import android.bluetooth.BluetoothDevice;
-import android.content.res.ColorStateList;
-import android.database.DataSetObserver;
-import android.graphics.Color;
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.example.bluetoothpicapp.R;
 
 public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 	{
@@ -57,6 +51,11 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 	public void setList(List<BluetoothDevice> mBtDeviceList)
 		{
 		this.mBtDeviceList = mBtDeviceList;
+		}
+	
+	public void clearList()
+		{
+		this.mBtDeviceList.clear();
 		}
 	
 	@Override

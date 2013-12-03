@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import com.example.bluetoothpicapp.ActivitePrinc;
 import com.example.bluetoothpicapp.R;
 import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
 import com.example.bluetoothpicapp.fragment.components.Led;
@@ -108,7 +107,7 @@ public class LedsFragment extends Fragment
 				{
 				LedsFragment.ledsState[LedNumber] = false;
 				//Source de bug
-				if(mBluetoothConnexion != null)
+				if (mBluetoothConnexion != null)
 					{
 					mBluetoothConnexion.writeLed((char)LedNumber, (char)0);
 					}
@@ -117,7 +116,7 @@ public class LedsFragment extends Fragment
 				{
 				LedsFragment.ledsState[LedNumber] = true;
 				//Source de bug
-				if(mBluetoothConnexion != null)
+				if (mBluetoothConnexion != null)
 					{
 					mBluetoothConnexion.writeLed((char)LedNumber, (char)1);
 					}

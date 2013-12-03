@@ -8,5 +8,6 @@
     <string name="title_section2">Potentiomètre et Boutons</string>
     <string name="title_section3">Écran LCD</string>
     <string name="empty_text"></string>
+    <string name="btn_scan_text">Recherche</string>
 
 </resources>

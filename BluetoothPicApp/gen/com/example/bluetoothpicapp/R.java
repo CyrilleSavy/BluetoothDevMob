@@ -74,6 +74,7 @@ public final class R {
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
+        public static final int btn_scan_text=0x7f050007;
         public static final int empty_text=0x7f050006;
         public static final int title_section0=0x7f050002;
         public static final int title_section1=0x7f050003;
