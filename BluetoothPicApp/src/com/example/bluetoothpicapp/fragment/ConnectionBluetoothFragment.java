@@ -4,7 +4,6 @@ package com.example.bluetoothpicapp.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

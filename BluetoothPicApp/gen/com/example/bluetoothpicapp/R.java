@@ -36,7 +36,7 @@ public final class R {
         public static final int switch_on_res=0x7f02000c;
     }
     public static final class id {
-        public static final int action_settings=0x7f080016;
+        public static final int action_settings=0x7f080018;
         public static final int bouton1=0x7f080011;
         public static final int bouton2=0x7f080012;
         public static final int bouton3=0x7f080013;
@@ -57,8 +57,10 @@ public final class R {
         public static final int listViewDevices=0x7f080004;
         public static final int pager=0x7f080000;
         public static final int potentiometre1=0x7f080015;
+        public static final int progBarScanDiag=0x7f080016;
         public static final int scrollView1=0x7f080010;
         public static final int scrollViewLeds=0x7f080007;
+        public static final int textViewScanDiag=0x7f080017;
     }
     public static final class layout {
         public static final int activity_activite_princ=0x7f030000;
@@ -67,6 +69,7 @@ public final class R {
         public static final int lcd_layout=0x7f030003;
         public static final int leds_layout=0x7f030004;
         public static final int pots_boutons_layout=0x7f030005;
+        public static final int scan_prog_diag=0x7f030006;
     }
     public static final class menu {
         public static final int activite_princ=0x7f070000;
