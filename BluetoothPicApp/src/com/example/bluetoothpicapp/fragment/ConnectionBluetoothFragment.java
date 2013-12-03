@@ -1,8 +1,8 @@
 
 package com.example.bluetoothpicapp.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
@@ -34,7 +34,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	 */
 	public static final String ARG_SECTION_NUMBER = "section_Bluetooth";
 	
-	private List<BluetoothDevice> mDiscoveredDevice;
+	private LinkedHashSet<BluetoothDevice> mDiscoveredDevice;
 	private static BluetoothConnexion mBluetoothConnexion = null;
 	
 	private Button btScan;
@@ -49,7 +49,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 		{
 		//this.mBluetoothConnexion = null;
 		this.btScan = null;
-		this.mDiscoveredDevice = new ArrayList<BluetoothDevice>();
+		this.mDiscoveredDevice = new LinkedHashSet<BluetoothDevice>();
 		}
 	
 	public void setBluetoothConn(BluetoothConnexion mBluetoothConnexionSrc)
@@ -112,7 +112,14 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
 		{
-		mBluetoothConnexion.connect(this.mDiscoveredDevice.get(position));
+		Iterator<BluetoothDevice> i = this.mDiscoveredDevice.iterator(); // on crée un Iterator pour parcourir notre HashSet
+		for(int j = 0; (j < position) && (i.hasNext()); j++)
+			{
+			i.next();
+			}
+		//this.mDiscoveredDevice.iterator().hasNext();
+		//BluetoothDevice[] temp = (BluetoothDevice[])this.mDiscoveredDevice.toArray();
+		mBluetoothConnexion.connect(i.next());
 		}
 	
 	private void showScanDialog()

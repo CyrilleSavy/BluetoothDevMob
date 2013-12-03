@@ -12,7 +12,7 @@
         android:layout_margin="5dp"
         android:gravity="center_vertical|center_horizontal"
         android:text="@string/btn_scan_text"
-        android:textSize="28sp" />
+        android:textSize="32sp" />
 
     <ListView
         android:id="@+id/listViewDevices"
