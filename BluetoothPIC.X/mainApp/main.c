@@ -343,8 +343,8 @@ static void btAdkPortOpen(void* port, uint8_t dlci){
 	dlciTab[numPairedDevices-1] = dlci ;
 
 	//Send all value
-	sendSwitchs();
-	sendPot();
+//	sendSwitchs();
+//	sendPot();
 }
 
 /**
@@ -355,6 +355,7 @@ static void btAdkPortOpen(void* port, uint8_t dlci){
 static void btAdkPortClose(void* port, uint8_t dlci){
     //nothing here [yet?]
     SIOPrintString("RFCOMM Port Closed");
+	numPairedDevices--;
 }
 
 /**
@@ -591,6 +592,6 @@ void sendPot()
 
 	for(i=0;i<numPairedDevices;i++)
 		{
-          btRfcommPortTx(portTab[i], dlciTab[i], reply, 13);
+          btRfcommPortTx(portTab[i], dlciTab[i], reply, 9);
 		}		
 }

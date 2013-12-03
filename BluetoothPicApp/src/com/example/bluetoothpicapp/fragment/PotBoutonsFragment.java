@@ -82,9 +82,20 @@ public class PotBoutonsFragment extends Fragment
 		return potLevel;
 		}
 	
+	/**
+	 * Called when PIC sends the pot value
+	 * @param theValue
+	 */
+	public static void setPotLevelValue(int theValue)
+		{
+		float aVal = (float)((float)theValue/100.0);
+		potLevel = aVal;
+		potView.setPotLevel(potLevel);
+		}
+	
 	public static void setPotValue(float theValue)
 		{
-		potLevel = theValue;		
+		potLevel = theValue;
 		return;
 		}
 	
