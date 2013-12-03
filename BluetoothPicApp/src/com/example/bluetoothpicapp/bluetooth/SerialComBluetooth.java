@@ -438,17 +438,15 @@ public class SerialComBluetooth extends BroadcastReceiver
 			// On les ajoute � la liste
 			SerialComBluetooth.this.addBTDevice(device);
 			
-			//On averti que l'on a trouv� un periph.
+			//On averti que l'on a trouve un periph.
 			Message msg = mHandler.obtainMessage(BluetoothConnexion.MESSAGE_DEVICE_NAME);
-			//			Bundle bundle = new Bundle();
-			//			bundle.putString(BluetoothConnexion.DEVICE_NAME, device.getName());
-			//			msg.setData(bundle);
 			mHandler.sendMessage(msg);
 			}
-		// Quand le scan est termin�
+		// Quand le scan est termine
 		else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action))
 			{
-			
+			Message msg = mHandler.obtainMessage(BluetoothConnexion.MESSAGE_DISCOVERY_FINISHED);
+			mHandler.sendMessage(msg);
 			}
 		
 		}

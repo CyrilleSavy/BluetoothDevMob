@@ -51,6 +51,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	
 	public static final int MESSAGE_DEVICE_DISCOVERED = 0;
 	public static final int MESSAGE_STATE_CHANGE = 1;
+	public static final int MESSAGE_DISC_FINISHED = 2;
 	
 	//On doit avoir un attribut pour passer les donnees au fragment
 	private static ConnectionBluetoothFragment mConnFrag;
@@ -280,6 +281,14 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 							{
 							mConnFrag.setBtDeviceDetected();
 							}
+						break;
+					case MESSAGE_DISC_FINISHED:
+						if (mConnFrag != null)
+							{
+							mConnFrag.endOfDiscover();
+							}
+						break;
+					
 					default:
 						;
 					}

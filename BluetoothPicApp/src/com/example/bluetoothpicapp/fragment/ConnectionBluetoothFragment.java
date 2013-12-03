@@ -4,9 +4,11 @@ package com.example.bluetoothpicapp.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.bluetoothpicapp.R;
 import com.example.bluetoothpicapp.bluetooth.BTDeviceListAdapter;
+import com.example.bluetoothpicapp.bluetooth.BTSearchDiag;
 import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
 
 /**
@@ -41,6 +44,9 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	private ListView btDeviceLstView;
 	
 	private BTDeviceListAdapter mBTDeviceListAdapter;
+	
+	//Scanning  progress dialog
+	private BTSearchDiag mBtSearchDiag;
 	
 	public ConnectionBluetoothFragment()
 		{
@@ -84,6 +90,14 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 		this.mBTDeviceListAdapter.notifyDataSetChanged();
 		}
 	
+	public void endOfDiscover()
+		{
+		if (this.mBtSearchDiag != null)
+			{
+			this.mBtSearchDiag.dismiss();
+			}
+		}
+	
 	//Si l'on a clické sur le bouton on lance le scan
 	@Override
 	public void onClick(View v)
@@ -91,6 +105,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 		//On démmare le scan
 		if (mBluetoothConnexion != null) //Evite une source de bugs
 			{
+			showScanDialog();
 			mBluetoothConnexion.startDiscovery();
 			}
 		}
@@ -100,5 +115,12 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
 		{
 		this.mBluetoothConnexion.connect(this.mDiscoveredDevice.get(position));
+		}
+	
+	private void showScanDialog()
+		{
+		FragmentManager fm = getFragmentManager();
+		this.mBtSearchDiag = new BTSearchDiag();
+		this.mBtSearchDiag.show(fm, "fragment_edit_name");
 		}
 	}
