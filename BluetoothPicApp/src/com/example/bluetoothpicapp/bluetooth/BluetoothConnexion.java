@@ -96,18 +96,6 @@ public class BluetoothConnexion
 		this.writeSerial(msg.getBytes());
 		}
 	
-	public void startReadSw()
-		{
-		String msg = "$2\r\n";
-		this.writeSerial(msg.getBytes());
-		}
-	
-	public void startReadPot()
-		{
-		String msg = "$3\r\n";
-		this.writeSerial(msg.getBytes());
-		}
-	
 	private void writeSerial(byte[] aBuf)
 		{
 		this.mSerialComm.write(aBuf);
@@ -148,8 +136,28 @@ public class BluetoothConnexion
 						break;
 					case MESSAGE_READ:
 						byte[] readBuf = (byte[])msg.obj;
+						String[] strTabVal;
 						// construct a string from the valid bytes in the buffer
-						String readMessage = new String(readBuf, 0, msg.arg1);
+						String readMessage = new String(readBuf, 3, msg.arg1 - 2); // $0_ | string | \r\n
+						
+						//Get the command
+						switch(readBuf[1])
+							{
+							// We get Leds
+							case '1':
+								
+								break;
+							//We get Switchs
+							case '2':
+								strTabVal = readMessage.split("_");
+								break;
+							//We get Pot
+							case '3':
+								break;
+							default:
+								;
+							}
+						
 						break;
 					case MESSAGE_WRITE:
 						break;

@@ -61,8 +61,10 @@ typedef struct AdkSettings{
 typedef struct
 {
     BOOL gSwTab[SW_NUM];
+	BOOL gSwTabOld[SW_NUM];
     BOOL gLedTab[LED_NUM];
     uint16_t gTrimmVal ;
+	uint16_t gTrimmValOld ;
     char *gLCDStr;
 }BluetoothAppDeviceCtrl;
 
@@ -78,6 +80,11 @@ const char* btPIN = 0;
 volatile static uint32_t btSSP = ADK_BT_SSP_DONE_VAL;
 //Bluetoth device
 extern BtDevice gBtDevice;
+
+
+
+void sendSwitchs();
+void sendPot();
 
 
 // Apply defaults settings
@@ -184,13 +191,15 @@ int main ( void )
     hardDevices.gLCDStr = NULL;
     for(i=0;i<LED_NUM;i++)
     {
-        hardDevices.gLedTab[i]==FALSE;
+        hardDevices.gLedTab[i]=FALSE;
     }
     for(i=0;i<SW_NUM;i++)
     {
-        hardDevices.gSwTab[i]==FALSE;
+        hardDevices.gSwTab[i]=hardDevices.gSwTabOld[i]=FALSE;
     }
     hardDevices.gTrimmVal = 0 ;
+    hardDevices.gTrimmValOld = 0 ;
+
 
     
     //Start bluetooth
@@ -220,6 +229,18 @@ int main ( void )
         hardDevices.gSwTab[1]=Switch2Pressed();
         hardDevices.gSwTab[2]=Switch3Pressed();
         hardDevices.gSwTab[3]=Switch4Pressed();
+
+		//Send if only value change
+		if((hardDevices.gSwTabOld[0] != hardDevices.gSwTab[0] ) || (hardDevices.gSwTabOld[1] != hardDevices.gSwTab[1] )||(hardDevices.gSwTabOld[2] != hardDevices.gSwTab[2] )||(hardDevices.gSwTabOld[3] != hardDevices.gSwTab[3] ) )
+		{
+				//Send the new switchs values to all paired device
+				sendSwitchs();
+		}
+
+		hardDevices.gSwTabOld[0]=hardDevices.gSwTab[0];
+        hardDevices.gSwTabOld[1]=hardDevices.gSwTab[1];
+        hardDevices.gSwTabOld[2]=hardDevices.gSwTab[2];
+        hardDevices.gSwTabOld[3]=hardDevices.gSwTab[3];
 
         i=0;
         //Write the LEDS
@@ -258,6 +279,14 @@ int main ( void )
         //Read pot
         hardDevices.gTrimmVal = ReadPOT();
 
+		if(hardDevices.gTrimmVal != hardDevices.gTrimmValOld)
+		{	
+			sendPot();
+		}
+
+  		hardDevices.gTrimmValOld = hardDevices.gTrimmVal;
+
+
         //Later write the LCD
        
 
@@ -288,6 +317,20 @@ int main ( void )
 static uint8_t cmdBuf[MAX_PACKET_SZ];
 static uint32_t bufPos = 0;
 
+/**
+ *
+ * BLUETOOTH SUPPORT FUNCTIONS
+ *
+ */
+
+static const uint8_t maxPairedDevices = 4;
+static uint8_t numPairedDevices = 0;
+static uint8_t savedMac[4][BLUETOOTH_MAC_SIZE];
+static uint8_t savedKey[4][BLUETOOTH_LINK_KEY_SIZE];
+
+static void *portTab[4] ;
+static uint8_t dlciTab[4];
+
 
 /**
  * Open RFCOMM Channel
@@ -295,8 +338,13 @@ static uint32_t bufPos = 0;
  * @param dlci
  */
 static void btAdkPortOpen(void* port, uint8_t dlci){
-    bufPos = 0;
-    SIOPrintString("RFCOMM Port Opened");
+	//Saving the port and DLCI
+	portTab[numPairedDevices-1] = port ;
+	dlciTab[numPairedDevices-1] = dlci ;
+
+	//Send all value
+	sendSwitchs();
+	sendPot();
 }
 
 /**
@@ -369,16 +417,6 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
 }
 
 
-/**
- *
- * BLUETOOTH SUPPORT FUNCTIONS
- *
- */
-
-static const uint8_t maxPairedDevices = 4;
-static uint8_t numPairedDevices = 0;
-static uint8_t savedMac[4][BLUETOOTH_MAC_SIZE];
-static uint8_t savedKey[4][BLUETOOTH_LINK_KEY_SIZE];
 
 static char adkBtConnectionRequest(const uint8_t* mac, uint32_t devClass, uint8_t linkType){	//return 1 to accept
     SIOPrintString("BT : Connexion request\r\n");
@@ -514,4 +552,45 @@ void btStart(){
         btRfcommRegisterPort(dlci, btAdkPortOpen, btAdkPortClose, btAdkPortRx);
         btSdpServiceDescriptorAdd(sdpDescrSPP, sizeof(sdpDescrSPP));
     }
+}
+
+
+void sendSwitchs()
+{
+	int i = 0 ;
+	uint8_t aTemp[5] ;
+ 	uint8_t reply[MAX_PACKET_SZ];
+
+	//Create data buffer
+	sprintf(reply,"$2_");
+    for(i=0;i<SW_NUM;i++)
+       {
+          sprintf(aTemp,"%1d_",hardDevices.gSwTab[i]);
+          strcat(reply,aTemp);
+       }
+    strcat(reply,"\r\n");
+
+	for(i=0;i<numPairedDevices;i++)
+		{
+          btRfcommPortTx(portTab[i], dlciTab[i], reply, 13);
+		}				
+}
+
+
+void sendPot()
+{
+	int i = 0 ;
+	uint8_t aTemp[5] ;
+ 	uint8_t reply[MAX_PACKET_SZ];
+
+	//Create data buffer
+	sprintf(reply,"$3_");
+    sprintf(aTemp,"%03d_",hardDevices.gTrimmVal);
+    strcat(reply,aTemp);
+    strcat(reply,"\r\n");
+
+	for(i=0;i<numPairedDevices;i++)
+		{
+          btRfcommPortTx(portTab[i], dlciTab[i], reply, 13);
+		}		
 }
