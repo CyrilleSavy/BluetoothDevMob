@@ -155,16 +155,40 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		// When the given tab is selected, switch to the corresponding page in
 		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
+		switch(tab.getPosition())
+			{
+			case 3:
+				LcdFragment.setLcdTextAllowFocus(true);
+				break;
+			default:
+				break;
+			}
 		}
 	
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft)
 		{
+		switch(tab.getPosition())
+			{
+			case 3:
+				LcdFragment.setLcdTextAllowFocus(true);
+				break;
+			default:
+				break;
+			}
 		}
 	
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft)
 		{
+		switch(tab.getPosition())
+			{
+			case 3:
+				LcdFragment.setLcdTextAllowFocus(false);
+				break;
+			default:
+				break;
+			}
 		}
 	
 	/**

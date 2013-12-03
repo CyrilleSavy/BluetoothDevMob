@@ -70,4 +70,12 @@ public class LcdFragment extends Fragment
 		
 		return;
 		}
+	
+	public static void setLcdTextAllowFocus(boolean isAllowed)
+		{
+		lcdFirstLineView.setActivated(isAllowed);
+		lcdSecondLineView.setActivated(isAllowed);
+		
+		return;
+		}
 	}

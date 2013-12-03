@@ -4,7 +4,6 @@ package com.example.bluetoothpicapp.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.bluetoothpicapp.R;
 import com.example.bluetoothpicapp.bluetooth.BTDeviceListAdapter;
@@ -85,7 +82,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 		{
 		//On récupère la liste
 		this.mDiscoveredDevice = mBluetoothConnexion.getDiscoveredDevices();
-		btDeviceLstView.setAdapter(mBTDeviceListAdapter);
+		//btDeviceLstView.setAdapter(mBTDeviceListAdapter);
 		this.mBTDeviceListAdapter.setList(this.mDiscoveredDevice);
 		this.mBTDeviceListAdapter.notifyDataSetChanged();
 		}
@@ -102,6 +99,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	@Override
 	public void onClick(View v)
 		{
+		this.mBTDeviceListAdapter.clearList();
 		//On démmare le scan
 		if (mBluetoothConnexion != null) //Evite une source de bugs
 			{
@@ -114,7 +112,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
 		{
-		this.mBluetoothConnexion.connect(this.mDiscoveredDevice.get(position));
+		mBluetoothConnexion.connect(this.mDiscoveredDevice.get(position));
 		}
 	
 	private void showScanDialog()

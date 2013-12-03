@@ -43,6 +43,8 @@ public class Potentiometre extends View
 		{
 		super(context);
 		init();
+		this.setMinimumHeight(sizeHeight);
+		this.setMinimumWidth(sizeWidth);
 		}
 	
 	private void init()
