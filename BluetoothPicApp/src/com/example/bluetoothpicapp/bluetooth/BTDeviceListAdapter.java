@@ -45,7 +45,6 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 			i.next();
 			}
 		return i.next();
-		//return this.mBtDeviceList.get(position);
 		}
 	
 	@Override
@@ -68,7 +67,6 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 		{
-		//LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rootView = mInflater.inflate(R.layout.bt_dev_disc, parent, false);
 		
 		Iterator<BluetoothDevice> i = this.mBtDeviceList.iterator(); // on crée un Iterator pour parcourir notre HashSet
