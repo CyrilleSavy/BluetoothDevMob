@@ -1,7 +1,8 @@
 
 package com.example.bluetoothpicapp.bluetooth;
 
-import java.util.List;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -18,12 +19,12 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 	{
 	
 	// Input
-	private List<BluetoothDevice> mBtDeviceList;
+	private LinkedHashSet<BluetoothDevice> mBtDeviceList;
 	private Context context;
 	
 	private LayoutInflater mInflater;
 	
-	public BTDeviceListAdapter(List<BluetoothDevice> mBtDeviceList, Context context, LayoutInflater inflater)
+	public BTDeviceListAdapter(LinkedHashSet<BluetoothDevice> mBtDeviceList, Context context, LayoutInflater inflater)
 		{
 		this.mBtDeviceList = mBtDeviceList;
 		this.mInflater = inflater;
@@ -38,7 +39,13 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 	@Override
 	public Object getItem(int position)
 		{
-		return this.mBtDeviceList.get(position);
+		Iterator<BluetoothDevice> i = this.mBtDeviceList.iterator(); // on crée un Iterator pour parcourir notre HashSet
+		for(int j = 0; (j < position) && (i.hasNext()); j++)
+			{
+			i.next();
+			}
+		return i.next();
+		//return this.mBtDeviceList.get(position);
 		}
 	
 	@Override
@@ -48,7 +55,7 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 		return 0;
 		}
 	
-	public void setList(List<BluetoothDevice> mBtDeviceList)
+	public void setList(LinkedHashSet<BluetoothDevice> mBtDeviceList)
 		{
 		this.mBtDeviceList = mBtDeviceList;
 		}
@@ -64,8 +71,14 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 		//LayoutInflater mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rootView = mInflater.inflate(R.layout.bt_dev_disc, parent, false);
 		
-		String aDeviceName = this.mBtDeviceList.get(position).getName();
-		String aDeviceMac = this.mBtDeviceList.get(position).getAddress();
+		Iterator<BluetoothDevice> i = this.mBtDeviceList.iterator(); // on crée un Iterator pour parcourir notre HashSet
+		for(int j = 0; (j < position) && (i.hasNext()); j++)
+			{
+			i.next();
+			}
+		BluetoothDevice temp = i.next();
+		String aDeviceName = temp.getName();
+		String aDeviceMac = temp.getAddress();
 		
 		TextView aBtDeviceName = (TextView)rootView.findViewById(R.id.elemListBtDisco_Name);
 		aBtDeviceName.setText(aDeviceName);

@@ -1,7 +1,7 @@
 
 package com.example.bluetoothpicapp.bluetooth;
 
-import java.util.List;
+import java.util.LinkedHashSet;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -28,7 +28,7 @@ public class BluetoothConnexion
 	
 	//Classe bt
 	private SerialComBluetooth mSerialComm;
-	private List<BluetoothDevice> mDiscoveredDevice;
+	private LinkedHashSet<BluetoothDevice> mDiscoveredDevice;
 	
 	private boolean[] mSwTab;
 	private int mPotVal;
@@ -76,7 +76,7 @@ public class BluetoothConnexion
 		this.mSerialComm.connect(device);
 		}
 	
-	public List<BluetoothDevice> getDiscoveredDevices()
+	public LinkedHashSet<BluetoothDevice> getDiscoveredDevices()
 		{
 		return this.mDiscoveredDevice;
 		}

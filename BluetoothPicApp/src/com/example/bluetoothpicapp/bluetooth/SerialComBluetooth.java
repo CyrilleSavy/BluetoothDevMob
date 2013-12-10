@@ -4,8 +4,7 @@ package com.example.bluetoothpicapp.bluetooth;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,7 +29,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 	|*			Attributs					*|
 	\*------------------------------------------------------------------*/
 	private BluetoothAdapter mBluetoothAdapter;
-	private List<BluetoothDevice> mDiscoveredDevice;
+	private LinkedHashSet<BluetoothDevice> mDiscoveredDevice;
 	private ConnectThread connectThread;
 	private ConnectedThread connectedThread;
 	private AcceptThread mSecureAcceptThread;
@@ -78,7 +77,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 		super();
 		this.mHandler = handler;
 		this.mContext = context;
-		this.mDiscoveredDevice = new ArrayList<BluetoothDevice>();
+		this.mDiscoveredDevice = new LinkedHashSet<BluetoothDevice>();
 		
 		// Verification si le bluetooth du smartphone est disponible
 		this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -170,7 +169,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 	 *         On ne peut pas utiliser un Set car "BluetoothDevice" n'impl�mente
 	 *         pas comparable
 	 */
-	public List<BluetoothDevice> getDiscoveredDevices()
+	public LinkedHashSet<BluetoothDevice> getDiscoveredDevices()
 		{
 		return this.mDiscoveredDevice;
 		}

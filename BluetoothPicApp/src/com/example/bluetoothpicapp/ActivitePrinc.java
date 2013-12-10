@@ -305,10 +305,10 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 						switch(msg.arg1)
 							{
 							case SerialComBluetooth.STATE_CONNECTED:
-								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
 								break;
 							case SerialComBluetooth.STATE_CONNECTING:
-								Toast.makeText(getApplicationContext(), "Connecting", Toast.LENGTH_SHORT).show();
+								Toast.makeText(getApplicationContext(), "Connecting", Toast.LENGTH_LONG).show();
 								break;
 							case SerialComBluetooth.STATE_LISTEN:
 								Toast.makeText(getApplicationContext(), "Listen", Toast.LENGTH_SHORT).show();
