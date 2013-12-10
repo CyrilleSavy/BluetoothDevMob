@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -66,6 +67,8 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	private static LedsFragment mLedsFrag;
 	private static PotBoutonsFragment mBoutonsFragment;
 	
+	private Handler mDelayHide;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 		{
@@ -73,17 +76,19 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		//Enclenchement du bluetooth
 		if (firstInit)
 			{
-			//On enlève le titre
-			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			
+			requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 			//Remove notification bar
 			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			}
 		setContentView(R.layout.activity_activite_princ);
 		
 		// Set up the action bar.
-		//final ActionBar actionBar = getActionBar();
-		//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		final ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		
+		//On économise la place
+		actionBar.setDisplayShowTitleEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
 		
 		//Enclenchement du bluetooth
 		if (firstInit)
@@ -103,6 +108,8 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		mViewPager = (ViewPager)findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
+		mDelayHide = new Handler();
+		
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
@@ -113,6 +120,19 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 				public void onPageSelected(int position)
 					{
 					//actionBar.setSelectedNavigationItem(position);
+					actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(position));
+					actionBar.show();
+					//Set delay to hide action bar
+					mDelayHide.postDelayed(new Runnable()
+						{
+							
+							@Override
+							public void run()
+								{
+								// DO DELAYED STUFF
+								actionBar.hide();
+								}
+						}, 2000); // e.g. 3000 milliseconds
 					}
 			});
 		
@@ -126,6 +146,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			//actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 			}
 		
+		//Add first Tab text
+		actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(0));
+		
+		//Set delay to hide action bar
+		mDelayHide.postDelayed(new Runnable()
+			{
+				
+				@Override
+				public void run()
+					{
+					// DO DELAYED STUFF
+					getActionBar().hide();
+					}
+			}, 2000); // e.g. 3000 milliseconds
 		}
 	
 	@Override
