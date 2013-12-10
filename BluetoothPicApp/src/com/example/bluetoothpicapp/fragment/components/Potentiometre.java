@@ -2,14 +2,11 @@
 package com.example.bluetoothpicapp.fragment.components;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.example.bluetoothpicapp.R;
@@ -55,6 +52,7 @@ public class Potentiometre extends View
 	private void init()
 		{
 		imageRotation = BitmapFactory.decodeResource(getResources(), R.drawable.pot_int);
+		imageRotation = Bitmap.createScaledBitmap(imageRotation, sizeWidth, sizeHeight, false);
 		this.potLevel = 0;
 		this.setClickable(false);
 		}

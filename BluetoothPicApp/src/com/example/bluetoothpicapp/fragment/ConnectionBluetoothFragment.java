@@ -47,7 +47,6 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	
 	public ConnectionBluetoothFragment()
 		{
-		//this.mBluetoothConnexion = null;
 		this.btScan = null;
 		this.mDiscoveredDevice = new LinkedHashSet<BluetoothDevice>();
 		}
@@ -82,7 +81,6 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 		{
 		//On récupère la liste
 		this.mDiscoveredDevice = mBluetoothConnexion.getDiscoveredDevices();
-		//btDeviceLstView.setAdapter(mBTDeviceListAdapter);
 		this.mBTDeviceListAdapter.setList(this.mDiscoveredDevice);
 		this.mBTDeviceListAdapter.notifyDataSetChanged();
 		}
@@ -117,8 +115,6 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 			{
 			i.next();
 			}
-		//this.mDiscoveredDevice.iterator().hasNext();
-		//BluetoothDevice[] temp = (BluetoothDevice[])this.mDiscoveredDevice.toArray();
 		mBluetoothConnexion.connect(i.next());
 		}
 	

@@ -320,14 +320,14 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 					case MESSAGE_SW_RECEIVED:
 						if (mBoutonsFragment != null)
 							{
-							mBoutonsFragment.setBoutonsValues(mBluetoothConnexion.getSwTab());
+							PotBoutonsFragment.setBoutonsValues(mBluetoothConnexion.getSwTab());
 							}
 						break;
 					
 					case MESSAGE_POT_VAL:
 						if (mBoutonsFragment != null)
 							{
-							mBoutonsFragment.setPotLevelValue(mBluetoothConnexion.getPotVal());
+							PotBoutonsFragment.setPotLevelValue(mBluetoothConnexion.getPotVal());
 							}
 						break;
 					

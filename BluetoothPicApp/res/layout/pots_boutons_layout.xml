@@ -7,7 +7,8 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="@drawable/circuit" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,6 +18,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
                 <com.example.bluetoothpicapp.fragment.components.Bouton
                     android:id="@+id/bouton1"
@@ -61,12 +67,19 @@
                     android:minHeight="10dip"
                     android:minWidth="10dp"
                     android:text="@string/empty_text" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <com.example.bluetoothpicapp.fragment.components.Potentiometre
                 android:id="@+id/potentiometre1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
         </LinearLayout>
     </ScrollView>
 
