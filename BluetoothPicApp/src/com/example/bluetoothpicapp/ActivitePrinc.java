@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,8 +16,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
@@ -64,11 +70,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	protected void onCreate(Bundle savedInstanceState)
 		{
 		super.onCreate(savedInstanceState);
+		//Enclenchement du bluetooth
+		if (firstInit)
+			{
+			//On enlève le titre
+			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			
+			//Remove notification bar
+			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+			}
 		setContentView(R.layout.activity_activite_princ);
 		
 		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		//final ActionBar actionBar = getActionBar();
+		//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		//Enclenchement du bluetooth
 		if (firstInit)
@@ -97,7 +112,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 				@Override
 				public void onPageSelected(int position)
 					{
-					actionBar.setSelectedNavigationItem(position);
+					//actionBar.setSelectedNavigationItem(position);
 					}
 			});
 		
@@ -108,8 +123,9 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
-			actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
+			//actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 			}
+		
 		}
 	
 	@Override
