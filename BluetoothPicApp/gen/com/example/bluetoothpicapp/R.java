@@ -63,13 +63,14 @@ public final class R {
         public static final int textViewScanDiag=0x7f080017;
     }
     public static final class layout {
-        public static final int activity_activite_princ=0x7f030000;
-        public static final int bt_dev_disc=0x7f030001;
-        public static final int connection_bluetooth_layout=0x7f030002;
-        public static final int lcd_layout=0x7f030003;
-        public static final int leds_layout=0x7f030004;
-        public static final int pots_boutons_layout=0x7f030005;
-        public static final int scan_prog_diag=0x7f030006;
+        public static final int actionbar_tab_indicator=0x7f030000;
+        public static final int activity_activite_princ=0x7f030001;
+        public static final int bt_dev_disc=0x7f030002;
+        public static final int connection_bluetooth_layout=0x7f030003;
+        public static final int lcd_layout=0x7f030004;
+        public static final int leds_layout=0x7f030005;
+        public static final int pots_boutons_layout=0x7f030006;
+        public static final int scan_prog_diag=0x7f030007;
     }
     public static final class menu {
         public static final int activite_princ=0x7f070000;
@@ -85,14 +86,25 @@ public final class R {
         public static final int title_section3=0x7f050005;
     }
     public static final class style {
+        /**  ActionBar styles 
+         */
+        public static final int ActionBarStyle=0x7f060002;
+        /**  ActionBar tabs text styles 
+         */
+        public static final int ActionBarTabText=0x7f060003;
+        /**  ActionBar tabs styles 
+         */
+        public static final int ActionBarTabs=0x7f060004;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
         
 
         Base application theme for API 11+. This theme completely replaces
@@ -108,7 +120,6 @@ public final class R {
          */
         public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
     }

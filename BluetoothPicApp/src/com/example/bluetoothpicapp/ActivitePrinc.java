@@ -20,6 +20,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -73,17 +74,19 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		//Enclenchement du bluetooth
 		if (firstInit)
 			{
-			//On enlève le titre
-			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			
+			requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 			//Remove notification bar
 			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			}
 		setContentView(R.layout.activity_activite_princ);
 		
 		// Set up the action bar.
-		//final ActionBar actionBar = getActionBar();
-		//		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		final ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+		
+		//On économise la place
+		actionBar.setDisplayShowTitleEnabled(true);
+		getActionBar().setDisplayShowHomeEnabled(true);
 		
 		//Enclenchement du bluetooth
 		if (firstInit)
@@ -113,6 +116,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 				public void onPageSelected(int position)
 					{
 					//actionBar.setSelectedNavigationItem(position);
+					actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(position));
 					}
 			});
 		
