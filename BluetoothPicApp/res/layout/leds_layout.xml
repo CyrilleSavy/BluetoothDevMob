@@ -16,6 +16,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="0" />
+
             <com.example.bluetoothpicapp.fragment.components.Led
                 android:id="@+id/led1"
                 android:layout_width="wrap_content"
@@ -104,6 +109,11 @@
                 android:minHeight="10dip"
                 android:minWidth="10dp"
                 android:text="Led" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_weight="0" />
         </LinearLayout>
     </ScrollView>
 
