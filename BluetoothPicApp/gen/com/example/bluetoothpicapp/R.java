@@ -21,20 +21,25 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int circuit=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int led_button_off_res=0x7f020002;
-        public static final int led_button_on_res=0x7f020003;
-        public static final int led_green_hi_48p=0x7f020004;
-        public static final int led_green_lo_48p=0x7f020005;
-        public static final int pot_ext=0x7f020006;
-        public static final int pot_ext_res=0x7f020007;
-        public static final int pot_int=0x7f020008;
-        public static final int pot_int_res=0x7f020009;
-        public static final int switch_hi_64p=0x7f02000a;
-        public static final int switch_lo_64p=0x7f02000b;
-        public static final int switch_off_res=0x7f02000c;
-        public static final int switch_on_res=0x7f02000d;
+        public static final int button=0x7f020000;
+        public static final int button_layout_clk=0x7f020001;
+        public static final int button_layout_def=0x7f020002;
+        public static final int button_layout_foc=0x7f020003;
+        public static final int button_selector=0x7f020004;
+        public static final int circuit=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int led_button_off_res=0x7f020007;
+        public static final int led_button_on_res=0x7f020008;
+        public static final int led_green_hi_48p=0x7f020009;
+        public static final int led_green_lo_48p=0x7f02000a;
+        public static final int pot_ext=0x7f02000b;
+        public static final int pot_ext_res=0x7f02000c;
+        public static final int pot_int=0x7f02000d;
+        public static final int pot_int_res=0x7f02000e;
+        public static final int switch_hi_64p=0x7f02000f;
+        public static final int switch_lo_64p=0x7f020010;
+        public static final int switch_off_res=0x7f020011;
+        public static final int switch_on_res=0x7f020012;
     }
     public static final class id {
         public static final int action_settings=0x7f080018;

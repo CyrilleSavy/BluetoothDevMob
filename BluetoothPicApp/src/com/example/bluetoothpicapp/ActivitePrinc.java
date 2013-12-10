@@ -67,6 +67,8 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	private static LedsFragment mLedsFrag;
 	private static PotBoutonsFragment mBoutonsFragment;
 	
+	private Handler mDelayHide;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 		{
@@ -106,6 +108,8 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		mViewPager = (ViewPager)findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
+		mDelayHide = new Handler();
+		
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
@@ -117,6 +121,18 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 					{
 					//actionBar.setSelectedNavigationItem(position);
 					actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(position));
+					actionBar.show();
+					//Set delay to hide action bar
+					mDelayHide.postDelayed(new Runnable()
+						{
+							
+							@Override
+							public void run()
+								{
+								// DO DELAYED STUFF
+								actionBar.hide();
+								}
+						}, 2000); // e.g. 3000 milliseconds
 					}
 			});
 		
@@ -130,6 +146,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			//actionBar.addTab(actionBar.newTab().setText(mSectionsPagerAdapter.getPageTitle(i)).setTabListener(this));
 			}
 		
+		//Add first Tab text
+		actionBar.setTitle(mSectionsPagerAdapter.getPageTitle(0));
+		
+		//Set delay to hide action bar
+		mDelayHide.postDelayed(new Runnable()
+			{
+				
+				@Override
+				public void run()
+					{
+					// DO DELAYED STUFF
+					getActionBar().hide();
+					}
+			}, 2000); // e.g. 3000 milliseconds
 		}
 	
 	@Override

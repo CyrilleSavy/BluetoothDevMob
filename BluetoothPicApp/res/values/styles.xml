@@ -24,7 +24,7 @@
 
     <!-- ActionBar styles -->
     <style name="ActionBarStyle" parent="@android:style/Widget.ActionBar">
-        <item name="android:background">#991BC8F5</item>
+        <item name="android:background">#F01BC8F5</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
@@ -37,7 +37,7 @@
     <style name="ActionBarTabs" parent="@android:style/Widget.Holo.ActionBar.TabView">
 
         <!-- tab indicator -->
-        <item name="android:background">#991BC8F5</item>
+        <item name="android:background">#F01BC8F5</item>
         <item name="android:padding">0dp</item>
         <item name="android:width">600dp</item>
     </style>
