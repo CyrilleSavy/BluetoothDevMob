@@ -2,29 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/circuit"
     android:orientation="vertical" >
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="32dp" />
 
     <EditText
         android:id="@+id/lcdLine1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/lcd_edittext_back"
         android:ems="10"
-        android:hint="premiere ligne"
+        android:hint="Premiere ligne"
         android:lines="1"
         android:maxLength="16"
+        android:padding="8dp"
         android:selectAllOnFocus="false" >
 
         <requestFocus />
     </EditText>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="4dp" />
+
     <EditText
         android:id="@+id/lcdLine2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/lcd_edittext_back"
         android:ems="10"
-        android:hint="deuxieme ligne"
+        android:hint="Deuxieme ligne"
         android:lines="1"
         android:maxLength="16"
+        android:padding="8dp"
         android:selectAllOnFocus="false" />
 
 </LinearLayout>

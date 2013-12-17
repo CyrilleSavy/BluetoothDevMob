@@ -4,6 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
     <Button
         android:id="@+id/buttonScan"
         android:layout_width="match_parent"
