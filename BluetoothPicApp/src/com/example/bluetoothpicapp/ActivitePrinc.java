@@ -73,10 +73,9 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	protected void onCreate(Bundle savedInstanceState)
 		{
 		super.onCreate(savedInstanceState);
-		//Enclenchement du bluetooth
+		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 		if (firstInit)
 			{
-			requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
 			//Remove notification bar
 			this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 			}
@@ -342,7 +341,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
 								break;
 							case SerialComBluetooth.STATE_CONNECTING:
-								Toast.makeText(getApplicationContext(), "Connecting", Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_LONG).show();
 								break;
 							case SerialComBluetooth.STATE_LISTEN:
 								Toast.makeText(getApplicationContext(), "Listen", Toast.LENGTH_SHORT).show();
