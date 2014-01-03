@@ -61,11 +61,14 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	public static final int MESSAGE_DISC_FINISHED = 2;
 	public static final int MESSAGE_SW_RECEIVED = 3;
 	public static final int MESSAGE_POT_VAL = 4;
+	public static final int MESSAGE_LED_RECEIVED = 5;
+	public static final int MESSAGE_LCD_DISPL = 6;
 	
 	//On doit avoir un attribut pour passer les donnees au fragment
 	private static ConnectionBluetoothFragment mConnFrag;
 	private static LedsFragment mLedsFrag;
 	private static PotBoutonsFragment mBoutonsFragment;
+	private static LcdFragment mLcdFragment;
 	
 	private Handler mDelayHide;
 	
@@ -190,6 +193,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		//On repasse l'objet bluetoothcom
 		mLedsFrag.setBluetoothConn(mBluetoothConnexion);
 		mConnFrag.setBluetoothConn(mBluetoothConnexion);
+		mLcdFragment.setBluetoothConn(mBluetoothConnexion);
 		
 		}
 	
@@ -291,6 +295,8 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 					break;
 				case 3:
 					fragment = new LcdFragment();
+					mLcdFragment = (LcdFragment)fragment;
+					mLcdFragment.setBluetoothConn(mBluetoothConnexion);
 					args.putInt(LcdFragment.ARG_SECTION_NUMBER, position + 1);
 					break;
 				}
@@ -339,15 +345,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 							{
 							case SerialComBluetooth.STATE_CONNECTED:
 								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+								// Send initials values
+								mBluetoothConnexion.writeInit();
+								mConnFrag.setConnected(true);
 								break;
 							case SerialComBluetooth.STATE_CONNECTING:
 								Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_LONG).show();
 								break;
 							case SerialComBluetooth.STATE_LISTEN:
 								Toast.makeText(getApplicationContext(), "Listen", Toast.LENGTH_SHORT).show();
+								mConnFrag.setConnected(false);
 								break;
 							case SerialComBluetooth.STATE_NONE:
 								Toast.makeText(getApplicationContext(), "None", Toast.LENGTH_SHORT).show();
+								mConnFrag.setConnected(false);
 								break;
 							}
 						break;
@@ -380,6 +391,20 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 							}
 						break;
 					
+					case MESSAGE_LED_RECEIVED:
+						if (mLedsFrag != null)
+							{
+							mLedsFrag.setLedValues(mBluetoothConnexion.getLedTab());
+							}
+						break;
+					
+					case MESSAGE_LCD_DISPL:
+						if (mLcdFragment != null)
+							{
+							mLcdFragment.setLcdTextFirstLine(mBluetoothConnexion.getLcdFirstLine());
+							mLcdFragment.setLcdTextSecondLine(mBluetoothConnexion.getLcdScndLine());
+							}
+						break;
 					default:
 						;
 					}

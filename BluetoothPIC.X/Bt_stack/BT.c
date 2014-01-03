@@ -344,9 +344,14 @@ void btAclDataTx(uint16_t conn, char first, uint8_t bcastType, sg_buf* buf){
     }
     else{
         SIOPrintString("ACL packets enqeued !\r\n");
+ 		
+		sg_free(buf);
+        free(buf);
+        return;
+
         //We must to store the packets we can't send yet
-        BtEnqueuedNode *q = enqueuedPackets, *n = malloc(sizeof(BtEnqueuedNode));
-        // Oops, not enough memory for malloc
+        /*BtEnqueuedNode *q = enqueuedPackets, *n = malloc(sizeof(BtEnqueuedNode));
+         Oops, not enough memory for malloc
         if(!n){
 
             //packet dropped due to lack of memory...sorry
@@ -373,7 +378,7 @@ void btAclDataTx(uint16_t conn, char first, uint8_t bcastType, sg_buf* buf){
         else 
         {
             enqueuedPackets = n;
-        }
+        }*/
     }
 }
 

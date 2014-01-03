@@ -31,7 +31,11 @@ public class BluetoothConnexion
 	private LinkedHashSet<BluetoothDevice> mDiscoveredDevice;
 	
 	private boolean[] mSwTab;
+	private boolean[] mLedTab;
 	private int mPotVal;
+	private String lcdFirstStr;
+	private String lcdSecondStr;
+	
 	private static Handler mHandlerMain = null;
 	
 	public BluetoothConnexion(Context context, Handler handler)
@@ -39,6 +43,8 @@ public class BluetoothConnexion
 		this.mSerialComm = new SerialComBluetooth(context, this.mHandler);
 		mHandlerMain = handler;
 		this.mSwTab = new boolean[4];
+		this.mLedTab = new boolean[8];
+		
 		mPotVal = 0;
 		startBt();
 		}
@@ -92,6 +98,18 @@ public class BluetoothConnexion
 		this.writeSerial(msg.getBytes());
 		}
 	
+	public void writeInit()
+		{
+		String msg = "$0_\r\n";
+		this.writeSerial(msg.getBytes());
+		}
+	
+	public void writeLcdLns(String aLine1, String aLine2)
+		{
+		String msg = "$4_" + aLine1 + "_" + aLine2 + "_\r\n";
+		this.writeSerial(msg.getBytes());
+		}
+	
 	private void writeSerial(byte[] aBuf)
 		{
 		this.mSerialComm.write(aBuf);
@@ -105,6 +123,21 @@ public class BluetoothConnexion
 	public int getPotVal()
 		{
 		return mPotVal;
+		}
+	
+	public boolean[] getLedTab()
+		{
+		return this.mLedTab;
+		}
+	
+	public String getLcdFirstLine()
+		{
+		return this.lcdFirstStr;
+		}
+	
+	public String getLcdScndLine()
+		{
+		return this.lcdSecondStr;
 		}
 	
 	//Recupération des événements envoyé par le Bluetooth
@@ -143,15 +176,35 @@ public class BluetoothConnexion
 					case MESSAGE_READ:
 						byte[] readBuf = (byte[])msg.obj;
 						String[] strTabVal;
+						String miscReply = "0";
 						// construct a string from the valid bytes in the buffer
-						String readMessage = new String(readBuf, 3, (msg.arg1 - 2)); // $0_ | string | \r\n
+						String readMessage = new String(readBuf, 3, (msg.arg1 - 3)); // $0_ | string | \r\n
 						
 						//Get the command
 						switch(readBuf[1])
 							{
 							// We get Leds
 							case '1':
+								strTabVal = readMessage.split("_");
+								// 8 Leds states
+								for(int i = 0; i < 8; i++)
+									{
+									Integer integ = Integer.valueOf(strTabVal[i]);
+									if (integ.intValue() == 1)
+										{
+										mLedTab[i] = true;
+										}
+									else
+										{
+										mLedTab[i] = false;
+										}
+									}
 								
+								//Misc reply
+								mSerialComm.write(miscReply.getBytes());
+								
+								msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_LED_RECEIVED);
+								mHandlerMain.sendMessage(msgSend);
 								break;
 							//We get Switchs
 							case '2':
@@ -171,7 +224,6 @@ public class BluetoothConnexion
 									}
 								
 								//Misc reply
-								String miscReply = "0";
 								mSerialComm.write(miscReply.getBytes());
 								
 								msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_SW_RECEIVED);
@@ -185,11 +237,22 @@ public class BluetoothConnexion
 								mPotVal = integ.intValue();
 								
 								//Misc reply
-								String miscReply2 = "0";
-								mSerialComm.write(miscReply2.getBytes());
+								mSerialComm.write(miscReply.getBytes());
 								
 								msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_POT_VAL);
 								mHandlerMain.sendMessage(msgSend);
+								break;
+							case '4':
+								strTabVal = readMessage.split("_");
+								lcdFirstStr = strTabVal[0];
+								lcdSecondStr = strTabVal[1];
+								
+								//Misc reply
+								mSerialComm.write(miscReply.getBytes());
+								
+								msgSend = mHandlerMain.obtainMessage(ActivitePrinc.MESSAGE_LCD_DISPL);
+								mHandlerMain.sendMessage(msgSend);
+								
 								break;
 							default:
 								;

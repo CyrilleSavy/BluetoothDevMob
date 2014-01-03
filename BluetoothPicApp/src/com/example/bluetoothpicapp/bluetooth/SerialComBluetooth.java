@@ -1,8 +1,12 @@
 
 package com.example.bluetoothpicapp.bluetooth;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -551,6 +555,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 		private final BluetoothSocket mmSocket;
 		private final InputStream mmInStream;
 		private final OutputStream mmOutStream;
+		private final BufferedReader mmBufReader;
 		
 		public ConnectedThread(BluetoothSocket socket, String socketType)
 			{
@@ -572,6 +577,7 @@ public class SerialComBluetooth extends BroadcastReceiver
 			
 			mmInStream = tmpIn;
 			mmOutStream = tmpOut;
+			mmBufReader = new BufferedReader(new InputStreamReader(tmpIn));
 			}
 		
 		public void run()
@@ -587,7 +593,10 @@ public class SerialComBluetooth extends BroadcastReceiver
 				try
 					{
 					// Lecture du flux d'entr�e
-					bytes = mmInStream.read(buffer);
+					//bytes = mmInStream.read(buffer);
+					String test = mmBufReader.readLine();
+					buffer = test.getBytes();
+					bytes = buffer.length;
 					
 					// Envois des bytes r�cup�r�s
 					mHandler.obtainMessage(BluetoothConnexion.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
@@ -595,6 +604,17 @@ public class SerialComBluetooth extends BroadcastReceiver
 				catch (IOException e)
 					{
 					Log.e(TAG, "disconnected", e);
+					try
+						{
+						mmBufReader.close();
+						mmInStream.close();
+						mmOutStream.close();
+						}
+					catch (IOException e1)
+						{
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+						}
 					connectionLost();
 					break;
 					}
@@ -612,7 +632,6 @@ public class SerialComBluetooth extends BroadcastReceiver
 			try
 				{
 				mmOutStream.write(buffer);
-				
 				}
 			catch (IOException e)
 				{

@@ -448,13 +448,17 @@ void btRfcommPortTx(void* port, uint8_t dlci, const uint8_t* data, uint16_t size
         }
         else{				//enqueue it
             SIOPrintString("RFCOMM TX enqeued\r\n");
-            if(state->ports[dlci].queued){
+			sg_free(buf);
+        	free(buf);
+            /*if(state->ports[dlci].queued){
 
                 //Infinite LOOP !
                 //while(state->ports[dlci].queued && state->ports[dlci].on); coopYield();
 
                 //TODO Find a better solution
                 //Fast Hack
+				sg_free(buf);
+        		free(buf);
                 if(state->ports[dlci].queued && state->ports[dlci].on)
                 {
                     return; //Drop the packet
@@ -462,8 +466,8 @@ void btRfcommPortTx(void* port, uint8_t dlci, const uint8_t* data, uint16_t size
                 
                 if(!state->ports[dlci].on) return; //port closed - packet dropped
             }
-            state->ports[dlci].queued = buf;
-        }
+            state->ports[dlci].queued = buf;*/
+       }
     }
 }
 

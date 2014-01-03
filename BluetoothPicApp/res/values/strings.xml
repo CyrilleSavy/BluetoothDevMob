@@ -9,5 +9,6 @@
     <string name="title_section3">Écran LCD</string>
     <string name="empty_text"></string>
     <string name="btn_scan_text">Recherche</string>
+    <string name="btn_send_text">Envoyer</string>
 
 </resources>

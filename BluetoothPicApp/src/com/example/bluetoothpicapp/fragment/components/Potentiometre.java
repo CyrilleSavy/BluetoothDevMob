@@ -75,14 +75,14 @@ public class Potentiometre extends View
 	@Override
 	protected void onDraw(Canvas canvas)
 		{
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
-			{
-			this.setBackground(getResources().getDrawable(R.drawable.pot_ext));
-			}
-		else
-			{
+//		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR2)
+//			{
+//			this.setBackground(getResources().getDrawable(R.drawable.pot_ext));
+//			}
+//		else
+			//{
 			this.setBackgroundDrawable(getResources().getDrawable(R.drawable.pot_ext));//image de fond
-			}
+			//}
 		canvas.rotate((this.potLevel * excursionAngle) - offsetAngle, middleOfWidth, middleOfHeight);
 		canvas.drawBitmap(imageRotation, 0, 0, null);
 		}

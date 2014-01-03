@@ -90,7 +90,7 @@ void sendPot();
 // Apply defaults settings
 void readSettings(){
    //apply defaults
-   strcpy(settings.btName, "CyrilleIsBest!");
+   strcpy(settings.btName, "BtPicAppBoard");
    strcpy(settings.btPIN, "1234");
 }
 
@@ -144,10 +144,10 @@ static BYTE ReadPOT(void)
 
             // Get an ADC sample
             AD1CON1bits.SAMP = 1;           //Start sampling
-            for(w.Val=0;w.Val<1000;w.Val++){Nop();} //Sample delay, conversion start automatically
+            for(w.Val=0;w.Val<5000;w.Val++){Nop();} //Sample delay, conversion start automatically
             AD1CON1bits.SAMP = 0;           //Start sampling
-            for(w.Val=0;w.Val<1000;w.Val++){Nop();} //Sample delay, conversion start automatically
-            while(!AD1CON1bits.DONE);       //Wait for conversion to complete
+            for(w.Val=0;w.Val<5000;w.Val++){Nop();} //Sample delay, conversion start automatically
+         //   while(!AD1CON1bits.DONE);       //Wait for conversion to complete
 
             temp = (DWORD)ADC1BUF0;
             temp = temp * 100;
@@ -338,6 +338,7 @@ static uint8_t dlciTab[4];
  * @param dlci
  */
 static void btAdkPortOpen(void* port, uint8_t dlci){
+	numPairedDevices++;
 	//Saving the port and DLCI
 	portTab[numPairedDevices-1] = port ;
 	dlciTab[numPairedDevices-1] = dlci ;
@@ -388,9 +389,28 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
       //get the command byte
       switch(cmdBuf[1])
       {
+		  // Ask init value
+          case '0' :
+              sendSwitchs();
+			  sendPot();
+			  //Send leds
+              sprintf(reply,"$1_");
+              for(i=0;i<LED_NUM ;i++)
+              {
+                sprintf(aTemp,"%1d_",hardDevices.gLedTab[i]);
+                strcat(reply,aTemp);
+              }
+              strcat(reply,"\r\n");
+              btRfcommPortTx(port, dlci, reply, 21);
+              break;
+
           // Led write
           case '1' :
               hardDevices.gLedTab[cmdBuf[3]-48] = cmdBuf[5]-48;
+			  sprintf(aTemp,"$%1d_",0);
+              strcat(reply,aTemp);	
+			  strcat(reply,"\r\n");
+              btRfcommPortTx(port, dlci, reply,5);
               break;
           //Switch read
           case '2':
@@ -421,7 +441,11 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
 
 static char adkBtConnectionRequest(const uint8_t* mac, uint32_t devClass, uint8_t linkType){	//return 1 to accept
     SIOPrintString("BT : Connexion request\r\n");
-    return 1;
+    if(numPairedDevices != 0)
+    {
+    return 0;
+	}
+	return 1;
 }
 
 static char adkBtLinkKeyRequest(const uint8_t* mac, uint8_t* buf){ //link key create
@@ -470,7 +494,7 @@ static void adkBtLinkKeyCreated(const uint8_t* mac, const uint8_t* buf){ 	//link
           SIOPutChar(' ');
           savedMac[numPairedDevices][j] = mac[j];
       }
-      numPairedDevices++;
+      //numPairedDevices++;
       SIOPrintString("\r\n");
    }
    else{

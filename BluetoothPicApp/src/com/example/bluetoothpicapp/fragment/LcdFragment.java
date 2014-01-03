@@ -6,16 +6,18 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.bluetoothpicapp.R;
+import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
 
 /**
  * A fragment representing a section of the app, that displays the text
  * of the Lcd and could edit this text field.
  */
-public class LcdFragment extends Fragment
+public class LcdFragment extends Fragment implements View.OnClickListener
 	{
 	
 	/**
@@ -26,8 +28,10 @@ public class LcdFragment extends Fragment
 	
 	private static TextView lcdFirstLineView;
 	private static TextView lcdSecondLineView;
+	private Button lcdButtonSend;
 	private static String lcdFirstLineText = "";
 	private static String lcdSecondLineText = "";
+	private static BluetoothConnexion mBluetoothConnexion = null;
 	
 	public LcdFragment()
 		{
@@ -41,33 +45,59 @@ public class LcdFragment extends Fragment
 		lcdFirstLineView = (EditText)rootView.findViewById(R.id.lcdLine1);
 		lcdFirstLineView.setText(lcdFirstLineText);
 		
+		lcdButtonSend = (Button)rootView.findViewById(R.id.buttonSendLCD);
+		lcdButtonSend.setOnClickListener(this);
+		
 		lcdSecondLineView = (EditText)rootView.findViewById(R.id.lcdLine2);
 		lcdSecondLineView.setText(lcdSecondLineText);
 		
 		return rootView;
 		}
 	
+	public void setBluetoothConn(BluetoothConnexion mBluetoothConnexionSrc)
+		{
+		mBluetoothConnexion = mBluetoothConnexionSrc;
+		}
+	
 	public static String getLcdTextFirstLine()
 		{
-		return lcdFirstLineText;
+		if (lcdFirstLineView != null)
+			{
+			CharSequence aLine = lcdFirstLineView.getText();
+			lcdFirstLineText = aLine.toString();
+			return lcdFirstLineText;
+			}
+		else
+			{
+			return "";
+			}
 		}
 	
 	public static void setLcdTextFirstLine(String theText)
 		{
 		lcdFirstLineText = theText;
-		
+		lcdFirstLineView.setText(lcdFirstLineText);
 		return;
 		}
 	
 	public static String getLcdTextSecondLine()
 		{
-		return lcdSecondLineText;
+		if (lcdSecondLineView != null)
+			{
+			CharSequence aLine = lcdSecondLineView.getText();
+			lcdSecondLineText = aLine.toString();
+			return lcdSecondLineText;
+			}
+		else
+			{
+			return "";
+			}
 		}
 	
 	public static void setLcdTextSecondLine(String theText)
 		{
 		lcdSecondLineText = theText;
-		
+		lcdSecondLineView.setText(lcdSecondLineText);
 		return;
 		}
 	
@@ -77,5 +107,15 @@ public class LcdFragment extends Fragment
 		lcdSecondLineView.setActivated(isAllowed);
 		
 		return;
+		}
+	
+	@Override
+	public void onClick(View v)
+		{
+		if (mBluetoothConnexion != null)
+			{
+			mBluetoothConnexion.writeLcdLns(getLcdTextFirstLine(), getLcdTextSecondLine());
+			}
+		
 		}
 	}

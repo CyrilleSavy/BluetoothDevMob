@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 import android.bluetooth.BluetoothDevice;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -39,6 +40,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	
 	private Button btScan;
 	private ListView btDeviceLstView;
+	private int aPositionConnecting;
 	
 	private BTDeviceListAdapter mBTDeviceListAdapter;
 	
@@ -93,13 +95,29 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 			}
 		}
 	
+	public void setConnected(boolean aState)
+		{
+		//Test si la construction à été effectuée
+		if(btDeviceLstView == null || btDeviceLstView.getChildCount() <= 0 )
+			{
+			return;
+			}
+		
+		if (!aState)
+			{
+			btDeviceLstView.getChildAt(aPositionConnecting).setBackgroundColor(Color.TRANSPARENT);
+			return;
+			}
+		btDeviceLstView.getChildAt(aPositionConnecting).setBackgroundColor(Color.GREEN);
+		}
+	
 	//Si l'on a clické sur le bouton on lance le scan
 	@Override
 	public void onClick(View v)
 		{
 		this.mBTDeviceListAdapter.clearList();
 		//On démmare le scan
-		if (mBluetoothConnexion != null) //Evite une source de bugs
+		if (mBluetoothConnexion != null ) //Evite une source de bugs
 			{
 			showScanDialog();
 			mBluetoothConnexion.startDiscovery();
@@ -116,6 +134,8 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 			i.next();
 			}
 		mBluetoothConnexion.connect(i.next());
+		aPositionConnecting = position;
+		btDeviceLstView.getChildAt(position).setBackgroundColor(Color.YELLOW);
 		}
 	
 	private void showScanDialog()

@@ -180,7 +180,7 @@ LanguageToolLocation=C:\Program Files\Microchip\xc16\v1.20\bin\xc16-ld.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)|C:\Program Files\Microchip\xc16\v1.20\src\libm||$(INCDIR)|C:\Program Files\Microchip\xc16\v1.20\inc||$(LIBDIR)|C:\Program Files\Microchip\xc16\v1.20\lib||$(LKRDIR)||
 SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|Bt_stack\btSDP.c|Bt_stack\sgBuf.c|debug.c|mainApp\main.c|mainApp\usb_config.c|Microchip\Common\TimeDelay.c|Microchip\Common\uart2.c|Microchip\USB\usb_host.c|PHY\usb_host_bluetooth.c||<obj>||<lib>||<lkr>||
 SuiteArgsString=
-ToolArgsString=--heap=3000 -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
+ToolArgsString=--heap=5000 -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
 DebugOptions=
 [File014]
@@ -193,7 +193,7 @@ LanguageToolLocation=C:\Program Files\Microchip\xc16\v1.20\bin\xc16-ld.exe
 PPAD=$(BINDIR)||$(TMPDIR)||$(AINDIR)|C:\Program Files\Microchip\xc16\v1.20\src\libm||$(INCDIR)|C:\Program Files\Microchip\xc16\v1.20\inc||$(LIBDIR)|C:\Program Files\Microchip\xc16\v1.20\lib||$(LKRDIR)||
 SOLK=<src>|Bt_stack\ADK.c|Bt_stack\BT.c|Bt_stack\btL2CAP.c|Bt_stack\btRFCOMM.c|Bt_stack\btSDP.c|Bt_stack\sgBuf.c|debug.c|mainApp\main.c|mainApp\usb_config.c|Microchip\Common\TimeDelay.c|Microchip\Common\uart2.c|Microchip\USB\usb_host.c|PHY\usb_host_bluetooth.c||<obj>||<lib>||<lkr>||
 SuiteArgsString=
-ToolArgsString=--heap=3000 -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
+ToolArgsString=--heap=5000 -Map="$(BINDIR_)$(TARGETBASE).map" --report-mem -o"$(BINDIR_)$(TARGETBASE).$(TARGETSUFFIX)"
 TraceCmdString=
 DebugOptions=
 [TOOL_LOC_STAMPS]
