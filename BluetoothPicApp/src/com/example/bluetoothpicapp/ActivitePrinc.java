@@ -52,6 +52,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	ViewPager mViewPager;
 	
 	private static BluetoothConnexion mBluetoothConnexion;
+	private static boolean mConnState = false ;
 	
 	private static boolean firstInit = true;
 	//private static mBluetoothConnexionMem = null;
@@ -92,7 +93,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		actionBar.setDisplayShowTitleEnabled(true);
 		getActionBar().setDisplayShowHomeEnabled(true);
 		
-		//Enclenchement du bluetooth
+		//Enclenchement du Bluetooth
 		if (firstInit)
 			{
 			mBluetoothConnexion = new BluetoothConnexion(getApplicationContext(), this.mHandler);
@@ -102,8 +103,9 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			{
 			mBluetoothConnexion.setHandlerMain(mHandler);
 			}
+		
 		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
+		// primary sections of the App.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 		
 		// Set up the ViewPager with the sections adapter.
@@ -179,6 +181,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		SavedInstanceState.putFloat("potValue", PotBoutonsFragment.getPotValue());
 		SavedInstanceState.putString("lcdTextFirstLine", LcdFragment.getLcdTextFirstLine());
 		SavedInstanceState.putString("lcdTextSecondLine", LcdFragment.getLcdTextSecondLine());
+		SavedInstanceState.putBoolean("ConnState", mConnState);
 		}
 	
 	@Override
@@ -189,6 +192,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		PotBoutonsFragment.setPotValue(SavedInstanceState.getFloat("potValue"));
 		LcdFragment.setLcdTextFirstLine(SavedInstanceState.getString("lcdTextFirstLine"));
 		LcdFragment.setLcdTextSecondLine(SavedInstanceState.getString("lcdTextSecondLine"));
+		mConnFrag.setConnected(mConnState);
 		
 		//On repasse l'objet bluetoothcom
 		mLedsFrag.setBluetoothConn(mBluetoothConnexion);
@@ -279,7 +283,6 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 					mConnFrag = (ConnectionBluetoothFragment)fragment;
 					mConnFrag.setBluetoothConn(mBluetoothConnexion);
 					args.putInt(ConnectionBluetoothFragment.ARG_SECTION_NUMBER, position + 1);
-					
 					break;
 				case 1:
 					fragment = new LedsFragment();
@@ -344,21 +347,24 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 						switch(msg.arg1)
 							{
 							case SerialComBluetooth.STATE_CONNECTED:
-								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
 								// Send initials values
 								mBluetoothConnexion.writeInit();
-								mConnFrag.setConnected(true);
+								mConnState = true ;
+								mConnFrag.setConnected(mConnState);
 								break;
 							case SerialComBluetooth.STATE_CONNECTING:
-								Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_LONG).show();
+								Toast.makeText(getApplicationContext(), "Connecting...", Toast.LENGTH_SHORT).show();
 								break;
 							case SerialComBluetooth.STATE_LISTEN:
-								Toast.makeText(getApplicationContext(), "Listen", Toast.LENGTH_SHORT).show();
-								mConnFrag.setConnected(false);
+								Toast.makeText(getApplicationContext(), "Disconnected", Toast.LENGTH_SHORT).show();
+								mConnState = false ;
+								mConnFrag.setConnected(mConnState);
 								break;
 							case SerialComBluetooth.STATE_NONE:
-								Toast.makeText(getApplicationContext(), "None", Toast.LENGTH_SHORT).show();
-								mConnFrag.setConnected(false);
+								Toast.makeText(getApplicationContext(), "No Adapter Available !", Toast.LENGTH_SHORT).show();
+								mConnState = false ;
+								mConnFrag.setConnected(mConnState);
 								break;
 							}
 						break;

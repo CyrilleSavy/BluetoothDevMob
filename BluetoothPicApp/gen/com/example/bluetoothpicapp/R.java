@@ -33,14 +33,15 @@ public final class R {
         public static final int led_button_on_res=0x7f020009;
         public static final int led_green_hi_48p=0x7f02000a;
         public static final int led_green_lo_48p=0x7f02000b;
-        public static final int pot_ext=0x7f02000c;
-        public static final int pot_ext_res=0x7f02000d;
-        public static final int pot_int=0x7f02000e;
-        public static final int pot_int_res=0x7f02000f;
-        public static final int switch_hi_64p=0x7f020010;
-        public static final int switch_lo_64p=0x7f020011;
-        public static final int switch_off_res=0x7f020012;
-        public static final int switch_on_res=0x7f020013;
+        public static final int listview_item_layout_connected=0x7f02000c;
+        public static final int pot_ext=0x7f02000d;
+        public static final int pot_ext_res=0x7f02000e;
+        public static final int pot_int=0x7f02000f;
+        public static final int pot_int_res=0x7f020010;
+        public static final int switch_hi_64p=0x7f020011;
+        public static final int switch_lo_64p=0x7f020012;
+        public static final int switch_off_res=0x7f020013;
+        public static final int switch_on_res=0x7f020014;
     }
     public static final class id {
         public static final int action_settings=0x7f080019;

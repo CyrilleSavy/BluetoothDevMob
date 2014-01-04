@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.location.GpsStatus.Listener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,14 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 	private Context context;
 	
 	private LayoutInflater mInflater;
+	private boolean mConnected = false;
+	private int mPosition = -1;
 	
 	public BTDeviceListAdapter(LinkedHashSet<BluetoothDevice> mBtDeviceList, Context context, LayoutInflater inflater)
 		{
 		this.mBtDeviceList = mBtDeviceList;
 		this.mInflater = inflater;
+		this.context = context;
 		}
 	
 	@Override
@@ -64,6 +68,12 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 		this.mBtDeviceList.clear();
 		}
 	
+	public void setConnected(boolean isConn, int pos)
+		{
+		mConnected = isConn;
+		mPosition = pos;
+		}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 		{
@@ -82,6 +92,11 @@ public class BTDeviceListAdapter extends BaseAdapter implements ListAdapter
 		aBtDeviceName.setText(aDeviceName);
 		TextView aBtDeviceMac = (TextView)rootView.findViewById(R.id.elemListBtDisco_MAC);
 		aBtDeviceMac.setText(aDeviceMac);
+		
+		if (mPosition == position && mConnected == true)
+			{
+			rootView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.listview_item_layout_connected));
+			}
 		
 		return rootView;
 		
