@@ -41,6 +41,7 @@
 #ifndef HARDWARE_PROFILE_PIC24F_ADK_FOR_ANDROID_H
 #define HARDWARE_PROFILE_PIC24F_ADK_FOR_ANDROID_H
 
+#include <p24FJ256GB110.h>
 
 
     /*******************************************************************/
@@ -99,6 +100,28 @@
     #define LED5_Off()        mLED_8  = 0;
     #define LED6_Off()        mLED_9  = 0;
     #define LED7_Off()        mLED_10 = 0;
+
+    /** LCD ************************************************************/
+    #define InitLCDdataPorts()  {TRISDbits.TRISD10 = 0; TRISDbits.TRISD9 = 0 ; TRISDbits.TRISD8 = 0 ;TRISAbits.TRISA3 = 0 ;TRISAbits.TRISA4 = 0 ;TRISAbits.TRISA5 = 0 ;TRISAbits.TRISA14 = 0 ;TRISAbits.TRISA15 = 0 ;}
+    #define InitLCDcontrolPorts()  {TRISFbits.TRISF8 = 0; TRISFbits.TRISF2 = 0 ; TRISFbits.TRISF3 = 0 ;TRISFbits.TRISF5 = 0 ;TRISFbits.TRISF4 = 0 ;TRISDbits.TRISD15 = 0 ;TRISDbits.TRISD14 = 0 ;TRISBbits.TRISB15 = 0 ;}
+
+    #define mLCD_D0            PORTDbits.RD10
+    #define mLCD_D1            PORTDbits.RD9
+    #define mLCD_D2            PORTDbits.RD8
+    #define mLCD_D3            PORTAbits.RA15
+    #define mLCD_D4            PORTAbits.RA14
+    #define mLCD_D5            PORTAbits.RA5
+    #define mLCD_D6            PORTAbits.RA4
+    #define mLCD_D7            PORTAbits.RA3
+
+    #define mLCD_K             PORTFbits.RF8
+    #define mLCD_A             PORTFbits.RF2
+    #define mLCD_VSS           PORTFbits.RF3
+    #define mLCD_VDD           PORTFbits.RF5
+    #define mLCD_V0            PORTFbits.RF4
+    #define mLCD_RS            PORTDbits.RD15
+    #define mLCD_RW            PORTDbits.RD14
+    #define mLCD_E             PORTBbits.RB15
     
     /** SWITCH *********************************************************/
     #define InitAllSwitches()   {TRISAbits.TRISA1 = 1; TRISBbits.TRISB11 = 1; TRISFbits.TRISF12 = 1; TRISFbits.TRISF13 = 1; AD1PCFGLbits.PCFG11 = 1; }
