@@ -71,7 +71,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	private static LedsFragment mLedsFrag;
 	private static PotBoutonsFragment mBoutonsFragment;
 	private static LcdFragment mLcdFragment;
-	private DisplayMetrics metrics ;
+	private DisplayMetrics metrics;
 	
 	private Handler mDelayHide;
 	
@@ -105,7 +105,6 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			{
 			mBluetoothConnexion.setHandlerMain(mHandler);
 			}
-		
 		
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
