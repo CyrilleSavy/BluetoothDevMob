@@ -52,7 +52,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	ViewPager mViewPager;
 	
 	private static BluetoothConnexion mBluetoothConnexion;
-	private static boolean mConnState = false ;
+	private static boolean mConnState = false;
 	
 	private static boolean firstInit = true;
 	//private static mBluetoothConnexionMem = null;
@@ -181,7 +181,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		SavedInstanceState.putFloat("potValue", PotBoutonsFragment.getPotValue());
 		SavedInstanceState.putString("lcdTextFirstLine", LcdFragment.getLcdTextFirstLine());
 		SavedInstanceState.putString("lcdTextSecondLine", LcdFragment.getLcdTextSecondLine());
-		SavedInstanceState.putBoolean("ConnState", mConnState);
+		SavedInstanceState.putBoolean("backLightState", LcdFragment.getBackLightState());
 		}
 	
 	@Override
@@ -192,6 +192,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 		PotBoutonsFragment.setPotValue(SavedInstanceState.getFloat("potValue"));
 		LcdFragment.setLcdTextFirstLine(SavedInstanceState.getString("lcdTextFirstLine"));
 		LcdFragment.setLcdTextSecondLine(SavedInstanceState.getString("lcdTextSecondLine"));
+		LcdFragment.setBackLightState(SavedInstanceState.getBoolean("backLightState"));
 		mConnFrag.setConnected(mConnState);
 		
 		//On repasse l'objet bluetoothcom
@@ -350,7 +351,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 								Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
 								// Send initials values
 								mBluetoothConnexion.writeInit();
-								mConnState = true ;
+								mConnState = true;
 								mConnFrag.setConnected(mConnState);
 								break;
 							case SerialComBluetooth.STATE_CONNECTING:
@@ -358,12 +359,12 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 								break;
 							case SerialComBluetooth.STATE_LISTEN:
 								Toast.makeText(getApplicationContext(), "Disconnected", Toast.LENGTH_SHORT).show();
-								mConnState = false ;
+								mConnState = false;
 								mConnFrag.setConnected(mConnState);
 								break;
 							case SerialComBluetooth.STATE_NONE:
 								Toast.makeText(getApplicationContext(), "No Adapter Available !", Toast.LENGTH_SHORT).show();
-								mConnState = false ;
+								mConnState = false;
 								mConnFrag.setConnected(mConnState);
 								break;
 							}

@@ -44,6 +44,7 @@ public final class R {
         public static final int switch_on_res=0x7f020014;
     }
     public static final class id {
+        public static final int ButtonBackLight=0x7f080008;
         public static final int action_settings=0x7f08001a;
         public static final int bouton1=0x7f080013;
         public static final int bouton2=0x7f080014;
@@ -67,7 +68,6 @@ public final class R {
         public static final int pager=0x7f080000;
         public static final int potentiometre1=0x7f080017;
         public static final int progBarScanDiag=0x7f080018;
-        public static final int radioButton1=0x7f080008;
         public static final int scrollView1=0x7f080012;
         public static final int scrollViewLeds=0x7f080009;
         public static final int textViewScanDiag=0x7f080019;

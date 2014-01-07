@@ -5,9 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.bluetoothpicapp.R;
@@ -17,7 +20,7 @@ import com.example.bluetoothpicapp.bluetooth.BluetoothConnexion;
  * A fragment representing a section of the app, that displays the text
  * of the Lcd and could edit this text field.
  */
-public class LcdFragment extends Fragment implements View.OnClickListener
+public class LcdFragment extends Fragment //implements View.OnClickListener
 	{
 	
 	/**
@@ -29,6 +32,7 @@ public class LcdFragment extends Fragment implements View.OnClickListener
 	private static TextView lcdFirstLineView;
 	private static TextView lcdSecondLineView;
 	private Button lcdButtonSend;
+	private static CheckBox buttonBackLightLCD;
 	private static String lcdFirstLineText = "";
 	private static String lcdSecondLineText = "";
 	private static BluetoothConnexion mBluetoothConnexion = null;
@@ -46,7 +50,30 @@ public class LcdFragment extends Fragment implements View.OnClickListener
 		lcdFirstLineView.setText(lcdFirstLineText);
 		
 		lcdButtonSend = (Button)rootView.findViewById(R.id.buttonSendLCD);
-		lcdButtonSend.setOnClickListener(this);
+		lcdButtonSend.setOnClickListener(new OnClickListener()
+			{
+				
+				@Override
+				public void onClick(View v)
+					{
+					if (mBluetoothConnexion != null)
+						{
+						mBluetoothConnexion.writeLcdLns(getLcdTextFirstLine(), getLcdTextSecondLine());
+						}
+					}
+			});
+		
+		buttonBackLightLCD = (CheckBox)rootView.findViewById(R.id.ButtonBackLight);
+		buttonBackLightLCD.setChecked(false);
+		buttonBackLightLCD.setOnClickListener(new OnClickListener()
+			{
+				
+				@Override
+				public void onClick(View v)
+					{
+					mBluetoothConnexion.writeBackLightState(buttonBackLightLCD.isChecked());
+					}
+			});
 		
 		lcdSecondLineView = (EditText)rootView.findViewById(R.id.lcdLine2);
 		lcdSecondLineView.setText(lcdSecondLineText);
@@ -94,6 +121,24 @@ public class LcdFragment extends Fragment implements View.OnClickListener
 			}
 		}
 	
+	public static boolean getBackLightState()
+		{
+		if (buttonBackLightLCD != null)
+			{
+			return buttonBackLightLCD.isChecked();
+			}
+		else
+			{
+			return false;
+			}
+		
+		}
+	
+	public static void setBackLightState(boolean isChecked)
+		{
+		buttonBackLightLCD.setChecked(isChecked);
+		}
+	
 	public static void setLcdTextSecondLine(String theText)
 		{
 		lcdSecondLineText = theText;
@@ -109,13 +154,13 @@ public class LcdFragment extends Fragment implements View.OnClickListener
 		return;
 		}
 	
-	@Override
-	public void onClick(View v)
-		{
-		if (mBluetoothConnexion != null)
-			{
-			mBluetoothConnexion.writeLcdLns(getLcdTextFirstLine(), getLcdTextSecondLine());
-			}
-		
-		}
+	//	@Override
+	//	public void onClick(View v)
+	//		{
+	//		if (mBluetoothConnexion != null)
+	//			{
+	//			mBluetoothConnexion.writeLcdLns(getLcdTextFirstLine(), getLcdTextSecondLine());
+	//			}
+	//		
+	//		}
 	}

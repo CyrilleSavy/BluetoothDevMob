@@ -35,6 +35,7 @@ public class BluetoothConnexion
 	private int mPotVal;
 	private String lcdFirstStr;
 	private String lcdSecondStr;
+	private boolean backLightState;
 	
 	private static Handler mHandlerMain = null;
 	
@@ -88,7 +89,7 @@ public class BluetoothConnexion
 		}
 	
 	/**
-	 * Alumme ou éteint une led
+	 * Allume ou éteint une led
 	 * @param aLedNum : Num. de la led [0-7]
 	 * @param aState : 0 ou 1
 	 */
@@ -110,9 +111,19 @@ public class BluetoothConnexion
 		this.writeSerial(msg.getBytes());
 		}
 	
+	public void writeBackLightState(boolean aState)
+		{
+		//TODO : envoyer message backLight
+		}
+	
 	private void writeSerial(byte[] aBuf)
 		{
 		this.mSerialComm.write(aBuf);
+		}
+	
+	public boolean getBackLightState()
+		{
+		return this.backLightState;
 		}
 	
 	public boolean[] getSwTab()
