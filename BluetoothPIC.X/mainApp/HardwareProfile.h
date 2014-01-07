@@ -105,23 +105,23 @@
     #define InitLCDdataPorts()  {TRISDbits.TRISD10 = 0; TRISDbits.TRISD9 = 0 ; TRISDbits.TRISD8 = 0 ;TRISAbits.TRISA3 = 0 ;TRISAbits.TRISA4 = 0 ;TRISAbits.TRISA5 = 0 ;TRISAbits.TRISA14 = 0 ;TRISAbits.TRISA15 = 0 ;}
     #define InitLCDcontrolPorts()  {TRISFbits.TRISF8 = 0; TRISFbits.TRISF2 = 0 ; TRISFbits.TRISF3 = 0 ;TRISFbits.TRISF5 = 0 ;TRISFbits.TRISF4 = 0 ;TRISDbits.TRISD15 = 0 ;TRISDbits.TRISD14 = 0 ;TRISBbits.TRISB15 = 0 ;}
 
-    #define mLCD_D0            PORTDbits.RD10
-    #define mLCD_D1            PORTDbits.RD9
-    #define mLCD_D2            PORTDbits.RD8
-    #define mLCD_D3            PORTAbits.RA15
-    #define mLCD_D4            PORTAbits.RA14
-    #define mLCD_D5            PORTAbits.RA5
-    #define mLCD_D6            PORTAbits.RA4
-    #define mLCD_D7            PORTAbits.RA3
+    #define mLCD_D0            LATDbits.LATD10 //PORTDbits.RD10
+    #define mLCD_D1            LATDbits.LATD9 //PORTDbits.RD9
+    #define mLCD_D2            LATDbits.LATD8 // PORTDbits.RD8
+    #define mLCD_D3            LATAbits.LATA15 //PORTAbits.RA15
+    #define mLCD_D4            LATAbits.LATA14 //PORTAbits.RA14
+    #define mLCD_D5            LATAbits.LATA5 //PORTAbits.RA5
+    #define mLCD_D6            LATAbits.LATA4 //PORTAbits.RA4
+    #define mLCD_D7            LATAbits.LATA3 //PORTAbits.RA3
 
     #define mLCD_K             PORTFbits.RF8
     #define mLCD_A             PORTFbits.RF2
-    #define mLCD_VSS           PORTFbits.RF3
-    #define mLCD_VDD           PORTFbits.RF5
-    #define mLCD_V0            PORTFbits.RF4
-    #define mLCD_RS            PORTDbits.RD15
-    #define mLCD_RW            PORTDbits.RD14
-    #define mLCD_E             PORTBbits.RB15
+    #define mLCD_VSS           LATFbits.LATF3 //PORTFbits.RF3
+    #define mLCD_VDD           LATFbits.LATF5//PORTFbits.RF5
+    #define mLCD_V0            LATFbits.LATF4//PORTFbits.RF4
+    #define mLCD_RS            LATDbits.LATD15 // PORTDbits.RD15
+    #define mLCD_RW            LATDbits.LATD14 //PORTDbits.RD14
+    #define mLCD_E             LATBbits.LATB15 //PORTBbits.RB15
     
     /** SWITCH *********************************************************/
     #define InitAllSwitches()   {TRISAbits.TRISA1 = 1; TRISBbits.TRISB11 = 1; TRISFbits.TRISF12 = 1; TRISFbits.TRISF13 = 1; AD1PCFGLbits.PCFG11 = 1; }

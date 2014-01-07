@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,6 +71,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 	private static LedsFragment mLedsFrag;
 	private static PotBoutonsFragment mBoutonsFragment;
 	private static LcdFragment mLcdFragment;
+	private DisplayMetrics metrics ;
 	
 	private Handler mDelayHide;
 	
@@ -103,6 +105,10 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 			{
 			mBluetoothConnexion.setHandlerMain(mHandler);
 			}
+		
+		
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the App.
@@ -294,6 +300,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 				case 2:
 					fragment = new PotBoutonsFragment();
 					mBoutonsFragment = (PotBoutonsFragment)fragment;
+					mBoutonsFragment.setMetrics(metrics);
 					args.putInt(PotBoutonsFragment.ARG_SECTION_NUMBER, position + 1);
 					break;
 				case 3:
