@@ -3,6 +3,7 @@ package com.example.bluetoothpicapp.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class PotBoutonsFragment extends Fragment
 	private static Bouton boutonsView[] = new Bouton[4];
 	private static float potLevel;
 	private static Potentiometre potView;
+	private DisplayMetrics metrics;
 	
 	public PotBoutonsFragment()
 		{
@@ -51,6 +53,7 @@ public class PotBoutonsFragment extends Fragment
 		
 		potView = (Potentiometre)rootView.findViewById(R.id.potentiometre1);
 		potView.setPotLevel(potLevel);
+		potView.setMetrics(this.metrics);
 		return rootView;
 		}
 	
@@ -88,7 +91,7 @@ public class PotBoutonsFragment extends Fragment
 	 */
 	public static void setPotLevelValue(int theValue)
 		{
-		float aVal = (float)((float)theValue/100.0);
+		float aVal = (float)((float)theValue / 100.0);
 		potLevel = aVal;
 		potView.setPotLevel(potLevel);
 		}
@@ -97,6 +100,11 @@ public class PotBoutonsFragment extends Fragment
 		{
 		potLevel = theValue;
 		return;
+		}
+	
+	public void setMetrics(DisplayMetrics metrics)
+		{
+		this.metrics = metrics;
 		}
 	
 	}

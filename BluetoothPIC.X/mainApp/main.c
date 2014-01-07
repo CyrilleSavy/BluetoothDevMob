@@ -5,6 +5,7 @@
 #include "../PHY/usb_host_bluetooth.h"
 #include "../Bt_stack/ADK.h"
 #include "../Bt_stack/BT.h"
+#include "mLcd.h"
 
 
 // *****************************************************************************
@@ -96,6 +97,8 @@ void readSettings(){
 
 /*INITIALIZES THE SYSTEM*/
 void SysInit(){
+	ODCFbits.ODF5=0 ;
+
     // Set LED Pins to Outputs
     InitAllLEDs();
     InitAllSwitches();
@@ -103,6 +106,13 @@ void SysInit(){
 
     // Init UART
     SIOInit();
+
+	mLcd_Setup();
+	mLcd_Open();
+//	mLcd_WrtiteBackLightOn();
+    mLcd_WriteEntireDisplay("Hello from Android board");
+	
+	
 }
 
 //SSP callback function

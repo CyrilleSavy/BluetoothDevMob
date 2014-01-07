@@ -156,13 +156,13 @@ void mLcd_Write(UINT8 aChar,UINT8 aXpos,UINT8 aYPos)
 	// Contrôle si le numéro de ligne est en accord avec notre LCD
 	if((aYPos>=kNbOfLine)||(aYPos<0))
 	  {
-	    aTmp=assert(0);
+	    //aTmp=assert(0);
 	  }
 	
 	// Contrôle si le numéro de caractère est en accord avec notre LCD
 	if((aXpos>=kNbOfChar)||(aXpos<0))
 	  {
-	    aTmp=assert(0);
+	    //aTmp=assert(0);
 	  }
 	
 	// Modification de l'Address Counter AC
@@ -256,7 +256,7 @@ static BOOL mLcd_ReadLcdBusy(void)
         mLCD_E=1;
 	
  	// Lecture du data 7 --> busy flag
- 	aVal=mLCD_D7;
+ 	aVal=PORTAbits.RA3; //mLCD_D7;
  	
  	// Reset de E
  	//iDio_SetPortK(kMaskIo0,kIoOff);

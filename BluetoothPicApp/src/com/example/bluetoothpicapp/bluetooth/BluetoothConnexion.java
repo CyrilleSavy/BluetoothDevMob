@@ -45,6 +45,7 @@ public class BluetoothConnexion
 		mHandlerMain = handler;
 		this.mSwTab = new boolean[4];
 		this.mLedTab = new boolean[8];
+		this.mDiscoveredDevice = new LinkedHashSet<BluetoothDevice>();
 		
 		mPotVal = 0;
 		startBt();
