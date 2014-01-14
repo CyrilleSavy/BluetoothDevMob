@@ -103,7 +103,9 @@
 
     /** LCD ************************************************************/
     #define InitLCDdataPorts()  {TRISDbits.TRISD10 = 0; TRISDbits.TRISD9 = 0 ; TRISDbits.TRISD8 = 0 ;TRISAbits.TRISA3 = 0 ;TRISAbits.TRISA4 = 0 ;TRISAbits.TRISA5 = 0 ;TRISAbits.TRISA14 = 0 ;TRISAbits.TRISA15 = 0 ;}
-    #define InitLCDcontrolPorts()  {TRISFbits.TRISF8 = 0; TRISFbits.TRISF2 = 0 ; TRISFbits.TRISF3 = 0 ;TRISFbits.TRISF5 = 0 ;TRISFbits.TRISF4 = 0 ;TRISDbits.TRISD15 = 0 ;TRISDbits.TRISD14 = 0 ;TRISBbits.TRISB15 = 0 ;}
+    #define InitLCDOpenCollectorData() {ODCDbits.ODD10=1 ; ODCDbits.ODD9=1 ; ODCDbits.ODD8=1 ; ODCAbits.ODA3=1 ; ODCAbits.ODA4=1 ;ODCAbits.ODA5=1 ; ODCAbits.ODA14=1 ; ODCAbits.ODA15=1 ;}
+	#define InitLCDcontrolPorts()  {TRISFbits.TRISF2 = 0 ;TRISFbits.TRISF5 = 0 ;TRISFbits.TRISF4 = 0 ;TRISDbits.TRISD15 = 0 ;TRISDbits.TRISD14 = 0 ;TRISBbits.TRISB15 = 0 ;}
+	#define InitLCDOpenCollectorCtrl()  {ODCFbits.ODF2=1 ; 	ODCFbits.ODF5=1 ; 	ODCFbits.ODF4=1 ; 	ODCDbits.ODD15=1 ; 	ODCDbits.ODD14=1 ; 	ODCBbits.ODB5=1 ;}
 
     #define mLCD_D0            LATDbits.LATD10 //PORTDbits.RD10
     #define mLCD_D1            LATDbits.LATD9 //PORTDbits.RD9
@@ -114,9 +116,7 @@
     #define mLCD_D6            LATAbits.LATA4 //PORTAbits.RA4
     #define mLCD_D7            LATAbits.LATA3 //PORTAbits.RA3
 
-    #define mLCD_K             PORTFbits.RF8
     #define mLCD_A             PORTFbits.RF2
-    #define mLCD_VSS           LATFbits.LATF3 //PORTFbits.RF3
     #define mLCD_VDD           LATFbits.LATF5//PORTFbits.RF5
     #define mLCD_V0            LATFbits.LATF4//PORTFbits.RF4
     #define mLCD_RS            LATDbits.LATD15 // PORTDbits.RD15

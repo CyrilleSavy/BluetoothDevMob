@@ -44,7 +44,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	
 	private Button btScan;
 	private ListView btDeviceLstView;
-	private static int aPositionConnecting = -1 ;
+	private static int aPositionConnecting = -1;
 	
 	private BTDeviceListAdapter mBTDeviceListAdapter;
 	
@@ -77,7 +77,7 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 		btDeviceLstView.setAdapter(mBTDeviceListAdapter);
 		mBTDeviceListAdapter.setConnected(mIsConnected, aPositionConnecting);
 		setBtDeviceDetected();
-				
+		
 		return rootView;
 		}
 	
@@ -125,8 +125,8 @@ public class ConnectionBluetoothFragment extends Fragment implements View.OnClic
 	public void onClick(View v)
 		{
 		this.mBTDeviceListAdapter.clearList();
-		aPositionConnecting = -1 ;
-		mIsConnected = false ;
+		aPositionConnecting = -1;
+		mIsConnected = false;
 		
 		//On démmare le scan
 		if (mBluetoothConnexion != null) //Evite une source de bugs

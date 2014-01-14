@@ -27,7 +27,7 @@ public class PotBoutonsFragment extends Fragment
 	
 	private static boolean boutonsState[] = new boolean[4];
 	private static Bouton boutonsView[] = new Bouton[4];
-	private static float potLevel;
+	private static float potLevel = (float)0.0;
 	private static Potentiometre potView;
 	private DisplayMetrics metrics;
 	
@@ -37,8 +37,6 @@ public class PotBoutonsFragment extends Fragment
 			{
 			boutonsState[i] = false;
 			}
-		
-		potLevel = (float)0.0;
 		}
 	
 	@Override
@@ -93,7 +91,10 @@ public class PotBoutonsFragment extends Fragment
 		{
 		float aVal = (float)((float)theValue / 100.0);
 		potLevel = aVal;
-		potView.setPotLevel(potLevel);
+		if (potView != null)
+			{
+			potView.setPotLevel(potLevel);
+			}
 		}
 	
 	public static void setPotValue(float theValue)

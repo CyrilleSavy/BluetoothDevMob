@@ -66,7 +66,8 @@ typedef struct
     BOOL gLedTab[LED_NUM];
     uint16_t gTrimmVal ;
 	uint16_t gTrimmValOld ;
-    char *gLCDStr;
+    char gLCDStrFirstLine[17];
+    char gLCDStrSecondLine[17];
 }BluetoothAppDeviceCtrl;
 
 
@@ -97,8 +98,6 @@ void readSettings(){
 
 /*INITIALIZES THE SYSTEM*/
 void SysInit(){
-	ODCFbits.ODF5=0 ;
-
     // Set LED Pins to Outputs
     InitAllLEDs();
     InitAllSwitches();
@@ -109,10 +108,6 @@ void SysInit(){
 
 	mLcd_Setup();
 	mLcd_Open();
-//	mLcd_WrtiteBackLightOn();
-    mLcd_WriteEntireDisplay("Hello from Android board");
-	
-	
 }
 
 //SSP callback function
@@ -172,6 +167,7 @@ int main ( void )
     unsigned int last_sw_state = 1;
     unsigned int last_sw2_state = 1;
     unsigned int i = 0 ;
+    char aLcdBuffer[33] = {0};
     
     //Initialise the system
     SysInit();
@@ -198,7 +194,6 @@ int main ( void )
     }
 
     //Initialize hardware devices
-    hardDevices.gLCDStr = NULL;
     for(i=0;i<LED_NUM;i++)
     {
         hardDevices.gLedTab[i]=FALSE;
@@ -209,6 +204,10 @@ int main ( void )
     }
     hardDevices.gTrimmVal = 0 ;
     hardDevices.gTrimmValOld = 0 ;
+
+    hardDevices.gLCDStrFirstLine[0] = '\0';
+	hardDevices.gLCDStrSecondLine[0] = '\0';
+
 
 
     
@@ -298,7 +297,11 @@ int main ( void )
 
 
         //Later write the LCD
-       
+	//	strcpy(aLcdBuffer,hardDevices.gLCDStrFirstLine);
+	//	strcpy(aLcdBuffer+16,hardDevices.gLCDStrSecondLine);
+
+
+     	mLcd_WriteEntireDisplay("Hello World !   Cyrille is the B");//;aLcdBuffer);
 
         //Maintain the USB status
         USBHostTasks();
@@ -442,6 +445,14 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
               strcat(reply,"\r\n");
               btRfcommPortTx(port, dlci, reply, 9);
               break;
+		  case '4' :
+			  sscanf(cmdBuf,"$4_%s_%s_\r\n",hardDevices.gLCDStrFirstLine,hardDevices.gLCDStrSecondLine);
+			  //Send some crap
+			  sprintf(aTemp,"$%1d_",0);
+              strcat(reply,aTemp);	
+			  strcat(reply,"\r\n");
+              btRfcommPortTx(port, dlci, reply,5);
+			  break;
           default :
               return ;
       }  

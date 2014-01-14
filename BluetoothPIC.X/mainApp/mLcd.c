@@ -60,10 +60,10 @@ void mLcd_Setup(void)
 {
     InitLCDdataPorts();
     InitLCDcontrolPorts();
+	InitLCDOpenCollectorData();
+    InitLCDOpenCollectorCtrl() ;
 
-    mLCD_K=0;
-    mLCD_A=0;
-    mLCD_VSS=0;
+    mLCD_A=1;
     mLCD_VDD=0;
     mLCD_V0=0;
     mLCD_RS=0;
@@ -102,10 +102,36 @@ void mLcd_Setup(void)
 //-----------------------------------------------------------------------------
 void mLcd_Open(void)
 {
+	unsigned long i = 0 ;
+
     //power supply of LCD
-    mLCD_VSS=0;
     mLCD_VDD=1;
     mLCD_V0=1;
+
+    DelayMs(40);
+
+	// Selection du mode 2 lignes + display on
+    mLcd_SendLcdCmd(0x3C);
+    Delay10us(4);
+
+    
+    // attendre ~39us
+    
+    // Selection du mode pas curseur + display on
+    mLcd_SendLcdCmd(0x0C);
+    Delay10us(4);
+
+    
+    // attendre ~39us
+
+    //Display clear
+    mLcd_SendLcdCmd(0x01);
+    DelayMs(2);
+    
+    // attendre ~1.53ms
+    mLcd_SendLcdCmd(0x06);
+    Delay10us(4);
+
 }
 
 //-----------------------------------------------------------------------------  
@@ -131,7 +157,7 @@ void mLcd_Close(void)
 //-----------------------------------------------------------------------------
 void mLcd_WrtiteBackLightOn(void)
 {
-mLCD_A=1;
+mLCD_A=0;
 }
 
 
@@ -140,7 +166,7 @@ mLCD_A=1;
 //-----------------------------------------------------------------------------
 void mLcd_WrtiteBackLightOff(void)
 {
-mLCD_A=0;
+mLCD_A=1;
 }
 
 //-----------------------------------------------------------------------------
@@ -196,6 +222,7 @@ void mLcd_WriteEntireDisplay(UINT8* aChar)
 	
 	// Efface la mémoire
 	mLcd_SendLcdCmd(kReturnHome); 
+    DelayMs(2);
 	
 	// Envoi des 32 caractères à l'affichage
 	for (i=0;i<kMaxLcdCarac;i++) 
@@ -205,6 +232,7 @@ void mLcd_WriteEntireDisplay(UINT8* aChar)
 			
 			// Envoi du caractère au LCD
 			mLcd_SendLcdData(*aChar);
+            Delay10us(5);
 			
 			// Si fin de 1ère ligne on passe à la 2e
 			if((kNbOfChar-1)==i)
@@ -214,6 +242,7 @@ void mLcd_WriteEntireDisplay(UINT8* aChar)
 	
 					// 2e ligne
 					mLcd_SendLcdCmd(kLineJump);
+                    Delay10us(5);
 				}
 			
 			// Caractère suivant
@@ -229,43 +258,61 @@ static BOOL mLcd_ReadLcdBusy(void)
 {
  	BOOL aVal;
  	
+  Delay10us(1);
+  mLCD_E=0;
+  mLCD_RW=0;
+  mLCD_RS=0;
+  Delay10us(1);
+
+
  	// Data 7 en entrée
  	//iDio_SetPortBDirection(kMaskIo7,kIoInput);
-        TRISAbits.TRISA3 = 1 ;
+    TRISAbits.TRISA3 = 1 ;
  	
  	// E inactif
  	//iDio_SetPortK(kMaskIo0,kIoOff);
-        mLCD_E=0;
-
+    Delay10us(1);
+   mLCD_E=0;	
+   Delay10us(1);
 	// Bit RS=0 --> on sélectionne les registres d'instruction
   //iDio_SetPortK(kMaskIo2,kIoOff);
   mLCD_RS=0;
+  Delay10us(1);
   
   // Bit RW=1, read
   //iDio_SetPortK(kMaskIo1,kIoOn);
   mLCD_RW=1;
+  Delay10us(1);
   
 	// RS et RW doivent être présent depuis 40 ns
   // avant que start read (E) soit inséré
 	//iDio_SetPortK(kMaskIo0,kIoOff);
-        mLCD_E=0;
+  mLCD_E=0;
+  Delay10us(1);
 	
 	// E (start read) doit être inséré pendant au moins 230ns
 	// les données sont valides après 120ns
 	//iDio_SetPortK(kMaskIo0,kIoOn);
-        mLCD_E=1;
+  mLCD_E=1;
+  Delay10us(1);
 	
  	// Lecture du data 7 --> busy flag
- 	aVal=PORTAbits.RA3; //mLCD_D7;
+ aVal=PORTAbits.RA3; //mLCD_D7
  	
  	// Reset de E
  	//iDio_SetPortK(kMaskIo0,kIoOff);
-        mLCD_E=0;
- 	
+   mLCD_E=0;
+   Delay10us(1);
+	
  	// Data 7 en sortie
  	//iDio_SetPortBDirection(kMaskIo7,kIoOutput);
-        TRISAbits.TRISA3 = 0 ;
- 	
+    TRISAbits.TRISA3 = 0 ;
+   Delay10us(1);
+   
+   mLCD_E=0;
+   mLCD_RW=0;
+   mLCD_RS=0;
+	
  	return aVal; 
 }
 
@@ -276,16 +323,10 @@ static BOOL mLcd_ReadLcdBusy(void)
 static void mLcd_SendLcdData(UINT8 aData)
 {
   // E inactif
-  //iDio_SetPortK(kMaskIo0,kIoOff);
+  Delay10us(1);
   mLCD_E=0;
-  
-  // Bit RS=1 --> on sélectionne les registres de données
-  //iDio_SetPortK(kMaskIo2,kIoOn);
-  mLCD_RS=1;
-  
-  // Bit RW=0 --> on écrit
-  //iDio_SetPortK(kMaskIo1,kIoOff);
   mLCD_RW=0;
+  mLCD_RS=1;
   
   // écriture des données
   //iDio_SetPortB(aData);
@@ -297,22 +338,21 @@ static void mLcd_SendLcdData(UINT8 aData)
     mLCD_D5= (aData & 0x20)>>5;
     mLCD_D6= (aData & 0x40)>>6;
     mLCD_D7= (aData & 0x80)>>7;
-  
-  // Bit E (start data read/write) à 0
-  // les bits de données ainsi que les bits RS et RW doivent être
-  // valide depuis 40 nsec avant de mettre le bit E à 1
-  //iDio_SetPortK(kMaskIo0,kIoOff);
-  mLCD_E=0;
-  
+    Delay10us(1);
+
   // Bit E (start data read/write) à 1
   // le bits E doit être à 1 pendant au moins 230nsec
   //iDio_SetPortK(kMaskIo0,kIoOn);
   mLCD_E=1;
-  
+  Delay10us(1);
+
   // Bit E (start data read/write) à 0
   // les data sont latchés à ce moment là
   //iDio_SetPortK(kMaskIo0,kIoOff);
   mLCD_E=0;
+  mLCD_RW=0;
+  mLCD_RS=0;
+
 }
 
 //-----------------------------------------------------------------------------
@@ -323,8 +363,11 @@ void mLcd_SendLcdCmd(UINT8 aCmd)
 {
   // E inactif
  	//iDio_SetPortK(kMaskIo0,kIoOff);
-        mLCD_E=0;
- 	
+  Delay10us(1);
+  mLCD_E=0;
+  mLCD_RW=0;
+  mLCD_RS=0;
+
   // écriture des données
   //iDio_SetPortB(aCmd);
     mLCD_D0= aCmd & 0x01;
@@ -335,31 +378,25 @@ void mLcd_SendLcdCmd(UINT8 aCmd)
     mLCD_D5= (aCmd & 0x20)>>5;
     mLCD_D6= (aCmd & 0x40)>>6;
     mLCD_D7= (aCmd & 0x80)>>7;
-  
-  // Bit RS=0 --> on sélectionne les registres d'instruction
-  //iDio_SetPortK(kMaskIo2,kIoOff);
-  mLCD_RS=0;
-  
-  // Bit RW=0 --> on écrit
-  //iDio_SetPortK(kMaskIo1,kIoOff);
-  mLCD_RW=0;
-  
-  // Bit E (start data read/write) à 0
-  // les bits de données ainsi que les bits RS et RW doivent être
-  // valide depuis 40nsec avant de mettre le bit E à 1
-  //iDio_SetPortK(kMaskIo0,kIoOff);
-  mLCD_E=0;
-  
+    Delay10us(1);
+
   // Bit E (start data read/write) à 1
   // le bits E doit être à 1 pendant au moins 230nsec
   //iDio_SetPortK(kMaskIo0,kIoOn);
   mLCD_E=1;
-  
+   Delay10us(1);
+ 
   // Bit E (start data read/write) à 0
 	// les data sont latchés à ce moment là, elles doivent être valides 
 	//pendant 10 ns
 	//iDio_SetPortK(kMaskIo0,kIoOff);
         mLCD_E=0;
+  Delay10us(1);
+
+  mLCD_E=0;
+  mLCD_RW=0;
+  mLCD_RS=0;
+
 }
 
 
