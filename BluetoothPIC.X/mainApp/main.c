@@ -83,7 +83,7 @@ volatile static uint32_t btSSP = ADK_BT_SSP_DONE_VAL;
 //Bluetoth device
 extern BtDevice gBtDevice;
 
-
+char isTextNew = 0 ;
 
 void sendSwitchs();
 void sendPot();
@@ -167,7 +167,7 @@ int main ( void )
     unsigned int last_sw_state = 1;
     unsigned int last_sw2_state = 1;
     unsigned int i = 0 ;
-    char aLcdBuffer[33] = {0};
+    char aLcdBuffer[100] = {0};
     
     //Initialise the system
     SysInit();
@@ -295,14 +295,16 @@ int main ( void )
 
   		hardDevices.gTrimmValOld = hardDevices.gTrimmVal;
 
-
-        //Later write the LCD
-	//	strcpy(aLcdBuffer,hardDevices.gLCDStrFirstLine);
-	//	strcpy(aLcdBuffer+16,hardDevices.gLCDStrSecondLine);
-
-
-     	mLcd_WriteEntireDisplay("Hello World !   Cyrille is the B");//;aLcdBuffer);
-
+		if(isTextNew != 0)
+		{
+			strcpy(aLcdBuffer,hardDevices.gLCDStrFirstLine);
+			strcat(aLcdBuffer,"\r");
+			strcat(aLcdBuffer,hardDevices.gLCDStrSecondLine);
+			strcat(aLcdBuffer,"\r");
+        	SIOPrintStringArduino(aLcdBuffer);
+			isTextNew = 0 ;
+		}
+		
         //Maintain the USB status
         USBHostTasks();
 
@@ -384,6 +386,7 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
       uint8_t reply[MAX_PACKET_SZ];
       uint8_t aTemp[5] ;
       uint8_t i = 0 ;
+	  uint8_t j = 0 ;
       bufPos = 0;
 
       //copy to buffer as much as we can
@@ -446,7 +449,19 @@ static void btAdkPortRx(void* port, uint8_t dlci, const uint8_t* data, uint16_t 
               btRfcommPortTx(port, dlci, reply, 9);
               break;
 		  case '4' :
-			  sscanf(cmdBuf,"$4_%s_%s_\r\n",hardDevices.gLCDStrFirstLine,hardDevices.gLCDStrSecondLine);
+              isTextNew = 1 ;
+			  for(i=3 ; cmdBuf[i] != '_';i++)
+			   {
+				hardDevices.gLCDStrFirstLine[i-3] = cmdBuf[i] ;
+               }
+               hardDevices.gLCDStrFirstLine[i-3] = '\0' ;
+ 
+			   for(j=i+1; cmdBuf[j] != '_';j++)
+			   {
+				hardDevices.gLCDStrSecondLine[j-(i+1)] = cmdBuf[j] ;
+               }
+			   hardDevices.gLCDStrSecondLine[j-(i+1)] = '\0' ;
+
 			  //Send some crap
 			  sprintf(aTemp,"$%1d_",0);
               strcat(reply,aTemp);	

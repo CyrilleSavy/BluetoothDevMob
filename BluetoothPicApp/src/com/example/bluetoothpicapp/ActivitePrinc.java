@@ -133,8 +133,7 @@ public class ActivitePrinc extends FragmentActivity implements ActionBar.TabList
 					actionBar.show();
 					//Set delay to hide action bar
 					mDelayHide.postDelayed(new Runnable()
-						{
-							
+						{	
 							@Override
 							public void run()
 								{

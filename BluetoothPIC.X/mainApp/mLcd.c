@@ -68,7 +68,7 @@ void mLcd_Setup(void)
     mLCD_V0=0;
     mLCD_RS=0;
     mLCD_RW=0;
-    mLCD_E=0;
+    mLCD_E=1;
             
     mLCD_D0=0;
     mLCD_D1=0;
@@ -259,7 +259,7 @@ static BOOL mLcd_ReadLcdBusy(void)
  	BOOL aVal;
  	
   Delay10us(1);
-  mLCD_E=0;
+  mLCD_E=1;
   mLCD_RW=0;
   mLCD_RS=0;
   Delay10us(1);
@@ -272,7 +272,7 @@ static BOOL mLcd_ReadLcdBusy(void)
  	// E inactif
  	//iDio_SetPortK(kMaskIo0,kIoOff);
     Delay10us(1);
-   mLCD_E=0;	
+   mLCD_E=1;	
    Delay10us(1);
 	// Bit RS=0 --> on sélectionne les registres d'instruction
   //iDio_SetPortK(kMaskIo2,kIoOff);
@@ -287,13 +287,13 @@ static BOOL mLcd_ReadLcdBusy(void)
 	// RS et RW doivent être présent depuis 40 ns
   // avant que start read (E) soit inséré
 	//iDio_SetPortK(kMaskIo0,kIoOff);
-  mLCD_E=0;
+  mLCD_E=1;
   Delay10us(1);
 	
 	// E (start read) doit être inséré pendant au moins 230ns
 	// les données sont valides après 120ns
 	//iDio_SetPortK(kMaskIo0,kIoOn);
-  mLCD_E=1;
+  mLCD_E=0;
   Delay10us(1);
 	
  	// Lecture du data 7 --> busy flag
@@ -301,7 +301,7 @@ static BOOL mLcd_ReadLcdBusy(void)
  	
  	// Reset de E
  	//iDio_SetPortK(kMaskIo0,kIoOff);
-   mLCD_E=0;
+   mLCD_E=1;
    Delay10us(1);
 	
  	// Data 7 en sortie
@@ -309,7 +309,7 @@ static BOOL mLcd_ReadLcdBusy(void)
     TRISAbits.TRISA3 = 0 ;
    Delay10us(1);
    
-   mLCD_E=0;
+   mLCD_E=1;
    mLCD_RW=0;
    mLCD_RS=0;
 	
@@ -324,7 +324,7 @@ static void mLcd_SendLcdData(UINT8 aData)
 {
   // E inactif
   Delay10us(1);
-  mLCD_E=0;
+  mLCD_E=1;
   mLCD_RW=0;
   mLCD_RS=1;
   
@@ -343,13 +343,13 @@ static void mLcd_SendLcdData(UINT8 aData)
   // Bit E (start data read/write) à 1
   // le bits E doit être à 1 pendant au moins 230nsec
   //iDio_SetPortK(kMaskIo0,kIoOn);
-  mLCD_E=1;
+  mLCD_E=0;
   Delay10us(1);
 
   // Bit E (start data read/write) à 0
   // les data sont latchés à ce moment là
   //iDio_SetPortK(kMaskIo0,kIoOff);
-  mLCD_E=0;
+  mLCD_E=1;
   mLCD_RW=0;
   mLCD_RS=0;
 
@@ -364,7 +364,7 @@ void mLcd_SendLcdCmd(UINT8 aCmd)
   // E inactif
  	//iDio_SetPortK(kMaskIo0,kIoOff);
   Delay10us(1);
-  mLCD_E=0;
+  mLCD_E=1;
   mLCD_RW=0;
   mLCD_RS=0;
 
@@ -383,17 +383,17 @@ void mLcd_SendLcdCmd(UINT8 aCmd)
   // Bit E (start data read/write) à 1
   // le bits E doit être à 1 pendant au moins 230nsec
   //iDio_SetPortK(kMaskIo0,kIoOn);
-  mLCD_E=1;
+  mLCD_E=0;
    Delay10us(1);
  
   // Bit E (start data read/write) à 0
 	// les data sont latchés à ce moment là, elles doivent être valides 
 	//pendant 10 ns
 	//iDio_SetPortK(kMaskIo0,kIoOff);
-        mLCD_E=0;
+        mLCD_E=1;
   Delay10us(1);
 
-  mLCD_E=0;
+  mLCD_E=1;
   mLCD_RW=0;
   mLCD_RS=0;
 

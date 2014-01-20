@@ -148,12 +148,14 @@
 /** Serial IO ******************************************************/
 #ifdef __DEBUG
     #define SIOInit()               UART2Init()
-    #define SIOPrintString(s, ...)  UART2PrintString(s)
-    #define SIOPutDec(d)            UART2PutDec(d)
-    #define SIOPutHex(h)            UART2PutHex(h)
-    #define SIOPutChar(c)           UART2PutChar(c)
+    #define SIOPrintString(s, ...) 
+    #define SIOPrintStringArduino(s, ...) UART2PrintString(s)
+    #define SIOPutDec(d)          
+    #define SIOPutHex(h)          
+    #define SIOPutChar(c)          
 #else
-    #define SIOInit()               
+    #define SIOInit()               UART2Init()
+    #define SIOPrintStringArduino(s, ...) UART2PrintString(s)
     #define SIOPrintString(s, ...)  
     #define SIOPutDec(d)            
     #define SIOPutHex(h)            
